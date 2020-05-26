@@ -2,6 +2,7 @@ require "test_helper"
 
 describe VideosController do
   VIDEO_FIELDS = ["id", "title", "overview", "release_date", "total_inventory", "available_inventory"].sort
+  VIDEO_FIELDS_SHOW = ["title", "overview", "release_date", "total_inventory", "available_inventory"].sort
   describe "index" do
     it "will get all videos in json format" do
       get videos_path
@@ -29,7 +30,7 @@ describe VideosController do
         body = JSON.parse(response.body)
 
         expect(response.header["Content-Type"]).must_include 'json' 
-        expect(body.keys.sort).must_equal VIDEO_FIELDS
+        expect(body.keys.sort).must_equal VIDEO_FIELDS_SHOW
       end 
 
       it "will throw an error for a non existent video" do 
@@ -42,32 +43,32 @@ describe VideosController do
 
         expect(body).must_be_instance_of Hash
 
-        expect(body["ok"]).must_equal false
+        expect(body["errors"][0]).must_equal "Not Found"
 
       end 
     end 
 
-    # describe "create" do 
-    #   let (:video_data) {
-    #     {
-    #       video: {
-    #         title: "New Video", 
-    #         overview: "new new new new create new new new", 
-    #         release_date:  DateTime.now, 
-    #         total_inventory: 7, 
-    #         available_inventory: 3, 
+    describe "create" do 
+      let (:video_data) {
+        {
+          video: {
+            title: "New Video", 
+            overview: "new new new new create new new new", 
+            release_date:  DateTime.now, 
+            total_inventory: 7, 
+            available_inventory: 3, 
 
-    #       }
-    #     }
-    #   }
+          }
+        }
+      }
 
-    #   it "can create a new video" do 
-    #       expect {
-    #         post video_path, params :video_data
-    #     }.must_differ "Video.count", 1
+      it "can create a new video" do 
+          expect {
+            post videos_path, params: video_data
+        }.must_differ "Video.count", 1
 
-    #     must_respond_with :created
-    #   end 
+        must_respond_with :created
+      end 
 
-    # end 
+    end 
 end
