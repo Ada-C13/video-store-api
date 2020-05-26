@@ -1,5 +1,5 @@
 class Customer < ApplicationRecord
-  #relationships
+  #TODO relationships
   
   validates :name, presence: true 
   validates :registered_at, presence: true 
@@ -9,4 +9,6 @@ class Customer < ApplicationRecord
   validates :state, presence: true 
   validates :phone, presence: true 
   validates :videos_checked_out_count, presence: true 
+  
+  
 end
