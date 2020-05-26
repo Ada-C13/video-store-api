@@ -2,19 +2,23 @@ require "test_helper"
 
 describe VideosController do
   VIDEO_FIELDS = ["id", "title", "overview", "release_date", "total_inventory", "available_inventory"].sort
+  describe "index" do
+    it "will get all videos in json format" do
+      get videos_path
 
-  it "will get all videos in json format" do
-    get videos_path
+      expect(response.header['Content-Type']).must_include 'json'
+      must_respond_with :ok
+    end
 
-    expect(response.header['Content-Type']).must_include 'json'
-    must_respond_with :ok
-  end
+    it "will return an empty array if no videos" do 
+      Video.destroy_all 
 
-  it "will return an empty array if no videos" do 
+      get videos_path
+      body = JSON.parse(response.body)
+      expect(body).must_equal []
 
-
+    end 
   end 
-
    describe "show" do 
       it "will show a video hash" do 
 
@@ -41,7 +45,29 @@ describe VideosController do
         expect(body["ok"]).must_equal false
 
       end 
+    end 
 
+    describe "create" do 
+      let (:video_data) {
+        {
+          video: {
+            title: "New Video", 
+            overview: "new new new new create new new new", 
+            release_date:  DateTime.now, 
+            total_inventory: 7, 
+            available_inventory: 3, 
+
+          }
+        }
+      }
+
+      it "can create a new video" do 
+          expect {
+            post video_path, params :video_data
+        }.must_differ "Video.count", 1
+
+        must_respond_with :created
+      end 
 
     end 
 end
