@@ -47,27 +47,27 @@ describe VideosController do
       end 
     end 
 
-    describe "create" do 
-      let (:video_data) {
-        {
-          video: {
-            title: "New Video", 
-            overview: "new new new new create new new new", 
-            release_date:  DateTime.now, 
-            total_inventory: 7, 
-            available_inventory: 3, 
+    # describe "create" do 
+    #   let (:video_data) {
+    #     {
+    #       video: {
+    #         title: "New Video", 
+    #         overview: "new new new new create new new new", 
+    #         release_date:  DateTime.now, 
+    #         total_inventory: 7, 
+    #         available_inventory: 3, 
 
-          }
-        }
-      }
+    #       }
+    #     }
+    #   }
 
-      it "can create a new video" do 
-          expect {
-            post video_path, params :video_data
-        }.must_differ "Video.count", 1
+    #   it "can create a new video" do 
+    #       expect {
+    #         post video_path, params :video_data
+    #     }.must_differ "Video.count", 1
 
-        must_respond_with :created
-      end 
+    #     must_respond_with :created
+    #   end 
 
-    end 
+    # end 
 end
