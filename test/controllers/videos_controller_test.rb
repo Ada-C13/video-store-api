@@ -69,4 +69,51 @@ describe VideosController do
     end
   end
 
+  describe "create" do 
+    let(:video_data) {
+      {
+        video: {
+          title: "Fake Video",
+          overview: "fake overview",
+          release_date: "2020-01-28",
+          total_inventory: 10,
+          available_inventory: 9
+        }
+      }
+    }
+
+    it "can create a new video" do 
+      puts "ALL VIDEOS before DESTROY = #{Video.count}"
+
+      Video.destroy_all 
+
+
+      puts "ALL VIDEOS before = #{Video.count}"
+
+
+      expect{
+        post videos_path, params: video_data
+      }.must_differ "Video.count", 1
+
+      puts "ALL VIDEOS = #{Video.count}"
+
+      must_respond_with :created
+    end
+
+    it "will respond with bad_request for invalid data" do 
+      video_data[:video][:title] = nil
+
+      expect {
+        post videos_path, params: video_data
+      }.wont_change "Video.count"
+
+      must_respond_with :bad_request 
+
+      expect(response.header['Content-Type']).must_include 'json'
+      body = JSON.parse(response.body)
+      expect(body["errors"].keys).must_include "title"
+    end
+  end
+
+
 end
