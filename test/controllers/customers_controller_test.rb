@@ -22,6 +22,17 @@ describe CustomersController do
       expect(customer.keys.sort).must_equal CUSTOMER_FIELDS
     end
   end
+
+  it "will return an empty array if no customers exist" do 
+    Customer.destroy_all 
+
+    get customers_path 
+
+    body = JSON.parse(response.body)
+
+    expect(body).must_be_instance_of Array 
+    expect(body.length).must_equal 0
+  end
   
   
 end
