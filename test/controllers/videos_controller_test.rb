@@ -83,19 +83,11 @@ describe VideosController do
     }
 
     it "can create a new video" do 
-      puts "ALL VIDEOS before DESTROY = #{Video.count}"
-
       Video.destroy_all 
-
-
-      puts "ALL VIDEOS before = #{Video.count}"
-
 
       expect{
         post videos_path, params: video_data
       }.must_differ "Video.count", 1
-
-      puts "ALL VIDEOS = #{Video.count}"
 
       must_respond_with :created
     end
