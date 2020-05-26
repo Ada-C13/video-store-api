@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
-  get 'videos/index'
-  get 'customers/index'
+resources :videos
+resources :customers
+resources :rentals
 end
