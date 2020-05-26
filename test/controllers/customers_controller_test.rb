@@ -9,7 +9,7 @@ describe CustomersController do
   end
 
   it "will return all the proper fields for a list of customers" do
-    customer_fields =  ["name", "registered_at", "address", "city", "state", "postal_code", "phone", "videos_checked_out_count"].sort
+    customer_fields =  ["id", "name", "registered_at", "postal_code", "phone", "videos_checked_out_count"].sort
     # Act
     get customers_path
 
