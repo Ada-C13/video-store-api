@@ -1,7 +1,13 @@
 require "test_helper"
 
 describe Customer do
-  # it "does a thing" do
-  #   value(1+1).must_equal 2
-  # end
+  CUSTOMER_FIELDS = ["id", "name", "registered_at", "address", "city", "state", "postal_code", "phone"].sort
+  
+  it "includes json and responds with success" do 
+    get customers_path
+
+    expect(response.header['Content-Type']).must_include 'json'
+    must_respond_with :success 
+  end
+
 end
