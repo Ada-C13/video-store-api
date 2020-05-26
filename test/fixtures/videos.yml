@@ -1,0 +1,6 @@
+fake_vid:
+  title: Fake Video
+  overview: This is about a fake video.
+  release_date: 1979-01-18
+  total_inventory: 10
+  available_inventory: 9
