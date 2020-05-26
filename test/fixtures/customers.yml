@@ -1,0 +1,9 @@
+customer_one:
+  id: 1
+  name: Mary
+  registered_at: Wed, 29 Apr 2015 07:54:14 -0700
+  address: Main Street
+  city: Seattle
+  state: WA
+  postal_code: 98116a
+  phone: (436)4276232
