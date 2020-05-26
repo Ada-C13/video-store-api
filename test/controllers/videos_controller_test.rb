@@ -51,14 +51,11 @@ describe VideosController do
     describe "create" do 
       let (:video_data) {
         {
-          video: {
             title: "New Video", 
             overview: "new new new new create new new new", 
             release_date:  DateTime.now, 
             total_inventory: 7, 
             available_inventory: 3, 
-
-          }
         }
       }
 
