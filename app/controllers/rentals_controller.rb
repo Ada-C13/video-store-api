@@ -1,17 +1,17 @@
 class RentalsController < ApplicationController
   def checkout
     new_video = Video.find_by(id: params[:video_id])
-    
-    if new_video.nil? || new_video.available_inventory < 1 
+    new_customer = Customer.find_by(id: params[:customer_id])
+
+    if new_video.nil? || new_video.available_inventory < 1 || new_customer.nil?
       render json: {
-        errors: "No available inventory"
-      }, status: :bad_request
+        errors: ['Not Found']
+      }, status: :not_found
       return
     end
 
     checkout = Rental.new(rental_params)
     checkout.due_date = Date.today + 7.days
-
     
     if checkout.save
       render json: {
@@ -21,11 +21,10 @@ class RentalsController < ApplicationController
           videos_checked_out_count: checkout.customer.videos_checked_out_count,
           available_inventory: checkout.video.available_inventory
       }, 
-        status: :created
+        status: :ok
         return
     else 
       render json: {
-        ok: false,
         errors: checkout.errors.messages
       }, 
         status: :bad_request
