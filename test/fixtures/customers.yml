@@ -1,0 +1,12 @@
+customer1:
+  name: customer1
+  registered_at: 2015-04-29T14:54:14.000Z
+  postal_code: 24309
+  phone: (322) 510-8695
+  videos_checked_out_count: 1
+customer2:
+  name: customer2
+  registered_at: 2016-04-29T14:54:14.000Z
+  postal_code: 24310
+  phone: (322) 510-8695
+  videos_checked_out_count: 1
