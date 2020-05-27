@@ -20,10 +20,9 @@ class VideosController < ApplicationController
     if @video.save
       render json: {id: @video.id}, status: :created, location: @video
     else
-      render json: @video.errors, status: :unprocessable_entity
+      render json: {errors: @video.errors }, status: :bad_request
     end
   end
-
 
   private
     # Use callbacks to share common setup or constraints between actions.
@@ -33,6 +32,7 @@ class VideosController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def video_params
-      params.fetch(:video, {})
+      # params.fetch(:video, {})
+      return params.permit(:title, :overview, :release_date, :total_inventory, :available_inventory)
     end
 end
