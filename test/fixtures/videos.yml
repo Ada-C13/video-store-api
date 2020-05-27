@@ -1,20 +1,27 @@
 video:
   title: "my title"
+  overview: "The unexciting life of a boy will be permanently altered as a strange woman enters his life."
   release_date: Date.new(Thu, 18 Jan 1979)
+  total_inventory: 15
   available_inventory: 10
-  
+
 video2:
   title: "another title"
+  overview: "The strange woman claims the boy has a DNA strain which very likely offers the key to cure several crippling diseases. Tests will have to be done, but the key to save millions of lives is within the grasp of science through this DNA strain. Unsure what to think of all this and of this strange woman, the boy hesitantly agrees to the proposal, there's something exciting about this whole situation, surely the right choice was made."
   release_date: Date.new(Thu, 18 Jan 1979)
+  total_inventory: 3
   available_inventory: 9
 
 video3:
   title: "random"
+  overview: "But what if this strange woman is a con artist. Or what if everything told is completely true. How could an ordinary boy be relied upon in something this big. Time will tell."
   release_date: Date.new(Thu, 18 Jan 1979)
+  total_inventory: 12
   available_inventory: 8
 
 video4:
   title: "another random"
+  overview: "The laid-back life of a woman is going in a different direction as a childhood friend enters her life."
   release_date: Date.new(Thu, 18 Jan 1979)
+  total_inventory: 12
   available_inventory: 7
-  

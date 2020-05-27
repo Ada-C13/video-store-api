@@ -1,0 +1,6 @@
+# customer:
+#   name: "my title"
+#   registered_at: Date.new(Thu, 18 Jan 1979)
+#   address: 10
+#   city:
+#   state:
