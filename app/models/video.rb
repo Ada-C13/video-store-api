@@ -1,6 +1,7 @@
 class Video < ApplicationRecord
 
-  belongs_to :customer
+  has_many :rentals
+  has_many :customers, through: :rentals
 
   validates :title, presence: true
   validates :overview, presence: true
