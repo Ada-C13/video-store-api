@@ -79,6 +79,14 @@ class RentalsController < ApplicationController
 			return
 		end
 
+		if customer.videos_checked_out_count < 1
+			render json: {
+				ok: false,
+				errors: 'You cannot check-in a video.'
+			}, status: :bad_request
+			return
+		end
+
 		rental = Rental.where(customer_id: rental_params[:customer_id], video_id: rental_params[:video_id])
 
 		if rental
@@ -86,7 +94,16 @@ class RentalsController < ApplicationController
 			customer.save
 			video.available_inventory += 1
 			video.save
-			render json: rental.as_json(only: [:customer_id, :video_id]), status: :ok
+
+			rental_info = {
+				customer_id: customer.id,
+				video_id: video.id,
+				available_inventory: video.available_inventory,
+				videos_checked_out_count: customer.videos_checked_out_count
+			}
+
+			render json: rental_info, status: :ok
+
 			return
 		else
 			puts "HERE?"
