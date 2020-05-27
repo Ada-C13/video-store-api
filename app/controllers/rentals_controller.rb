@@ -67,13 +67,14 @@ class RentalsController < ApplicationController
 			return
 		end
 
-		rental = Rental.where(customer_id: rental_params[:customer_id], video_id: rental_params[:video_id])
+		rental = Rental.find_by(customer_id: rental_params[:customer_id], video_id: rental_params[:video_id])
 
-		if rental != nil
+		if rental
 			customer.videos_checked_out_count -= 1
+			customer.save
 			video.available_inventory += 1
+			video.save
 			render json: rental.as_json(only: [:customer_id, :video_id]), status: :ok
-			puts "REACHING?"
 			return
 		else
 			render json: {
