@@ -2,7 +2,7 @@ require "test_helper"
 
 describe RentalsController do
 
-  REQUIRED_ATTRS = ["customer_id", "video_id", "due_date", "videos_checked_out_count", "available_inventory"].sort
+  CHECKOUT_ATTRS = ["available_inventory", "customer_id", "due_date", "video_id", "videos_checked_out_count"].sort
   CHECKIN_ATTR = ["customer_id", "video_id", "videos_checked_out_count", "available_inventory"].sort
 
   describe "check out" do
@@ -33,7 +33,7 @@ describe RentalsController do
 
       body = JSON.parse(response.body)
       expect(body).must_be_instance_of Hash
-      expect(body.keys.sort).must_equal REQUIRED_ATTRS
+      expect(body.keys.sort).must_equal CHECKOUT_ATTRS
     end
 
     it "will respond with bad_request if the customer is not found" do 
