@@ -54,11 +54,20 @@ describe RentalsController do
     }
 
     it "can allow check out" do
+      inventory_count = videos(:video_1).available_inventory
+      video_count = customers(:customer_1).videos_checked_out_count
+
       expect {
         post check_out_path, params: rental_data
       }.must_differ "Rental.count", 1
 
       must_respond_with :success
+
+      video = Video.find_by(id: rental_data[:video_id])
+      customer = Customer.find_by(id: rental_data[:customer_id])
+
+      expect(video.available_inventory).must_equal inventory_count - 1
+      expect(customer.videos_checked_out_count).must_equal video_count + 1
     end
 
     it "prevents checkout if customer does not exist" do
@@ -105,12 +114,21 @@ describe RentalsController do
     end
 
     it "can allow check in" do
+      inventory_count = videos(:video_1).available_inventory
+      video_count = customers(:customer_1).videos_checked_out_count
+
       expect {
         post check_in_path, params: rental_data
       }.must_differ "Rental.count", 0
 
       must_respond_with :success
       expect(Rental.all.first.check_in_date).must_equal Date.today
+
+      video = Video.find_by(id: rental_data[:video_id])
+      customer = Customer.find_by(id: rental_data[:customer_id])
+
+      expect(video.available_inventory).must_equal inventory_count
+      expect(customer.videos_checked_out_count).must_equal video_count
     end
 
     it "prevents check in customer has not made rental" do

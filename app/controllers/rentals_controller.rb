@@ -1,4 +1,3 @@
-require 'pry'
 class RentalsController < ApplicationController
   def index
     rentals = Rental.all
