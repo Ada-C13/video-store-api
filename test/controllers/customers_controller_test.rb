@@ -1,7 +1,7 @@
 require "test_helper"
 
 describe CustomersController do
-  CUSTOMER_FIELDS = ["id", "name", "address", "postal_code", "city", "state", "registered_at", "phone", "videos_checked_out_count"].sort
+  CUSTOMER_FIELDS = ["id", "name", "postal_code", "registered_at", "phone", "videos_checked_out_count"].sort
 
   it "must get index" do
     get customers_path

@@ -1,7 +1,7 @@
 require "test_helper"
 
 describe VideosController do
-  VIDEO_FIELDS = ["id", "title", "overview", "total_inventory", "available_inventory", "release_date"].sort
+  VIDEO_FIELDS = ["id", "title", "available_inventory", "release_date"].sort
 
   def check_response(expected_type:, expected_status: :success)
     must_respond_with expected_status
@@ -41,31 +41,29 @@ describe VideosController do
 
   describe "show" do
     it "will return a hash with the proper fields for an existing video" do
+      all_video_fields= ["title", "available_inventory", "release_date", "overview", "total_inventory"].sort
       video = videos(:jurassicpark)
 
       get video_path(video.id)
       body = check_response(expected_type: Hash, expected_status: :ok)
-      expect(body.keys.sort).must_equal VIDEO_FIELDS
+      expect(body.keys.sort).must_equal all_video_fields
     end
 
     it "will return a 404 request with json for a non-existant pet" do
       get video_path(-1)
       body = check_response(expected_type: Hash, expected_status: :not_found)
-      expect(body['ok']).must_equal false
-      expect(body['message']).must_equal 'Not found'
+      expect(body['errors']).must_include 'Not Found'
     end
   end
 
   describe "create" do
     let(:video_data) {
       {
-        video: {
-          title: "Titanic",
-          overview: "You jump I jump!",
-          release_date: "1997-12-19",
-          total_inventory: 5,
-          available_inventory: 5,
-        }
+        title: "Titanic",
+        overview: "You jump I jump!",
+        release_date: "1997-12-19",
+        total_inventory: 5,
+        available_inventory: 5,
       }
     }
 
@@ -80,7 +78,7 @@ describe VideosController do
     it "will respond with bad_request for invalid data" do
       # Arrange - using let from above
       # Need to add validation
-      video_data[:video][:title] = nil
+      video_data[:title] = nil
 
       expect {
         post videos_path, params: video_data
