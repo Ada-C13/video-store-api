@@ -32,4 +32,23 @@ class VideosController < ApplicationController
     render json: video.as_json(only: %i[title overview release_date total_inventory available_inventory]), status: :ok
   end
 
+  def create
+    video = Video.new(video_params)
+    if video.save
+      render json: video.as_json(only: [:id]) ,status: :created #201
+    else
+      render json: {
+        ok: false,
+        errors: video.errors.messages
+      }, status: :bad_request
+      return
+    end
+  end
+
+  private
+
+  def video_params
+    return params.require(:video).permit(:title, :overview, :release_date, :total_inventory, :available_inventory)
+  end
+
 end
