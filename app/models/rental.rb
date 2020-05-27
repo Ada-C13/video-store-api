@@ -1,4 +1,4 @@
 class Rental < ApplicationRecord
-  has_and_belongs_to_many :customers
-  has_and_belongs_to_many :videos
+ belongs_to :customer
+ belongs_to :video
 end
