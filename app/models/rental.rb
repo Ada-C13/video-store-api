@@ -2,16 +2,30 @@ class Rental < ApplicationRecord
   belongs_to :customer
   belongs_to :video
 
-  def inventory_check_out 
-    customer = Customer.find_by(id: self.customer_id)
-    video = Video.find_by(id: self.video_id)
-    if video.available_inventory > 0 && !customer.nil? && !video.nil? 
-       customer.videos_checked_out += 1 
+  def self.inventory_check_out(rental) 
+    customer = Customer.find_by(id: rental.customer_id)
+    video = Video.find_by(id: rental.video_id)
+
+    if video.available_inventory > 0 && customer && video
+       customer.videos_checked_out_count += 1 
        video.available_inventory -= 1
-      return true 
+       return true 
     else
-      return false 
+       return false 
     end 
   end 
-  
+
+  def self.inventory_check_in(rental) 
+    customer = Customer.find_by(id: rental.customer_id)
+    video = Video.find_by(id: rental.video_id)
+
+    if customer && video
+       customer.videos_checked_out_count -= 1 
+       video.available_inventory += 1
+       return true 
+    else
+       return false 
+    end 
+  end 
+
 end
