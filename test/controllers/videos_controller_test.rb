@@ -10,7 +10,6 @@ describe VideosController do
       must_respond_with :success 
       
       expect(response.header['Content-Type']).must_include 'json'
-      
     end
     
     it 'returns correct fields for the list of videos' do
@@ -33,7 +32,6 @@ describe VideosController do
       
       expect(body).must_be_instance_of Array
       expect(body.length).must_equal 0
-      
     end
     
   end
