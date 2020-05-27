@@ -5,8 +5,7 @@ class RentalsController < ApplicationController
 
 		if customer.nil?
 			render json: {
-				ok: false,
-				errors: 'Customer does not exist.'
+				errors: ['Not Found']
 			}, status: :not_found
 			return
 		end
@@ -15,14 +14,12 @@ class RentalsController < ApplicationController
 		
 		if video.nil?
 			render json: {
-				ok: false,
-				errors: 'Video does not exist.'
+				errors: ['Not Found']
 			}, status: :not_found
 			return
 		elsif video.available_inventory < 1
 			render json: {
-				ok: false,
-				errors: 'This video is out of stock.'
+				errors: ['Not Found']
 			}, status: :bad_request
 			return
 		end
@@ -44,12 +41,11 @@ class RentalsController < ApplicationController
 				videos_checked_out_count: customer.videos_checked_out_count
 			}
 			
-			render json: rental_info.as_json, status: :created
+			render json: rental_info.as_json, status: :ok
 			return
 		else
 			render json: {
-				ok: false,
-				errors: rental.errors.messages
+				errors: ['Not Found']
 			}, status: :bad_request
 			return
 		end
@@ -60,8 +56,7 @@ class RentalsController < ApplicationController
 
 		if customer.nil?
 			render json: {
-				ok: false,
-				errors: 'Customer does not exist.'
+				errors: ['Not Found']
 			}, status: :not_found
 			return
 		end
@@ -70,17 +65,8 @@ class RentalsController < ApplicationController
 
 		if video.nil?
 			render json: {
-				ok: false,
-				errors: 'Video does not exist.'
+				errors: ['Not Found']
 			}, status: :not_found
-			return
-		end
-
-		if customer.videos_checked_out_count < 1
-			render json: {
-				ok: false,
-				errors: 'You cannot check-in a video.'
-			}, status: :bad_request
 			return
 		end
 
@@ -103,8 +89,7 @@ class RentalsController < ApplicationController
 			return
 		else
 			render json: {
-				ok: false,
-				errors: ['Rental was not found.']
+				errors: ['Not Found']
 			}, status: :bad_request
 			return
 		end
@@ -114,7 +99,7 @@ class RentalsController < ApplicationController
 	private
 
 	def rental_params
-		return params.require(:rental).permit(:customer_id, :video_id)
+		return params.permit(:customer_id, :video_id)
 	end
 
 end
