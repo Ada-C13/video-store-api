@@ -6,17 +6,17 @@ class RentalsController < ApplicationController
     rental = Rental.find_by(customer_id: rental_params[:customer_id], video_id: rental_params[:video_id])
 
     if rental
-      # rental.returned_on = Time.now
-      # rental.video.available_inventory += 1
-      # customer_id, video_id, videos_checked_out_count, available_inventory
+      rental.returned_on = Time.now
+      rental.save
+      rental.video.available_inventory += 1
       response = { 
+        rental_id: rental.id,
         customer_id: rental.customer_id,
         video_id: rental.video_id,
-        videos_checked_out_count: rental.customer.videos_out.count,
-        videos: rental.customer.rentals,
-        returned_on: rental.returned_on,
-        # videos_checked_out_count: @rental.customer.videos_checked_out_count,
+        videos_checked_out_count: rental.customer.videos_checked_out_count,
+        rentals: rental.customer.videos_out,
         available_inventory: rental.video.available_inventory,
+        returned_on: rental.returned_on,
       }
       render json: response, status: :ok
     else
@@ -39,8 +39,7 @@ class RentalsController < ApplicationController
         customer_id: @rental.customer_id,
         video_id: @rental.video_id,
         due_date: get_due_date(@rental),
-        videos_checked_out_count: @rental.customer.videos_out.count,
-        # videos_checked_out_count: @rental.customer.videos_checked_out_count,
+        videos_checked_out_count: @rental.customer.videos_checked_out_count,
         available_inventory: @rental.video.available_inventory 
       }
       render json: response, status: :ok
