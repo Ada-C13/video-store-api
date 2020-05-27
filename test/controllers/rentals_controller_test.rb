@@ -10,8 +10,8 @@ describe RentalsController do
       video.save 
 
       rental_data = {
-          customer_id: customer.id, 
-          video_id: video.id
+        customer_id: customer.id, 
+        video_id: video.id
       }
     
       expect {

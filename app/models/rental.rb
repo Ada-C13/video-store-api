@@ -8,10 +8,12 @@ class Rental < ApplicationRecord
 
     if video.available_inventory > 0 && customer && video
        customer.videos_checked_out_count += 1 
+       customer.save
        video.available_inventory -= 1
+       video.save
        return true 
     else
-       return false 
+      return false 
     end 
   end 
 
