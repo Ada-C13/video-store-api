@@ -95,9 +95,10 @@ describe VideosController do
       }
     } 
 
+
     it "can post a new video" do 
 
-      expect{post videos_path, params: video_data }.must_differ "Video.count", 1 
+      expect{post videos_path, params: video_data}.must_differ "Video.count", 1 
       must_respond_with :created 
 
     end 
