@@ -1,6 +1,7 @@
 require "test_helper"
 
 describe CustomersController do
+  customer_fields = ["id", "name", ]
   describe "index" do
     it "must get index" do
       get customers_path
@@ -22,6 +23,7 @@ describe CustomersController do
       get customers_path
       body = JSON.parse(response.body)
       expect(body).must_be_instance_of Array
+      expect(body.length).must_equal 0
       expect(body).must_equal []
     end
   end
