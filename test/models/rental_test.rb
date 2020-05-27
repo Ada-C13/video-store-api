@@ -35,6 +35,7 @@ describe Rental do
     rental = Rental.new(due_date: date, customer_id: customer.id, video_id: video.id)
     
     answ = Rental.inventory_check_out(rental)
+
     
     expect(answ).must_equal true
     
