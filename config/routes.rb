@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
 
 resources :videos
-resources :customers
+resources :customers, only: [:index, :show]
 resources :rentals
 end
