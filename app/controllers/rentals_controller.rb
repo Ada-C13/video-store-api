@@ -7,16 +7,14 @@ class RentalsController < ApplicationController
 
     if rental
       rental.returned_on = Time.now
-      rental.save
       rental.video.available_inventory += 1
+      rental.save
+
       response = { 
-        rental_id: rental.id,
         customer_id: rental.customer_id,
         video_id: rental.video_id,
         videos_checked_out_count: rental.customer.videos_checked_out_count,
-        rentals: rental.customer.videos_out,
         available_inventory: rental.video.available_inventory,
-        returned_on: rental.returned_on,
       }
       render json: response, status: :ok
     else

@@ -7,8 +7,4 @@ class Customer < ApplicationRecord
     return self.rentals.where(returned_on: nil).count
   end
 
-  def videos_out 
-    return self.rentals.where(returned_on: nil)
-  end
-
 end
