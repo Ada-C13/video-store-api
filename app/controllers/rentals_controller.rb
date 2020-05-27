@@ -34,17 +34,19 @@ class RentalsController < ApplicationController
         due_date: rental.due_date,
         videos_checked_out_count: customer.videos_checked_out_count,
         available_inventory: video.available_inventory
-      }, status: :ok
-      
+      }, status: :created
       return 
+
     else
+
       render json: {
         "errors": [
             "No Inventory Available"
           ]
         }, status: :bad_request
       return 
-    end 
+    end
+
   end 
 
   def check_in 
