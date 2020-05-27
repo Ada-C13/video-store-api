@@ -4,13 +4,13 @@ class VideosController < ApplicationController
   # GET /videos
   def index
     @videos = Video.all.as_json(only: [:id, :title, :release_date, :available_inventory])
-    render json: @videos, status: :ok
+    render json: @videos
   end
-
 
   # GET /videos/1
   def show
-    render json: @video
+    @video = @video.as_json(only: [:title, :overview, :release_date, :total_inventory, :available_inventory])
+    render json: @video, status: :ok
   end
 
   # POST /videos
@@ -18,7 +18,7 @@ class VideosController < ApplicationController
     @video = Video.new(video_params)
 
     if @video.save
-      render json: @video, status: :created, location: @video
+      render json: {id: @video.id}, status: :created, location: @video
     else
       render json: @video.errors, status: :unprocessable_entity
     end
@@ -28,7 +28,7 @@ class VideosController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_video
-      @video = Video.find(params[:id])
+      @video = Video.find(params[:id])      
     end
 
     # Only allow a trusted parameter "white list" through.
