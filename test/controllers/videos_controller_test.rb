@@ -1,7 +1,18 @@
 require "test_helper"
 
+def check_response(expected_type:, expected_status: :success)
+  must_respond_with expected_status
+  expect(response.header['Content-Type']).must_include 'json'
+
+  body = JSON.parse(response.body)
+  expect(body).must_be_kind_of expected_type
+  return body
+end
+
 describe VideosController do
-  REQUIRED_video_FIELDS = ["title", "release_date", "available_inventory"].sort
+  REQUIRED_video_FIELDS = ["id", "title", "release_date", "available_inventory"].sort
+
+
   describe "index" do
     it "responds with JSON and success" do
       get videos_path
@@ -22,7 +33,7 @@ describe VideosController do
       body.each do |video|
         expect(video).must_be_instance_of Hash
   
-        required_video_attrs = ["title", "release_date", "available_inventory"]
+        required_video_attrs = ["id","title", "release_date", "available_inventory"]
   
         expect(video.keys.sort).must_equal required_video_attrs.sort
       end
@@ -46,17 +57,17 @@ describe VideosController do
 
   describe "create" do
     let(:video_data) {
-            {
-              video: {
-                title: "my movie",
-                release_date: "2020",
-                available_inventory: 3
-              }
-            }
-          }
+      {
+        video: {
+          title: "new title",
+          release_date: Time.now,
+          available_inventory: 9,
+        }
+      }
+    }
 
-
-    it "can create a new video" do
+ 
+    it "can create a new pet" do
       expect {
         post videos_path, params: video_data
       }.must_differ "Video.count", 1
@@ -65,7 +76,11 @@ describe VideosController do
     end
 
     it "will respond with bad_request for invalid data" do
-      video[:video][:title] = nil
+      # Arrange - using let from above
+      # Our videosController test should just test generically
+      # for any kind of invalid data, so we will randomly pick
+      # the age attribute to invalidate
+      video_data[:video][:available_inventory] = nil
 
       expect {
         # Act
@@ -75,29 +90,27 @@ describe VideosController do
       }.wont_change "Video.count"
     
       body = check_response(expected_type: Hash, expected_status: :bad_request)
-      expect(body["errors"].keys).must_include "title"
+      expect(body["errors"].keys).must_include "available_inventory"
     end
 
   end
 
   describe "show" do
     it "responds with JSON and success and correct video data" do
-      video = Video.first
+      videos = Video.all
+      video = videos.first
 
-      gets video_path(video.id)
-    
+      get video_path(video.id)
       body = check_response(expected_type: Hash)
-
       
-      expect(body.keys.sort).must_equal REQUIRED_video_FIELDS
-      expect(body["id"]).must_equal existing_video.id
-      expect(body["title"]).must_equal existing_video.title
-      expect(body["release_date"]).must_equal existing_video.release_date
-      expect(body["available_inventory"]).must_equal existing_video.available_inventory
-      puts "this is the body #{body}"
+      expect(body.keys.sort).must_equal REQUIRED_video_FIELDS.sort
+      expect(body["id"]).must_equal video.id
+      expect(body["title"]).must_equal video.title
+      expect(body["release_date"]).must_equal "1979-01-18"
+      expect(body["available_inventory"]).must_equal video.available_inventory
     end
 
-    it "responds with JSON, not found, and errors when looking for non-extant pet" do
+    it "responds with JSON, not found, and errors when looking for non-extant video" do
       get video_path(-1)
 
       body = check_response(expected_type: Hash, expected_status: :not_found)
@@ -109,7 +122,7 @@ end
 
 
 
-# describe PetsController do
+# describe videosController do
 
 #   REQUIRED_PET_FIELDS = ["id", "name", "species", "age", "owner"].sort
 

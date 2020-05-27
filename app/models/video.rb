@@ -4,5 +4,5 @@ class Video < ApplicationRecord
   validates :title, presence: true
   validates :release_date, presence: true
   validates :available_inventory, presence: true
-  validates :total_inventory, presence:true, numericality: true
+  # validates :total_inventory, presence:true, numericality: true
 end

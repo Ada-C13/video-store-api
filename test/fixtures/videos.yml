@@ -1,20 +1,20 @@
-valid_video1:
+video:
   title: "my title"
-  release_date: "yesterday"
+  release_date: Date.new(Thu, 18 Jan 1979)
   available_inventory: 10
   
-valid_video2:
+video2:
   title: "another title"
-  release_date: "2018"
+  release_date: Date.new(Thu, 18 Jan 1979)
   available_inventory: 9
 
-valid_video3:
+video3:
   title: "random"
-  release_date: "2017"
+  release_date: Date.new(Thu, 18 Jan 1979)
   available_inventory: 8
 
-valid_video4:
+video4:
   title: "another random"
-  release_date: "2010"
+  release_date: Date.new(Thu, 18 Jan 1979)
   available_inventory: 7
   
