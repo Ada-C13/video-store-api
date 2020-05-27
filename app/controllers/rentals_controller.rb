@@ -87,5 +87,6 @@ class RentalsController < ApplicationController
         }, status: :bad_request
       return 
     end 
+
   end 
 end
