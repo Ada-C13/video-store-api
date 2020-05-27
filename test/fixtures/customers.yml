@@ -1,0 +1,17 @@
+nataliya:
+  name: Nataliya
+  registered_at: Wed, 29 Apr 2015 14:54:14 UTC +00:00
+  address: 1313 111th Dr SE
+  city: Monroe
+  state: WA
+  postal_code: 98989
+  phone: 425-425-25-25
+  videos_checked_out_count: 6
+cody:
+  name: Cody
+  registered_at: Wed, 29 Apr 2015 16:54:14 UTC +00:00
+  city: Monroe
+  state: WA
+  postal_code: 98989
+  phone: 260-260-60-60
+  videos_checked_out_count: 0
