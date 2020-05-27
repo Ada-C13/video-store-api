@@ -2,6 +2,11 @@ require 'date'
 
 class RentalsController < ApplicationController
 
+  def index 
+    rental = Rental.all
+    render json: rental.as_json(except: [:id, :updated_at, :created_at]), status: :ok
+  end 
+
   def check_out 
     video = Video.find_by(id: params[:video_id])
     customer = Customer.find_by(id: params[:customer_id])
@@ -11,12 +16,18 @@ class RentalsController < ApplicationController
     
     if Rental.inventory_check_out(rental)
       if rental.save 
-        render json: rental.as_json(except: [:created_at, :updated_at]), status: :created
+        render json: {
+          customer_id: rental.customer_id,
+          video_id: rental.video_id,
+          due_date: rental.due_date,
+          videos_checked_out_count: customer.videos_checked_out_count,
+          available_inventory: video.available_inventory
+        }
         return 
       else
         render json: {
           "errors": "Invalid customer or video ID"
-          }, status: :bad_request
+          }, status: :not_found
         return
       end 
     else

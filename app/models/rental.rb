@@ -11,7 +11,7 @@ class Rental < ApplicationRecord
        customer.save
        video.available_inventory -= 1
        video.save
-       return true 
+      return true 
     else
       return false 
     end 
