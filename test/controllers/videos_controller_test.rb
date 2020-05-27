@@ -1,7 +1,7 @@
 require "test_helper"
 
 describe VideosController do
-  VIDEO_FIELDS = ["id", "title", "release_date", "available_inventory"].sort
+  VIDEO_FIELDS = ["title", 'overview', "release_date", 'total_inventory', "available_inventory"].sort
   describe "index" do 
     it "responds with JSON and success" do
       get videos_path
@@ -65,8 +65,7 @@ describe VideosController do
       must_respond_with :not_found
       body = JSON.parse(response.body)
       expect(body).must_be_instance_of Hash
-      expect(body['ok']).must_equal false
-      expect(body['message']).must_equal 'Not found'
+      expect(body['errors']).must_equal ['Not Found']
     end
   end
 
