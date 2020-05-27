@@ -11,15 +11,15 @@ class RentalsController < ApplicationController
     if video != nil && customer != nil
       Rental.checkout(customer_id: customer_id, video_id: video_id, rental: @rental)
       if @rental.save
-        render json: @rental.as_json, status: :created
+        render json: @rental.as_json(only: [:customer_id, :video_id, :due_date, :videos_checked_out_count, :available_inventory]), status: :ok
         return
       else
-        render json: {ok: false, errors: @rental.errors.messages}, status: :bad_request
+        render json: {errors: ['Not Found']}, status: :not_found
         return
       end
     else
       
-      render json: {ok: false, errors: @rental.errors.messages}, status: :bad_request
+      render json: {errors: ['Not Found']}, status: :not_found
       return
     end
   

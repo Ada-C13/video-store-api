@@ -1,7 +1,7 @@
 require "test_helper"
 
 describe VideosController do
-  REQUIRED_VIDEO_FIELDS = ["id", "title", "release_date", "available_inventory", "overview", "total_inventory"].sort
+  REQUIRED_VIDEO_FIELDS = ["id", "title", "release_date", "available_inventory"].sort
 
   def check_response(expected_type:, expected_status: :success)
     must_respond_with expected_status
@@ -41,8 +41,8 @@ describe VideosController do
 
       p existing_video.release_date
       body = check_response(expected_type: Hash)
-      expect(body.keys.sort).must_equal REQUIRED_VIDEO_FIELDS
-      expect(body["id"]).must_equal existing_video.id
+      expect(body["overview"]).must_equal existing_video.overview
+      expect(body["total_inventory"]).must_equal existing_video.total_inventory
       expect(body["title"]).must_equal existing_video.title
       expect(body["release_date"]).must_equal existing_video.release_date.to_s
       expect(body["available_inventory"]).must_equal existing_video.available_inventory
@@ -51,7 +51,6 @@ describe VideosController do
       get video_path(-1)
 
       body = check_response(expected_type: Hash, expected_status: :not_found)
-      expect(body["ok"]).must_equal false
       expect(body["errors"]).must_include "Not Found"
     end
   end
@@ -62,7 +61,8 @@ describe VideosController do
           title: "Space Jam",
           release_date: Date.new(1999-06-01),
           total_inventory: 10,
-          available_inventory: 9
+          available_inventory: 9,
+          overview: "Michael Jordan goes to space to challenge aliens in basketball game to save humans"
         }
       }
 
@@ -83,7 +83,7 @@ describe VideosController do
         }.wont_change "Video.count"
 
         body = check_response(expected_type: Hash, expected_status: :bad_request)
-        expect(body["errors"].keys).must_include "title" 
+        expect(body["errors"]).must_include "title" 
       end
     end
 end
