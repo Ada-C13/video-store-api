@@ -15,5 +15,19 @@ describe Video do
     end
   end
 
+  describe "validations" do
+    it "it's invalid when video does't have title" do
+      @video.title = nil
+      expect(@video.valid?).must_equal false
+      expect(@video.errors.messages).must_include :title
+      expect(@video.errors.messages[:title]).must_equal ["can't be blank"]
+    end
+
+    it "it's valid when video has title" do
+      @video.title = "Somthing"
+      expect(@video.valid?).must_equal true
+    end
+  end
+
 
 end
