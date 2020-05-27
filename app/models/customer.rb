@@ -1,5 +1,6 @@
 class Customer < ApplicationRecord
-  #TODO relationships
+  has_many :rentals
+  has_many :videos, through: :rentals
   
   validates :name, presence: true 
   validates :registered_at, presence: true 
