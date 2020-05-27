@@ -39,6 +39,9 @@ class RentalsController < ApplicationController
   end 
 
   def check_in 
+    video = Video.find_by(id: params[:video_id])
+    customer = Customer.find_by(id: params[:customer_id])
+    rental = Rental.find_by(video_id: video.id, customer_id: customer.id)
 
 
 
