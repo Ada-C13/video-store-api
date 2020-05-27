@@ -10,6 +10,7 @@ class RentalsController < ApplicationController
 			return
 		else
 			customer.videos_checked_out_count += 1
+			customer.save
 		end
 
 		video = Video.find_by(id: rental_params[:video_id])
@@ -27,6 +28,7 @@ class RentalsController < ApplicationController
 			return
 		else
 			video.available_inventory -= 1
+			video.save
 		end
 
 		rental = Rental.new(rental_params)

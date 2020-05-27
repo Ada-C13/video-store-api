@@ -19,8 +19,8 @@ describe RentalsController do
         post check_out_path, params: check_out_data
       }.must_differ "Rental.count", 1
 
-      # expect(customers(:customer_one).videos_checked_out_count).must_equal 1
-      # expect(videos(:fake_vid).available_inventory).must_equal 8
+      expect(customers(:customer_one).videos_checked_out_count).must_equal 1
+      expect(videos(:fake_vid).available_inventory).must_equal 8
 
       must_respond_with :ok
 
