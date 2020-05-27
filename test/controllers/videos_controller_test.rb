@@ -50,7 +50,6 @@ describe VideosController do
       must_respond_with :success
 
       body = check_response(expected_type: Hash)
-      #TODO: for some reason this test keeps giving back body is an array???
       expect(body.keys.sort).must_equal ['title', 'overview', 'release_date', 'total_inventory', 'available_inventory'].sort
     end
 
@@ -63,7 +62,7 @@ describe VideosController do
       body = JSON.parse(response.body)
       expect(body).must_be_instance_of Hash
       expect(body['ok']).must_equal false
-      expect(body['errors']).must_equal 'Not found'
+      expect(body['errors']).must_equal ['Not found']
     end
   end
 

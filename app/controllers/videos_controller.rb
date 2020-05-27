@@ -23,7 +23,9 @@ class VideosController < ApplicationController
     else
       render json: {
         ok: false,
-        errors: 'Not found',
+        errors: [
+          'Not found'
+        ]
       }, status: :not_found
       return
     end
