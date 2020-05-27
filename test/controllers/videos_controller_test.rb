@@ -57,19 +57,17 @@ describe VideosController do
 
   describe "create" do
     let(:video_data) {
-      {
-        video: {
+        {
           title: "new title",
           overview: "some overview",
           release_date: Time.now,
-          total_inventroy: 3,
+          total_inventory: 3,
           available_inventory: 9
         }
-      }
     }
 
  
-    it "can create a new pet" do
+    it "can create a new video" do
       expect {
         post videos_path, params: video_data
       }.must_differ "Video.count", 1
@@ -82,7 +80,7 @@ describe VideosController do
       # Our videosController test should just test generically
       # for any kind of invalid data, so we will randomly pick
       # the age attribute to invalidate
-      video_data[:video][:available_inventory] = nil
+      video_data[:available_inventory] = nil
 
       expect {
         # Act

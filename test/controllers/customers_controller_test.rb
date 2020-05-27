@@ -22,7 +22,7 @@ describe CustomersController do
       body.each do |customer|
         expect(customer).must_be_instance_of Hash
   
-        required_customer_attrs = ["id", "name", "registered_at", "postal_code", "phone"]
+        required_customer_attrs = ["id", "name", "registered_at", "postal_code", "phone","videos_checked_out_count"]
   
         expect(customer.keys.sort).must_equal required_customer_attrs.sort
       end

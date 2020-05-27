@@ -2,7 +2,7 @@ class CustomersController < ApplicationController
 
 
     def index
-      customers = Customer.all.as_json(only: [:id, :name, :registered_at, :postal_code, :phone])  # TODO Videos checked out
+      customers = Customer.all.as_json(only: [:id, :name, :registered_at, :postal_code, :phone, :videos_checked_out_count])  # TODO Videos checked out
       render json: customers, status: :ok
     end
   
@@ -27,7 +27,7 @@ class CustomersController < ApplicationController
       customer = Customer.find_by(id: params[:id])
   
       if customer
-        render json: customer.as_json(only: [:id, :name, :registered_at, :postal_code, :phone])
+        render json: customer.as_json(only: [:id, :name, :registered_at, :postal_code, :phone, :videos_checked_out_count])
         return
       else
         render json: { ok: false, errors: ["Not Found"] }, status: :not_found
@@ -39,7 +39,7 @@ class CustomersController < ApplicationController
     private
   
     def customer_params
-      return params.require(:customer).permit(:id, :name, :registered_at, :address, :city, :state, :postal_code, :phone)
+      return params.require(:customer).permit(:id, :name, :registered_at, :address, :city, :state, :postal_code, :phone, :videos_checked_out_count)
     end
 
  end
