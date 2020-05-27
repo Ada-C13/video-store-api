@@ -22,7 +22,7 @@ describe CustomersController do
       check_response(expected_type: Array)
     end
 
-    it "responds with an array ofcustomer hashes" do
+    it "responds with an array of customer hashes" do
       # Act
       get customers_path
 
@@ -35,6 +35,18 @@ describe CustomersController do
         expect(customer.keys.sort).must_equal REQUIRED_CUSTOMER_FIELDS
       end
     end
+  end
+
+  it "will respond with an empty array when there are no customers" do
+    # Arrange
+    Customer.destroy_all
+
+    # Act
+    get customers_path
+
+    # Assert
+    body = check_response(expected_type: Array)
+    expect(body).must_equal []
   end
 
 end
