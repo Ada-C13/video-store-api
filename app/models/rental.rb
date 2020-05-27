@@ -7,7 +7,7 @@ class Rental < ApplicationRecord
   def self.checkout(customer_id: customer_id, video_id: video_id, rental: rental)
     video = Video.find_by(id: video_id)
     customer = Customer.find_by(id:customer_id)
-    p video.available_inventory
+
     if video.available_inventory > 0
       video.available_inventory -= 1
       customer.videos_checked_out_count += 1
