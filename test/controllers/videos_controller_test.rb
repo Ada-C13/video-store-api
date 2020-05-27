@@ -58,12 +58,11 @@ describe VideosController do
 
     describe "create" do
       let(:video_data){
-        {video: 
-          {
-            title: "Space Jam",
-            release_date: Date.new(1999-06-01),
-            total_inventory: 10
-          }
+        {
+          title: "Space Jam",
+          release_date: Date.new(1999-06-01),
+          total_inventory: 10,
+          available_inventory: 9
         }
       }
 
@@ -77,7 +76,7 @@ describe VideosController do
       end
 
       it "will respond with bad_request for invalid" do
-        video_data[:video][:title] = nil
+        video_data[:title] = nil
 
         expect {
           post videos_path, params: video_data

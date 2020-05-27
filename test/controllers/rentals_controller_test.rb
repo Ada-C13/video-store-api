@@ -26,7 +26,7 @@ describe RentalsController do
   describe "checkout" do
     it "creates a new rental"do
      expect{post check_out_path, params: rental_params}.must_differ "Rental.count", 1
-     check_response(expected_type: Hash, expected_status: :ok)
+     check_response(expected_type: Hash, expected_status: :created)
     end
     it "returns bad request if video or customer empty" do
       rental_params[:customer_id] = nil
@@ -47,10 +47,11 @@ describe RentalsController do
     end
 
     it "can return bad request when no video is in stock" do
-      video = videos(:video3)
-      video.available_inventory = 0
-
-      expect{post check_out_path, params: rental_params}.wont_change "Rental.count", 1
+      video3 = videos(:video3)
+      video3.available_inventory = 0
+      video3.save!
+     
+      expect{post check_out_path, params: {customer_id: customer.id, video_id: video3.id }}.wont_change "Rental.count", 1
       check_response(expected_type: Hash, expected_status: :bad_request)
     end
 
