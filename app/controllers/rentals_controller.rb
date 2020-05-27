@@ -1,6 +1,6 @@
 class RentalsController < ApplicationController
 
-  def checkout 
+  def check_out 
     # increase the customer's videos_checked_out_count by one
     # decrease the video's available_inventory by one
     # create a due date. The rental's due date is the seven days from the current date.
@@ -18,6 +18,12 @@ class RentalsController < ApplicationController
         }, status: :bad_request
       return 
     end 
+  end 
+
+  def check_in 
+
 
   end 
+
+  
 end
