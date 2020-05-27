@@ -9,4 +9,10 @@ class Customer < ApplicationRecord
 
   has_many :rentals, dependent: :nullify
   has_many :videos, through: :rentals
+
+  def add_to_checked_out
+    self.videos_checked_out_count += 1
+    self.save
+  end
+
 end
