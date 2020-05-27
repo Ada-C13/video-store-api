@@ -18,6 +18,7 @@ describe CustomersController do
       body = JSON.parse(response.body)
 
       expect(body).must_be_instance_of Array
+      expect(body.length).must_equal 9
 
       body.each do |customer_hash|
         expect(customer_hash).must_be_instance_of Hash
@@ -26,7 +27,7 @@ describe CustomersController do
     end
 
     it "returns an empty array if no customers exist" do
-      customer.destroy_all
+      Customer.destroy_all
 
       get customers_path
 
@@ -35,4 +36,5 @@ describe CustomersController do
       expect(body).must_be_instance_of Array
       expect(body.length).must_equal 0
     end
+  end
 end
