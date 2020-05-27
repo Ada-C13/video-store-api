@@ -51,6 +51,17 @@ describe VideosController do
       expect(body).must_be_instance_of Hash
       expect(body.keys.sort).must_equal VIDEO_FIELDS
     end
+
+    # Edge Case
+    it " for a non-existent video will return a 404 request with json" do
+      get video_path(-1)
+
+      must_respond_with :not_found
+      body = JSON.parse(response.body)
+      expect(body).must_be_instance_of Hash
+      expect(body['ok']).must_equal false
+      expect(body['message']).must_equal 'Not found'
+    end
   end
 
   
