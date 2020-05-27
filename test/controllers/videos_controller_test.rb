@@ -69,4 +69,68 @@ describe VideosController do
       expect(body["message"]).must_equal "Not found"
     end
   end
+
+  describe "create video" do 
+    let(:video_data) {
+      { 
+        video: {
+        title: "Some Movie", 
+        overview: "Some Overview", 
+        release_date: "1/1/2020", 
+        total_inventory: 10, 
+        available_inventory: 5
+        }
+      }
+    }
+
+    it "cannot create video if no title" do
+      video_data[:video][:title] = nil 
+
+      expect {
+        post videos_path, params: video_data
+      }.must_differ "Video.count", 0
+      
+      must_respond_with :bad_request
+    end
+
+    it "cannot create video if no overview" do
+      video_data[:video][:overview] = nil 
+      
+      expect {
+        post videos_path, params: video_data
+      }.must_differ "Video.count", 0
+      
+      must_respond_with :bad_request
+    end
+
+    it "cannot create video if no release_date" do
+      video_data[:video][:release_date] = nil 
+      
+      expect {
+        post videos_path, params: video_data
+      }.must_differ "Video.count", 0
+      
+      must_respond_with :bad_request
+    end
+
+    it "cannot create video if no total_inventory" do
+      video_data[:video][:total_inventory] = nil 
+      
+      expect {
+        post videos_path, params: video_data
+      }.must_differ "Video.count", 0
+      
+      must_respond_with :bad_request
+    end
+
+    it "cannot create video if no available_inventory" do
+      video_data[:video][:available_inventory] = nil 
+      
+      expect {
+        post videos_path, params: video_data
+      }.must_differ "Video.count", 0
+      
+      must_respond_with :bad_request
+    end
+  end
 end
