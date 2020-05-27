@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  post 'rentals/check-in', to: "rentals#check_in", as: "check_in"
+  post 'rentals/check-out', to: "rentals#check_out", as: "check_out"
   resources :customers ,only:[:index, :show]
   resources :videos ,only:[:index, :show, :create]
 
