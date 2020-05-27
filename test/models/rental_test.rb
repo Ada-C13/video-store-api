@@ -36,6 +36,8 @@ describe Rental do
     
     answ = Rental.inventory_check_out(rental)
     
+    video.reload
+    customer.reload
     expect(answ).must_equal true
     
     expect(video.available_inventory).must_equal 1
