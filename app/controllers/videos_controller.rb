@@ -9,11 +9,10 @@ class VideosController < ApplicationController
     video = Video.find_by(id: params[:id])
 
     if video
-      render json: video.as_json(only: [:title, :overview, :release_date, :available_inventory])
+      render json: video.as_json(only: [:title, :overview, :release_date, :total_inventory, :available_inventory])
       return
     else
       render json: {
-        ok: false,
         errors: ['Not Found']
       }, status: :not_found
       return
@@ -28,7 +27,6 @@ class VideosController < ApplicationController
       return
     else
       render json: {
-        ok: false,
         errors: video.errors.messages
       }, status: :bad_request
       return
@@ -38,6 +36,6 @@ class VideosController < ApplicationController
   private
 
   def video_params
-    return params.require:(video).permit(:title, :release_date, :total_inventory, :available_inventory)
+    return params.permit(:title, :overview, :release_date, :total_inventory, :available_inventory)
   end
 end
