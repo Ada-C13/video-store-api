@@ -47,7 +47,42 @@ class RentalsController < ApplicationController
 	end
 
 	def check_in
+		customer = Customer.find_by(id: rental_params[:customer_id])
 
+		if customer.nil?
+			render json: {
+				ok: false,
+				errors: 'Customer does not exist.'
+			}, status: :not_found
+			return
+		end
+
+		video = Video.find_by(id: rental_params[:video_id])
+
+		if video.nil?
+			render json: {
+				ok: false,
+				errors: 'Video does not exist.'
+			}, status: :not_found
+			return
+		end
+
+		rental = Rental.where(customer_id: rental_params[:customer_id], video_id: rental_params[:video_id])
+
+		if rental != nil
+			customer.videos_checked_out_count -= 1
+			video.available_inventory += 1
+			render json: rental.as_json(only: [:customer_id, :video_id]), status: :ok
+			puts "REACHING?"
+			return
+		else
+			render json: {
+				ok: false,
+				errors: rental.errors.messages
+			}, status: :bad_request
+			return
+		end
+	
 	end
 
 	private
