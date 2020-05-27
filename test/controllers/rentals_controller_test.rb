@@ -93,11 +93,11 @@ describe RentalsController do
       post check_out_path, params: check_in_data
       must_respond_with :created
 
-      customer_before_video_count = customers(:customer_one).videos_checked_out_count
-      videos_before_available_count = videos(:fake_vid).available_inventory
-
       customers(:customer_one).reload
       videos(:fake_vid).reload
+
+      customer_before_video_count = customers(:customer_one).videos_checked_out_count
+      videos_before_available_count = videos(:fake_vid).available_inventory
 
       expect{
         post check_in_path, params: check_in_data
