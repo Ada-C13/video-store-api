@@ -15,4 +15,9 @@ class Customer < ApplicationRecord
     self.save
   end
 
+  def remove_checked_out
+    self.videos_checked_out_count -= 1
+    self.save
+  end
+
 end
