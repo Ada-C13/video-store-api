@@ -27,6 +27,18 @@ describe Video do
       @video.title = "Somthing"
       expect(@video.valid?).must_equal true
     end
+
+    it "it's invalid when video does't have overview" do
+      @video.overview = nil
+      expect(@video.valid?).must_equal false
+      expect(@video.errors.messages).must_include :overview
+      expect(@video.errors.messages[:overview]).must_equal ["can't be blank"]
+    end
+
+    it "it's valid when video has overview" do
+      @video.overview = "Somthing"
+      expect(@video.valid?).must_equal true
+    end
   end
 
 
