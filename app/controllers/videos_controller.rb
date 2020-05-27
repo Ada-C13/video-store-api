@@ -3,14 +3,20 @@ class VideosController < ApplicationController
 
   # GET /videos
   def index
-    @videos = Video.all.as_json(only: [:id, :title, :release_date, :available_inventory])
+    # TO-DO: available inventory
+    @videos = Video.all.as_json(only: [:id, :title, :release_date])
     render json: @videos
   end
 
   # GET /videos/1
   def show
-    @video = @video.as_json(only: [:title, :overview, :release_date, :total_inventory, :available_inventory])
-    render json: @video, status: :ok
+    if @video
+      @video = @video.as_json(only: [:title, :overview, :release_date, :total_inventory])
+      render json: @video, status: :ok
+    else 
+      render json: { errors: ["Not Found"]}, status: :not_found
+    end
+
   end
 
   # POST /videos
@@ -18,21 +24,28 @@ class VideosController < ApplicationController
     @video = Video.new(video_params)
 
     if @video.save
-      render json: { id: @video.id }, status: :created, location: @video
+      render json: {id: @video.id}, status: :created, location: @video
     else
-      render json: { errors: @video.errors }, status: :bad_request
+      render json: {errors: @video.errors }, status: :bad_request
     end
   end
 
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_video
-      @video = Video.find(params[:id])      
+      @video = Video.find_by(id: params[:id])
+      # @video = Video.find(params[:id])  
+
+      # rescue ActiveRecord::RecordNotFound => e
+      #   render json: {
+      #     error: e.to_s
+      #   }, status: :not_found
+    
     end
 
     # Only allow a trusted parameter "white list" through.
     def video_params
       # params.fetch(:video, {})
-      return params.permit(:title, :overview, :release_date, :total_inventory, :available_inventory)
+      return params.permit(:title, :overview, :release_date, :total_inventory)
     end
 end
