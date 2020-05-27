@@ -1,7 +1,7 @@
 require "test_helper"
 
 describe CustomersController do
-  CUSTOMER_FIELDS = ["id", "name", "registered_at", "address", "city", "state", "postal_code", "phone"].sort
+  CUSTOMER_FIELDS = ["id", "name", "registered_at", "postal_code", "phone", "video_checked_out_count"].sort
 
   it "must get index" do
 
@@ -83,6 +83,22 @@ describe CustomersController do
         expect(body['message']).must_equal 'Not found'
       end
     end #describe show end
+
+    describe "create" do
+
+      it "can create a new customer" do 
+
+        customer_params = {
+          customer: {
+            name: "Minnie",
+            registered_at: "May 20, 2020",
+            postal_code: "98144",
+            phone: "2066610889"
+
+          }
+        }
+      end
+    end
 
 
 
