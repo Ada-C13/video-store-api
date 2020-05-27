@@ -1,7 +1,16 @@
 require "test_helper"
 
 describe Video do
-  # it "does a thing" do
-  #   value(1+1).must_equal 2
-  # end
+  let(:video) { videos(:Jumanji) }
+
+  describe "validations" do
+    it "is valid when all required fields are present" do
+      expect(video.valid?).must_equal true
+    end
+
+    it "is invalid with a field is missing" do
+      video.title = nil
+      expect(video.valid?).must_equal false
+    end
+  end
 end

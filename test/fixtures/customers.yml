@@ -1,8 +1,8 @@
 Jane:
   name: Jane Doe
-  registered_at: Wed, 29 Apr 2015 07:54:13 -0700,
-  address: Ap #292-5216 Ipsu Rd.,
-  city: Hillsboro,
+  registered_at: Wed, 29 Apr 2015 07:54:13 -0700
+  address: Ap 292-5216 Ipsu Rd
+  city: Hillsboro
   state: OR,
   postal_code: 24300,
   phone: (322) 510-8690
