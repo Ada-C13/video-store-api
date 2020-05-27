@@ -41,7 +41,7 @@ describe RentalsController do
       body = JSON.parse(response.body) 
 
       expect(body).must_be_instance_of Hash
-      expect(body["errors"]).must_equal "No Inventory Available"
+      expect(body["errors"][0]).must_equal "No Inventory Available"
     end 
 
     it "will have the correct due date" do 

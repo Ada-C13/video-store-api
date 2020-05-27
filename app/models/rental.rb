@@ -6,7 +6,7 @@ class Rental < ApplicationRecord
     customer = Customer.find_by(id: rental.customer_id)
     video = Video.find_by(id: rental.video_id)
 
-    if video.available_inventory > 0 #&& customer && video
+    if video.available_inventory > 0 && customer && video
        customer.videos_checked_out_count += 1 
        customer.save
        video.available_inventory -= 1

@@ -11,8 +11,7 @@ class RentalsController < ApplicationController
     video = Video.find_by(id: params[:video_id] )
     customer = Customer.find_by(id: params[:customer_id])
     date = DateTime.now + 1.week
-  
-    #puts "THIS IS CUSTIMER #{customer.id} VID: #{video.id}"
+
     if customer.nil? || video.nil? 
       render json: {
         errors: [
@@ -21,30 +20,30 @@ class RentalsController < ApplicationController
         }, status: :not_found
       return
     end 
+
    rental = Rental.new(due_date: date, customer_id: customer.id, video_id: video.id)
 
-    if Rental.inventory_check_out(rental)
-        if rental.save 
-          video.reload
-          customer.reload
+    if Rental.inventory_check_out(rental) && rental.save 
+      
+      video.reload
+      customer.reload
 
-          render json: {
-            customer_id: rental.customer_id,
-            video_id: rental.video_id,
-            due_date: rental.due_date,
-            videos_checked_out_count: customer.videos_checked_out_count,
-            available_inventory: video.available_inventory
-          }, status: 200
-          return 
-         
-        else
-          render json: {
-            "errors": [
-                "Not Found"
-              ]
-            }, status: :not_found
-          return
-        end  
+      render json: {
+        customer_id: rental.customer_id,
+        video_id: rental.video_id,
+        due_date: rental.due_date,
+        videos_checked_out_count: customer.videos_checked_out_count,
+        available_inventory: video.available_inventory
+      }, status: :created
+      
+      return 
+    else
+      render json: {
+        "errors": [
+            "No Inventory Available"
+          ]
+        }, status: :bad_request
+      return 
     end 
   end 
 
