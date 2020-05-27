@@ -34,7 +34,7 @@ class RentalsController < ApplicationController
         due_date: rental.due_date,
         videos_checked_out_count: customer.videos_checked_out_count,
         available_inventory: video.available_inventory
-      }, status: :created
+      }, status: :ok
       return 
 
     else
@@ -87,5 +87,6 @@ class RentalsController < ApplicationController
         }, status: :bad_request
       return 
     end 
+
   end 
 end

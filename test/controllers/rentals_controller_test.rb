@@ -18,7 +18,7 @@ describe RentalsController do
         post check_out_path, params: rental_data
       }.must_differ "Rental.count", 1
       
-      must_respond_with :created
+      must_respond_with :ok
     end 
 
     it "will not check out if there are no available videos" do 
