@@ -1,5 +1,6 @@
 class Video < ApplicationRecord
-  validates :title, :release_date, :available_inventory, presence: true
-  has_many :rentals
-  has_many :customers, through: :rentals, dependent: :nullify
+  validates :total_inventory, :release_date, presence: true
+  validates :title, uniqueness:{scope: :release_date}, presence: true
+  has_many :rentals, dependent: :nullify
+  has_many :customers, through: :rentals
 end

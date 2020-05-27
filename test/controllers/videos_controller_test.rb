@@ -58,21 +58,33 @@ describe VideosController do
 
     describe "create" do
       let(:video_data){
-        {
-          video: {
+        {video: 
+          {
             title: "Space Jam",
-            release_date: 1999,
-            available_inventory: 10
+            release_date: Date.new(1999-06-01),
+            total_inventory: 10
           }
         }
       }
 
       it "responds with JSON and created a new video" do
+        
         expect {
           post videos_path, params: video_data
         }.must_differ "Video.count", 1
 
         check_response(expected_type: Hash, expected_status: :created)
+      end
+
+      it "will respond with bad_request for invalid" do
+        video_data[:video][:title] = nil
+
+        expect {
+          post videos_path, params: video_data
+        }.wont_change "Video.count"
+
+        body = check_response(expected_type: Hash, expected_status: :bad_request)
+        expect(body["errors"].keys).must_include "title" 
       end
     end
 end

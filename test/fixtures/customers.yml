@@ -1,0 +1,18 @@
+customer1:  
+  name: Shelley Rocha,
+  registered_at: 2015-04-29T14:54:14.000Z,
+  postal_code: 24309,
+  phone: (322) 510-8695,
+  videos_checked_out_count: 1
+customer2:
+  name: Curran Stout,
+  registered_at: 2014-04-17T04:40:20.000Z,
+  postal_code: 94267,
+  phone: (908) 949-6758,
+  videos_checked_out_count: 1
+customer3:
+  name: Roanna Robinson,
+  registered_at: 2014-11-28T21:14:08.000Z,
+  postal_code: 15867,
+  phone: (323) 336-1841,
+  videos_checked_out_count: 1
