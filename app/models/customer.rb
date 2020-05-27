@@ -3,8 +3,8 @@ class Customer < ApplicationRecord
   has_many :videos, through: :rentals
   validates :name, :address, :city, :state, :postal_code, :phone, presence: true  
 
-  def videos_out
-    return videos.where("returned_on".nil?)
+  def videos_checked_out_count
+    return videos.where("returned_on".nil?).count
   end
 
 end
