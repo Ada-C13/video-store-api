@@ -11,8 +11,7 @@ class RentalsController < ApplicationController
 
     if video.nil? || customer.nil?
       render json: {
-        ok: false,
-        errors: "Unable to create rental",
+        errors: ["Not Found"]
       }, status: :not_found
       return
     end
@@ -49,12 +48,12 @@ class RentalsController < ApplicationController
   end
 
   def check_in
-    rental = Rental.find_by(customer_id: params[:customer_id],video_id: params[:video_id], check_in_date: nil)
+    customer = Customer.find_by(id: params[:customer_id])
+    video = Video.find_by(id: params[:video_id])
 
-    if rental.nil?
+    if video.nil? || customer.nil?
       render json: {
-        ok: false,
-        errors: "Rental not found",
+        errors: ["Not Found"]
       }, status: :not_found
       return
     end
@@ -62,6 +61,9 @@ class RentalsController < ApplicationController
     video = Video.find_by(id: params[:video_id])
     customer = Customer.find_by(id: params[:customer_id])
 
+    rental = Rental.new(customer_id: customer.id, video_id: video.id)
+    rental.check_out_date = Date.today
+    rental.due_date = Date.today + 7
     rental.check_in_date = Date.today
     
     if rental.save
@@ -78,6 +80,34 @@ class RentalsController < ApplicationController
       }, status: :bad_request
       return
     end
+    # rental = Rental.find_by(customer_id: params[:customer_id],video_id: params[:video_id], check_in_date: nil)
+
+    # if rental.nil?
+    #   render json: {
+    #     errors: ["Not Found"]
+    #   }, status: :not_found
+    #   return
+    # end
+
+    # video = Video.find_by(id: params[:video_id])
+    # customer = Customer.find_by(id: params[:customer_id])
+
+    # rental.check_in_date = Date.today
+    
+    # if rental.save
+    #   video.increase_inventory
+    #   customer.remove_checked_out
+    #   render json: {customer_id: rental.customer_id,
+    #                 video_id: rental.video_id, videos_checked_out_count: customer.videos_checked_out_count,
+    #                 available_inventory: video.available_inventory}, status: :ok
+    #   return
+    # else
+    #   render json: {
+    #     ok: false,
+    #     errors: rental.errors.messages,
+    #   }, status: :bad_request
+    #   return
+    # end
   end
 
   private

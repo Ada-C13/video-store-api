@@ -26,7 +26,7 @@ describe VideosController do
     expect(body).must_be_instance_of Array
     body.each do |video|
       expect(video).must_be_instance_of Hash
-      expect(video.keys.sort).must_equal VIDEO_FIELDS
+      expect(video.keys.sort).must_equal ["available_inventory", "id", "release_date", "title"]
     end
   end
 
@@ -56,7 +56,7 @@ describe VideosController do
       expect(response.header["Content-Type"]).must_include "json"
 
       expect(body).must_be_instance_of Hash
-      expect(body.keys.sort).must_equal VIDEO_FIELDS
+      expect(body.keys.sort).must_equal ["available_inventory", "overview", "release_date", "title", "total_inventory"]
     end
 
     it "will return a 404 request with json for a non-existent video" do
@@ -65,8 +65,7 @@ describe VideosController do
       body = JSON.parse(response.body)
       
       expect(body).must_be_instance_of Hash
-      expect(body["ok"]).must_equal false
-      expect(body["message"]).must_equal "Not found"
+      expect(body["errors"]).must_equal ["Not Found"]
     end
   end
 
