@@ -69,4 +69,10 @@ describe VideosController do
       expect(body['message']).must_equal 'Not found'
     end
   end
+
+  # describe 'create' do
+  #   it "return the status 200 when the video is created successfully" do
+      
+  #   end
+  # end
 end
