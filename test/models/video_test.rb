@@ -39,6 +39,18 @@ describe Video do
       @video.overview = "Somthing"
       expect(@video.valid?).must_equal true
     end
+
+    it "it's invalid when video does't have release_date" do
+      @video.release_date = nil
+      expect(@video.valid?).must_equal false
+      expect(@video.errors.messages).must_include :release_date
+      expect(@video.errors.messages[:release_date]).must_equal ["can't be blank"]
+    end
+
+    it "it's valid when video has release_date" do
+      @video.release_date = 2017-03-14
+      expect(@video.valid?).must_equal true
+    end
   end
 
 
