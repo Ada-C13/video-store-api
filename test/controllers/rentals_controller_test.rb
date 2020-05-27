@@ -91,5 +91,47 @@ describe RentalsController do
       must_respond_with :bad_request
     end
   end
+
+  describe "check in" do 
+    let(:rental_data) {
+      {
+        video_id: videos(:video_1).id,
+        customer_id: customers(:customer_1).id
+      }
+    }
+
+    before do 
+      post check_out_path, params: rental_data
+    end
+
+    it "can allow check in" do
+      expect {
+        post check_in_path, params: rental_data
+      }.must_differ "Rental.count", 0
+
+      must_respond_with :success
+      expect(Rental.all.first.check_in_date).must_equal Date.today
+    end
+
+    it "prevents check in customer has not made rental" do
+      rental_data[:customer_id] = nil
+
+      expect {
+        post check_in_path, params: rental_data
+      }.must_differ "Rental.count", 0
+
+      must_respond_with :not_found
+    end
+
+    it "prevents check in if video does not exist" do
+      rental_data[:video_id] = nil
+
+      expect {
+        post check_out_path, params: rental_data
+      }.must_differ "Rental.count", 0
+
+      must_respond_with :not_found
+    end
+  end
   
 end

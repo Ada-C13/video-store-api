@@ -9,7 +9,7 @@ class RentalsController < ApplicationController
   def check_out
     customer = Customer.find_by(id: params[:customer_id])
     video = Video.find_by(id: params[:video_id])
-    
+
     if video.nil? || customer.nil?
       render json: {
         ok: false,
@@ -56,7 +56,7 @@ class RentalsController < ApplicationController
       render json: {
         ok: false,
         errors: "Rental not found",
-      }, status: :bad_request
+      }, status: :not_found
       return
     end
 
