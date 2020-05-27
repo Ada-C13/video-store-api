@@ -63,7 +63,7 @@ describe VideosController do
       video = Video.new(
           "title": "Joker",
           "overview": "Movie about a sad clown",
-          "release_date": Date.today.strftime(""),
+          "release_date": Date.today,
           "total_inventory": 5,
           "available_inventory": 1
       )
@@ -83,7 +83,7 @@ describe VideosController do
 
       expect(body["id"]).must_equal existing_video.id
       expect(body["title"]).must_equal existing_video.title
-      expect(body["release_date"]).must_equal existing_video.release_date
+      expect(body["release_date"]).must_equal existing_video.release_date.strftime("%Y-%m-%d") # TODO: convert to string; .strftime("")
       expect(body["available_inventory"]).must_equal existing_video.available_inventory
     end
   
