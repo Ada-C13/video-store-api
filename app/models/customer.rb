@@ -1,6 +1,7 @@
 class Customer < ApplicationRecord
 
-  has_many :videos
+  has_many :rentals
+  has_many :videos, through: :rentals
 
   validates :name, presence: true
   validates :address, presence: true
@@ -8,7 +9,6 @@ class Customer < ApplicationRecord
   validates :state, presence: true
   validates :postal_code, presence: true
   validates :phone, presence: true
-  validates :phone, numericality: true
   validates :registered_at, presence: true
 
 end
