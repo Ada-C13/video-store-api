@@ -67,7 +67,7 @@ class RentalsController < ApplicationController
 			return
 		end
 
-		rental = Rental.where(customer_id: rental_params[:customer_id], video_id: rental_params[:video_id])
+		rental = Rental.find_by(customer_id: rental_params[:customer_id], video_id: rental_params[:video_id])
 
 		if rental != nil
 			customer.videos_checked_out_count -= 1
