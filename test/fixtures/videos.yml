@@ -1,12 +1,10 @@
 fake_vid:
-  id: 1
   title: Fake Video
   overview: This is about a fake video.
   release_date: 1979-01-18
   total_inventory: 10
-  available_inventory: 9
+  available_inventory: 7
 none_avail_vid:
-  id: 2
   title: Rails Video
   overview: This is about not having inventory.
   release_date: 2010-04-22

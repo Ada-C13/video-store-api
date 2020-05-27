@@ -9,7 +9,9 @@ class RentalsController < ApplicationController
 			}, status: :not_found
 			return
 		else
+			puts "BEFORE CUSTOMER CHECKOUT: #{customer.videos_checked_out_count}"
 			customer.videos_checked_out_count += 1
+			puts "AFTER CUSTOMER CHECKOUT: #{customer.videos_checked_out_count}"
 			customer.save
 		end
 
@@ -27,7 +29,9 @@ class RentalsController < ApplicationController
 			}, status: :bad_request
 			return
 		else
+			puts "BEFORE VIDEO CHECKOUT: #{video.available_inventory}"
 			video.available_inventory -= 1
+			puts "AFTER VIDEO CHECKOUT: #{video.available_inventory}"
 			video.save
 		end
 
@@ -35,7 +39,15 @@ class RentalsController < ApplicationController
 		rental.due_date = Date.today + 7
 
 		if rental.save
-			render json: rental.as_json(only: [:customer_id, :video_id, :due_date]), status: :ok
+			rental_info = {
+				customer_id: rental.customer_id,
+				video_id: rental.video_id,
+				due_date: rental.due_date,
+				available_inventory: video.available_inventory,
+				videos_checked_out_count: customer.videos_checked_out_count
+			}
+			
+			render json: rental_info.as_json, status: :ok
 			return
 		else
 			render json: {
@@ -67,7 +79,7 @@ class RentalsController < ApplicationController
 			return
 		end
 
-		rental = Rental.find_by(customer_id: rental_params[:customer_id], video_id: rental_params[:video_id])
+		rental = Rental.where(customer_id: rental_params[:customer_id], video_id: rental_params[:video_id])
 
 		if rental
 			customer.videos_checked_out_count -= 1
@@ -77,6 +89,7 @@ class RentalsController < ApplicationController
 			render json: rental.as_json(only: [:customer_id, :video_id]), status: :ok
 			return
 		else
+			puts "HERE?"
 			render json: {
 				ok: false,
 				errors: rental.errors.messages

@@ -1,7 +1,7 @@
 require "test_helper"
 
 describe CustomersController do
-  CUSTOMER_FIELDS = ["id", "name", "registered_at", "address", "city", "state", "postal_code", "phone"].sort
+  CUSTOMER_FIELDS = ["id", "name", "registered_at", "address", "city", "state", "postal_code", "phone", "videos_checked_out_count"].sort
   
   it "includes json and responds with success" do 
     get customers_path

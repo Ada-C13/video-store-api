@@ -1,5 +1,4 @@
 customer_one:
-  id: 1
   name: Mary
   registered_at: Wed, 29 Apr 2015 07:54:14 -0700
   address: Main Street
@@ -7,4 +6,4 @@ customer_one:
   state: WA
   postal_code: 98116a
   phone: (436)4276232
-  videos_checked_out_count: 0
+  videos_checked_out_count: 1
