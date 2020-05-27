@@ -64,6 +64,22 @@ describe VideosController do
     end
   end
 
+  describe "create" do
+    it "can create new video" do
+      video_params = {
+        video: { 
+          title: "video1",
+          overview: "Somthing", 
+          release_date: "1979-01-18", 
+          total_inventory: 10,
+          available_inventory: 9,
+        }
+      }
+      expect{ post videos_path, params: video_params}.must_differ "Video.count", 1
+      must_respond_with :created
+    end
+  end
+
   
 
 
