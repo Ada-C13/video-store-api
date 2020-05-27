@@ -2,8 +2,8 @@ video:
   title: "my title"
   overview: "The unexciting life of a boy will be permanently altered as a strange woman enters his life."
   release_date: Date.new(Thu, 18 Jan 1979)
-  total_inventory: 15
-  available_inventory: 10
+  total_inventory: nil
+  available_inventory: nil
   #TODO add video checked out count
 
 video2:
@@ -26,3 +26,10 @@ video4:
   release_date: Date.new(Thu, 18 Jan 1979)
   total_inventory: 12
   available_inventory: 7
+
+video5:
+  title: "another random"
+  overview: "The laid-back life of a woman is going in a different direction as a childhood friend enters her life."
+  release_date: Date.new(Thu, 18 Jan 1979)
+  total_inventory: 12
+  available_inventory: 4
