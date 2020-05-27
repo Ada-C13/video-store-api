@@ -8,12 +8,11 @@ class RentalsController < ApplicationController
   end 
 
   def check_out 
-    video = Video.find_by(id: params[:video_id])
+    video = Video.find_by(id: params[:video_id] )
     customer = Customer.find_by(id: params[:customer_id])
     date = DateTime.now + 1.week
-    rental = Rental.new(due_date: date, customer_id: customer.id, video_id: video.id)
   
-
+    #puts "THIS IS CUSTIMER #{customer.id} VID: #{video.id}"
     if customer.nil? || video.nil? 
       render json: {
         errors: [
@@ -22,14 +21,13 @@ class RentalsController < ApplicationController
         }, status: :not_found
       return
     end 
-    
-    video.reload
-    customer.reload
-    
+   rental = Rental.new(due_date: date, customer_id: customer.id, video_id: video.id)
+
     if Rental.inventory_check_out(rental)
         if rental.save 
           video.reload
           customer.reload
+
           render json: {
             customer_id: rental.customer_id,
             video_id: rental.video_id,
@@ -46,8 +44,7 @@ class RentalsController < ApplicationController
               ]
             }, status: :not_found
           return
-        end 
-        
+        end  
     end 
   end 
 
