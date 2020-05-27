@@ -12,7 +12,7 @@ class CustomersController < ApplicationController
     if customer.nil? 
       render json: {
         ok: false, 
-        messsage: 'Not found',
+        message: 'Not found',
       }, status: :not_found
       return
     end
