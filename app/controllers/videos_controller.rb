@@ -8,14 +8,34 @@ class VideosController < ApplicationController
   def show
 
     video = Video.find_by(id: params[:id])
+
     if video.nil?
       render json: {errors:["Not Found"] }, status: :not_found
       return 
     end 
-
     render json: video.as_json(only: [:title, :overview, :release_date, :total_inventory, :available_inventory ])
 
   end 
+
+  def create 
+    video = Video.new(video_params)
+    
+    if video.save 
+      render json: video.as_json, status: :created 
+    else  
+      render json: {errors: video.errors.messages}, status: :bad_request
+    end 
+
+  end 
+
+  private 
+  
+  def video_params
+    return params.require(:video).permit(:title, :overview, :release_date, :total_inventory, :available_inventory)
+  end 
+
+
+
 end
 
 
