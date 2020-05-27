@@ -8,7 +8,7 @@ class Customer < ApplicationRecord
   validates :city, presence: true 
   validates :state, presence: true 
   validates :phone, presence: true 
-  validates :videos_checked_out_count, presence: true 
+  validates :videos_checked_out_count, presence: true, numericality: {only_integer: true, greater_than: -1 }
   
   
 end

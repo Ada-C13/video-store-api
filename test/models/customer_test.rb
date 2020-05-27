@@ -56,13 +56,19 @@ describe Customer do
       expect(@customer.errors.messages).must_include :videos_checked_out_count
     end
     
-    #TODO:  Add validation for integer - also for positive integer
-    # it 'is invalid if videos_checked_out_count is not an integer' do
-    #   @customer.videos_checked_out_count = 'empanada'
+    it 'is invalid if videos_checked_out_count is not an integer' do
+      @customer.videos_checked_out_count = 'empanada'
+      
+      expect(@customer.valid?).must_equal false
+      expect(@customer.errors.messages).must_include :videos_checked_out_count
+    end
     
-    #   expect(@customer.valid?).must_equal false
-    #   expect(@customer.errors.messages).must_include :videos_checked_out_count
-    # end
+    it 'is invalid if videos_checked_out_count is negative integer' do
+      @customer.videos_checked_out_count = -4
+      
+      expect(@customer.valid?).must_equal false
+      expect(@customer.errors.messages).must_include :videos_checked_out_count
+    end
   end
   
 end
