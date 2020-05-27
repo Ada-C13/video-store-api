@@ -1,7 +1,6 @@
 require "test_helper"
 
 describe VideosController do
-  VIDEO_FIELDS = ["title", 'overview', "release_date", 'total_inventory', "available_inventory"].sort
   
   def check_response(expected_type:, expected_status: :success)
     must_respond_with expected_status
@@ -28,7 +27,7 @@ describe VideosController do
       
       body.each do |video|
         expect(video).must_be_instance_of Hash
-        expect(video.keys.sort).must_equal VIDEO_FIELDS
+        expect(video.keys.sort).must_equal ["id", "title", "release_date", "available_inventory"].sort
       end
     end
 
@@ -55,7 +54,7 @@ describe VideosController do
       body = check_response(expected_type: Hash)
 
       expect(body).must_be_instance_of Hash
-      expect(body.keys.sort).must_equal VIDEO_FIELDS
+      expect(body.keys.sort).must_equal ["title", 'overview', "release_date", 'total_inventory', "available_inventory"].sort
     end
 
     # Edge case
