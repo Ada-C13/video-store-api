@@ -1,7 +1,7 @@
 require "test_helper"
 
 describe CustomersController do
-  CUSTOMER_FIELDS = ["id", "name", "registered_at", "address", "city", "state", "postal_code", "phone"].sort
+  CUSTOMER_FIELDS = ["id", "name", "registered_at", "address", "city", "state", "postal_code", "phone", "videos_checked_out_count"].sort
 
   it "must get index" do
     get customers_path
@@ -51,7 +51,7 @@ describe CustomersController do
       #act
       must_respond_with :success
 
-      body = JSON.parse(response.body)
+      body = JSON.parse(response.body)[0]
 
       expect(response.header["Content-Type"]).must_include "json"
 
