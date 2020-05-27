@@ -1,7 +1,7 @@
 require "test_helper"
 
 describe VideosController do
-  VIDEO_FIELDS = ["id", "title", "overview", "release_date", "total_inventory", "available_inventory"]
+  VIDEO_FIELDS = ["id", "title", "overview", "release_date", "total_inventory", "available_inventory"].sort
 
   it "must get index" do
     get videos_path
@@ -33,6 +33,24 @@ describe VideosController do
  
     expect(body).must_be_instance_of Array
     expect(body.length).must_equal 0
+  end
+
+  describe "show" do
+    # Nominal
+    it "for an existing video will return a hash with the proper fields" do
+      video = videos(:video1)
+
+      get video_path(video.id)
+
+      must_respond_with :success
+
+      body = JSON.parse(response.body)
+
+      expect(response.header['Content-Type']).must_include 'json'
+
+      expect(body).must_be_instance_of Hash
+      expect(body.keys.sort).must_equal VIDEO_FIELDS
+    end
   end
 
   
