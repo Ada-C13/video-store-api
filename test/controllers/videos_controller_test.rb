@@ -17,5 +17,21 @@ describe VideosController do
       get videos_path
       check_response(expected_type: Array)
     end
+
+    it "responds with an array of videos hashes" do
+      get videos_path
+      body = check_response(expected_type: Array)
+      body.each do |video|
+        expect(video).must_be_instance_of Hash
+        expect(video.keys.sort).must_equal INDEX_VIDEO_FIELDS
+      end
+    end
+
+    it "will respond with an empty array when there are no videos" do
+      Video.destroy_all
+      get videos_path
+      body = check_response(expected_type: Array)
+      expect(body).must_equal []
+    end
   end
 end
