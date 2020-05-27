@@ -1,6 +1,17 @@
-# customer:
-#   name: "my title"
-#   registered_at: Date.new(Thu, 18 Jan 1979)
-#   address: 10
-#   city:
-#   state:
+customer:
+  name: "Shelley Rocha"
+  registered_at: "Wed, 29 Apr 2015 07:54:14 -0700"
+  address: "Ap #292-5216 Ipsum Rd."
+  city: "Hillsboro"
+  state: "OR"
+  postal_code: "24309"
+  phone: "(322) 510-8695"
+
+customer1:
+  name: "Roanna Robinson"
+  registered_at: "Fri, 28 Nov 2014 13:14:08 -0800"
+  address: "Ap #561-4214 Eget St."
+  city: "Harrisburg"
+  state: "PA"
+  postal_code: "15867"
+  phone: "(323) 336-1841"

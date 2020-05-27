@@ -2,46 +2,44 @@ class CustomersController < ApplicationController
 
 
     def index
-#       videos = Video.all.as_json(only: [:id, :name, :regis, :title])
-#       render json: videos, status: :ok
+      customers = Customer.all.as_json(only: [:id, :name, :registered_at, :postal_code, :phone])  # TODO Videos checked out
+      render json: customers, status: :ok
     end
   
   
-#     def create
-#       video = Video.new(video_params)
+    def create
+      customer = Customer.new(customer_params)
   
-#       if video.save
-#         render json: video.as_json(only: [:id]), status: :created
-#         return
-#       else
-#         render json: {
-#             ok: false,
-#             errors: video.errors.messages
-#           }, status: :bad_request
-#         return
-#       end
-#     end
+      if customer.save
+         render json: customer.as_json(only: [:id]), status: :created
+         return
+      else
+        render json: {
+            ok: false,
+            errors: customer.errors.messages
+          }, status: :bad_request
+        return
+      end
+    end
   
   
-#   def show
-#       video = Video.find_by(id: params[:id])
+  def show
+      customer = Customer.find_by(id: params[:id])
   
-#       if video
-#         render json: video.as_json(only: [:id, :title, :release_date, :available_inventory])
-#         return
-#       else
-#         render json: { ok: false, errors: ["Not Found"] }, status: :not_found
-#         return
-#       end
-#     end
+      if customer
+        render json: customer.as_json(only: [:id, :name, :registered_at, :postal_code, :phone])
+        return
+      else
+        render json: { ok: false, errors: ["Not Found"] }, status: :not_found
+        return
+      end
+  end
     
   
-#     private
+    private
   
-#     def video_params
-#       return params.require(:video).permit(:title, :release_date, :available_inventory)
-#     end
-  
-#   end
+    def customer_params
+      return params.require(:customer).permit(:id, :name, :registered_at, :address, :city, :state, :postal_code, :phone)
+    end
 
  end

@@ -4,6 +4,7 @@ video:
   release_date: Date.new(Thu, 18 Jan 1979)
   total_inventory: 15
   available_inventory: 10
+  #TODO add video checked out count
 
 video2:
   title: "another title"
