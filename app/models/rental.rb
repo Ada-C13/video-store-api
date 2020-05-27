@@ -3,10 +3,12 @@ class Rental < ApplicationRecord
   belongs_to :customer
 
   def add_to_count
- 
-   self.video.available_inventory -= 1
-   self.customer.videos_checked_out_count += 1
-   self.save
+    if self.video.available_inventory < 1
+      return ArgumentError("No Avaialbel copies")
+    else
+      self.video_available.inventory -= 1
+      self.customer.videos_checked_out_count += 1
+      self.save
 
   end
 end
