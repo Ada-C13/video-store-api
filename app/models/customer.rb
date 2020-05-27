@@ -3,4 +3,5 @@ class Customer < ApplicationRecord
   # validates :registered_at, :address, :city, :postal_code, :phone, presence: true
   has_many :rentals
   has_many :videos, through: :rentals
+
 end

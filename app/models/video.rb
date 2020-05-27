@@ -3,4 +3,6 @@ class Video < ApplicationRecord
   validates :title, uniqueness:{scope: :release_date}, presence: true
   has_many :rentals, dependent: :nullify
   has_many :customers, through: :rentals
+
+  
 end
