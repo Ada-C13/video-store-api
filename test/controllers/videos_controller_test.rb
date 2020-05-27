@@ -74,7 +74,7 @@ describe VideosController do
         video: {
           title: "test",
           overview: 'this is a test',
-          release_date: 1979-01-18,
+          release_date: "1979-01-18",
           total_inventory: 10,
           available_inventory: 10
         }
@@ -89,8 +89,8 @@ describe VideosController do
     it 'returns bad_request status when user gives bad data' do
       video_params[:video][:title] = nil
 
-      expect{ post video_path, params: video_params }.wont_change "Video.count"
-      body = check_response(expected_type: Array, expected_status: :bad_request)
+      expect{ post videos_path, params: video_params }.wont_change "Video.count"
+      body = check_response(expected_type: Hash, expected_status: :bad_request)
       expect{ body['errors'].keys }.must_include 'title'
     end
   end
