@@ -6,7 +6,7 @@ class RentalsController < ApplicationController
 			render json: {
 				ok: false,
 				errors: 'Customer does not exist.'
-			}, status: :bad_request
+			}, status: :not_found
 			return
 		else
 			customer.videos_checked_out_count += 1
@@ -17,13 +17,13 @@ class RentalsController < ApplicationController
 			render json: {
 				ok: false,
 				errors: 'Video does not exist.'
-			}, status: :bad_request
+			}, status: :not_found
 			return
 		elsif video.available_inventory == 0
 			render json: {
 				ok: false,
 				errors: 'This video is out of stock.'
-			}, status: :ok
+			}, status: :bad_request
 			return
 		else
 			video.available_inventory -= 1
