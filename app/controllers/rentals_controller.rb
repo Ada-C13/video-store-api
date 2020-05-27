@@ -8,11 +8,6 @@ class RentalsController < ApplicationController
 				errors: 'Customer does not exist.'
 			}, status: :not_found
 			return
-		else
-			puts "BEFORE CUSTOMER CHECKOUT: #{customer.videos_checked_out_count}"
-			customer.videos_checked_out_count += 1
-			puts "AFTER CUSTOMER CHECKOUT: #{customer.videos_checked_out_count}"
-			customer.save
 		end
 
 		video = Video.find_by(id: rental_params[:video_id])
@@ -22,23 +17,28 @@ class RentalsController < ApplicationController
 				errors: 'Video does not exist.'
 			}, status: :not_found
 			return
-		elsif video.available_inventory == 0
+		elsif video.available_inventory < 1
 			render json: {
 				ok: false,
 				errors: 'This video is out of stock.'
 			}, status: :bad_request
 			return
-		else
-			puts "BEFORE VIDEO CHECKOUT: #{video.available_inventory}"
-			video.available_inventory -= 1
-			puts "AFTER VIDEO CHECKOUT: #{video.available_inventory}"
-			video.save
 		end
 
 		rental = Rental.new(rental_params)
 		rental.due_date = Date.today + 7
 
 		if rental.save
+			puts "BEFORE CUSTOMER CHECKOUT: #{customer.videos_checked_out_count}"
+			customer.videos_checked_out_count += 1
+			puts "AFTER CUSTOMER CHECKOUT: #{customer.videos_checked_out_count}"
+			customer.save
+
+			puts "BEFORE VIDEO CHECKOUT: #{video.available_inventory}"
+			video.available_inventory -= 1
+			puts "AFTER VIDEO CHECKOUT: #{video.available_inventory}"
+			video.save
+
 			rental_info = {
 				customer_id: rental.customer_id,
 				video_id: rental.video_id,
