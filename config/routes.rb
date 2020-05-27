@@ -1,7 +1,8 @@
 Rails.application.routes.draw do
-<<<<<<< HEAD
-=======
-  
->>>>>>> 74a0f500ff4516b2e8e1bdba9355ffecfe0706a6
-  # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
+  resources :customers, only: [:index]
+
+  resources :videos, only: [:index, :show, :create]
+
+  post "/rentals/check-out/:customer_id/:video_id", to: "rentals#check_out", as: "check_out"
+  post "/rentals/check-in/:customer_id/:video_id", to: "rentals#check_in", as: "check_in"
 end
