@@ -51,6 +51,18 @@ describe Video do
       @video.release_date = 2017-03-14
       expect(@video.valid?).must_equal true
     end
+
+    it "it's invalid when video does't have total_inventory" do
+      @video.total_inventory = nil
+      expect(@video.valid?).must_equal false
+      expect(@video.errors.messages).must_include :total_inventory
+      expect(@video.errors.messages[:total_inventory]).must_equal ["can't be blank"]
+    end
+
+    it "it's valid when video has total_inventory" do
+      @video.total_inventory = 2
+      expect(@video.valid?).must_equal true
+    end
   end
 
 
