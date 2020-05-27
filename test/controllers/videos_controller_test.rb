@@ -42,7 +42,6 @@ describe VideosController do
   describe 'show' do
     it 'returns a hash with correct fields for an existing video' do
       video = videos(:brazil)
-      puts "here's your video: #{videos(:brazil)}"
       
       get video_path(video.id)
       
