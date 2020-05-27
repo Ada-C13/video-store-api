@@ -17,7 +17,6 @@ class VideosController < ApplicationController
         message: 'Not found',
       }, status: :not_found
 
-
       return
     end
 
@@ -30,7 +29,7 @@ class VideosController < ApplicationController
     if video.save
       render json: video.as_json(only: [:id, :title, :overview, :release_date, :total_inventory, :available_inventory]),                       status: :created
     else
-      #TODO
+      render json: {errors: video.errors.messages}, status: :bad_request
     end
     
   end

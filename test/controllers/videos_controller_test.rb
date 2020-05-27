@@ -65,9 +65,8 @@ describe VideosController do
   end
 
   describe "create" do
-    it "can create new video" do
-      video_params = {
-        video: { 
+    let (:video_params){
+        {video: { 
           title: "video1",
           overview: "Somthing", 
           release_date: "1979-01-18", 
@@ -75,22 +74,31 @@ describe VideosController do
           available_inventory: 9,
         }
       }
+    }
+  
+    it "can create new video" do
       expect{ post videos_path, params: video_params}.must_differ "Video.count", 1
       must_respond_with :created
     end
+
+    it "gives bad_request status when user doesn't adding all the feeled" do
+      video_params[:video][:title] = nil
+      video_params[:video][:overview] = nil
+      video_params[:video][:release_date] = nil
+      video_params[:video][:total_inventory] = nil
+      video_params[:video][:available_inventory] = nil
+      
+      expect{ post videos_path, params: video_params}.wont_change "Video.count"
+      must_respond_with :bad_request
+
+      expect(response.header['Content-Type']).must_include 'json'
+      body = JSON.parse(response.body)
+      expect(body['errors'].keys).must_include "title"
+      expect(body['errors'].keys).must_include "overview"
+      expect(body['errors'].keys).must_include "release_date"
+      expect(body['errors'].keys).must_include "total_inventory"
+      expect(body['errors'].keys).must_include "available_inventory"
+    end
   end
-
-  
-
-
-  # it "must get show" do
-  #   get videos_show_url
-  #   must_respond_with :success
-  # end
-
-  # it "must get create" do
-  #   get videos_create_url
-  #   must_respond_with :success
-  # end
 
 end
