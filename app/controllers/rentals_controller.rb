@@ -1,3 +1,5 @@
+require 'date'
+
 class RentalsController < ApplicationController
 
   def check_out 
@@ -6,7 +8,7 @@ class RentalsController < ApplicationController
     date = DateTime.now + 1.week
     rental = Rental.new(due_date: date, customer_id: customer.id, video_id: video.id)
 
-    if rental.save && Rental.update_inventory_check_out
+    if rental.save && Rental.inventory_check_out
       render json: rental.as_json(except: [:created_at, :updated_at]), status: :created
       return 
     else
@@ -18,6 +20,7 @@ class RentalsController < ApplicationController
   end 
 
   def check_in 
+    
 
 
   end 
