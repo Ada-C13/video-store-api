@@ -38,6 +38,14 @@ class VideosController < ApplicationController
         end
       end 
       
+      # TODO: add this in the else block, 
+      # update tests with: body = JSON.parse(response.body)
+      # expect(body["errors"].keys).must_include "age"
+      # render json: {
+      #   ok: false,
+      #   errors: video.errors.messages
+      #   }, status: :bad_request
+      
       private
       
       def video_params
