@@ -11,10 +11,11 @@ class VideosController < ApplicationController
       render json: 
         video.as_json(
           only: [
-            :id,
             :title,
+            :overview,
             :release_date,
-            :available_inventory
+            :total_inventory,
+            :available_inventory,
           ]
         ),
           status: :ok
@@ -22,7 +23,7 @@ class VideosController < ApplicationController
     else
       render json: {
         ok: false,
-        message: 'Not found',
+        errors: 'Not found',
       }, status: :not_found
       return
     end
@@ -42,9 +43,6 @@ class VideosController < ApplicationController
       return
     end
   end
-
-
-
 
   private
 

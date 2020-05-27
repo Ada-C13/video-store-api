@@ -45,7 +45,7 @@ describe VideosController do
     it 'will return a hash with the proper fields for an exisitng videos' do
       video = videos(:frozen)
 
-      get videos_path(video.id)
+      get video_path(video.id)
 
       must_respond_with :success
 
@@ -63,7 +63,7 @@ describe VideosController do
       body = JSON.parse(response.body)
       expect(body).must_be_instance_of Hash
       expect(body['ok']).must_equal false
-      expect(body['message']).must_equal 'Not found'
+      expect(body['errors']).must_equal 'Not found'
     end
   end
 
