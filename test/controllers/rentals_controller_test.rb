@@ -3,6 +3,7 @@ require "test_helper"
 describe RentalsController do
 
   REQUIRED_ATTRS = ["customer_id", "video_id", "due_date"].sort
+  CHECKIN_ATTR = ["customer_id", "video_id", "videos_checked_out_count", "available_invemtory"].sort
 
   describe "check out" do
     let(:check_out_data) {
@@ -73,6 +74,66 @@ describe RentalsController do
   end
 
   describe "check in" do
+    let(:check_in_data) {
+      {
+        rental: {
+          customer_id: customers(:customer_one).id,
+          video_id: videos(:fake_vid).id,
+        }
+      }
+    }
+
+    it "Successfully checks in a rental" do 
+      customer = customers(:customer_one)
+      customer.videos_checked_out_count = 2
+      customer.save
+
+      video = videos(:fake_vid)
+      video.available_inventory = 7
+      video.save
+
+
+      expect{
+        post check_in_path, params: check_in_data
+      }.wont_change "Rental.count"
+
+      must_respond_with :ok 
+
+      expect(customers(:customer_one).videos_checked_out_count).must_equal 1
+      expect(videos(:fake_vid).available_inventory).must_equal 8
+
+      body = JSON.parse(response.body)
+      expect(body).must_be_instance_of Hash
+      expect(body.keys.sort).must_equal CHECKIN_ATTR
+    end
+
+    it "Will respond with not_found if customer is not found" do 
+      check_in_data[:rental][:customer_id] = nil 
+
+      expect {
+        post check_in_path, params: check_in_data
+      }.wont_change "Rental.count"
+
+      must_respond_with :not_found
+
+      expect(response.header['Content-Type']).must_include 'json'
+      body = JSON.parse(response.body)
+      expect(body["errors"]).must_equal 'Customer does not exist.'
+    end
+
+    it "Will respond with not_found if video is not found" do
+      check_in_data[:rental][:video_id] = nil 
+      
+      expect {
+        post check_in_path, params: check_in_data
+      }.wont_change "Rental.count"
+
+      must_respond_with :not_found
+
+      expect(response.header['Content-Type']).must_include 'json'
+      body = JSON.parse(response.body)
+      expect(body["errors"]).must_equal 'Video does not exist.'
+    end
 
   end
 end
