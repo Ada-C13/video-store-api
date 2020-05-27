@@ -1,7 +1,7 @@
 require "test_helper"
 
 describe VideosController do
-  REQUIRED_VIDEO_FIELDS = ['title', 'overview', 'release_date', "total_inventory", 'available_inventory'].sort
+  REQUIRED_VIDEO_FIELDS = ['id', 'title', 'release_date', 'available_inventory'].sort
   
   def check_response(expected_type: ,expected_status: :success)
     must_respond_with expected_status
