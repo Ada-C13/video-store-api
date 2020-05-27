@@ -34,7 +34,18 @@ class VideosController < ApplicationController
       return
     end
   end
+
+  # GET /videos/new
+  def new
+    @video = Video.new
+  end
   
+  def destroy
+    @work.destroy
+    flash[:success] = "Successfully destroyed #{@work.category} #{@work.id}"
+    redirect_to root_path
+      
+  end
   
   
   private

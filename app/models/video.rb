@@ -10,3 +10,5 @@ class Video < ApplicationRecord
   validates :available_inventory, presence: true
   
 end
+
+
