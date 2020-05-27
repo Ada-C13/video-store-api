@@ -13,7 +13,7 @@ class VideosController < ApplicationController
       )
       return
     else 
-      render json: { ok: false, errors: ["Not Found"] }, status: :not_found
+      render json: { ok: false, errors: ["Unable to find the video with id #{params[:id]}"] }, status: :not_found
       return
     end
   end
