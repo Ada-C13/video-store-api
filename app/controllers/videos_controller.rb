@@ -18,9 +18,9 @@ class VideosController < ApplicationController
     @video = Video.new(video_params)
 
     if @video.save
-      render json: {id: @video.id}, status: :created, location: @video
+      render json: { id: @video.id }, status: :created, location: @video
     else
-      render json: {errors: @video.errors }, status: :bad_request
+      render json: { errors: @video.errors }, status: :bad_request
     end
   end
 
