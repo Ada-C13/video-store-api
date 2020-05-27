@@ -4,3 +4,9 @@ fake_vid:
   release_date: 1979-01-18
   total_inventory: 10
   available_inventory: 9
+none_avail_vid:
+  title: Rails Video
+  overview: This is about not having inventory.
+  release_date: 2010-04-22
+  total_inventory: 4
+  available_inventory: 0
