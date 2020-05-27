@@ -25,8 +25,7 @@ class VideosController < ApplicationController
       return
     else
       render json: {
-        ok: false,
-        message: 'Unable to create new video'
+        errors: video.errors.messages
       }, status: :bad_request
       return
     end
