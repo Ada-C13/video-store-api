@@ -14,26 +14,26 @@ describe VideosController do
       
     end
     
-    it 'returns correct fields for the list of customers' do
-      # get customers_path
-      # body = JSON.parse(response.body)
-      # expect(body).must_be_instance_of Array
+    it 'returns correct fields for the list of videos' do
+      get videos_path
+      body = JSON.parse(response.body)
+      expect(body).must_be_instance_of Array
       
-      # body.each do |customer|
-      #   expect(customer).must_be_instance_of Hash
-      #   expect(customer.keys.sort).must_equal CUSTOMER_FIELDS
-      # end
+      body.each do |video|
+        expect(video).must_be_instance_of Hash
+        expect(video.keys.sort).must_equal VIDEO_FIELDS
+      end
       
     end
     
     it 'returns an empty array if there are no customers in the database' do
-      # Customer.destroy_all 
-      # get customers_path
+      Video.destroy_all 
+      get videos_path
       
-      # body = JSON.parse(response.body)
+      body = JSON.parse(response.body)
       
-      # expect(body).must_be_instance_of Array
-      # expect(body.length).must_equal 0
+      expect(body).must_be_instance_of Array
+      expect(body.length).must_equal 0
       
     end
     
