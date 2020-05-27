@@ -81,15 +81,15 @@ describe RentalsController do
       must_respond_with :not_found
     end
 
-    # it "prevents checkout if video does not exist" do
-    #   videos(:video_1).available_inventory = 0
-    #   binding.pry
-    #   expect {
-    #     post check_out_path, params: rental_data
-    #   }.must_differ "Rental.count", 0
-    #   # binding.pry
-    #   must_respond_with :bad_request
-    # end
+    it "prevents checkout if video is not available" do
+      rental_data[:video_id] = videos(:video_2).id
+
+      expect {
+        post check_out_path, params: rental_data
+      }.must_differ "Rental.count", 0
+
+      must_respond_with :bad_request
+    end
   end
   
 end

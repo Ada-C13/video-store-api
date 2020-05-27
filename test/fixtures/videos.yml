@@ -4,3 +4,9 @@ video_1:
   release_date: "1979-01-18"
   total_inventory: 10
   available_inventory: 9
+video_2:
+  title: "No Available Inventory"
+  overview: "No copies left!"
+  release_date: "1979-01-18"
+  total_inventory: 10
+  available_inventory: 0

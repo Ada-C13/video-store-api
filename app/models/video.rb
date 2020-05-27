@@ -17,10 +17,7 @@ class Video < ApplicationRecord
   end
 
   def available
-    if self.available_inventory == 0
-      return nil
-    end
-    return self
+    return self.available_inventory > 0
   end
 
 end
