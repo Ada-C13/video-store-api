@@ -3,18 +3,17 @@ class RentalsController < ApplicationController
 
   # POST /rentals/check-in
   def check_in 
-    # @rental = Rental.new(rental_params)
-    rental = Rental.last
+    rental = Rental.find_by(customer_id: rental_params[:customer_id], video_id: rental_params[:video_id])
 
-    # rental = Rental.find_by(customer_id: rental_params[:customer_id], video_id: rental_params[:video_id])
     if rental
-      rental.returned_on = Time.now
-      rental.video.available_inventory += 1
+      # rental.returned_on = Time.now
+      # rental.video.available_inventory += 1
       # customer_id, video_id, videos_checked_out_count, available_inventory
       response = { 
         customer_id: rental.customer_id,
         video_id: rental.video_id,
-        videos_checked_out_count: rental.customer.videos_out.count ,
+        videos_checked_out_count: rental.customer.videos_out.count,
+        videos: rental.customer.rentals,
         returned_on: rental.returned_on,
         # videos_checked_out_count: @rental.customer.videos_checked_out_count,
         available_inventory: rental.video.available_inventory,
