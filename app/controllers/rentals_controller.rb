@@ -22,7 +22,11 @@ class RentalsController < ApplicationController
       if rental.save
         video.decrease_inventory
         customer.add_to_checked_out
-        render json: rental.as_json(only: [:id, :due_date, :customer_id]), status: :ok
+        render json: {customer_id: rental.customer_id,
+                    video_id: rental.video_id, 
+                    due_date: rental.due_date,
+                    videos_checked_out_count: customer.videos_checked_out_count,
+                    available_inventory: video.available_inventory}, status: :ok
         return
       else
         render json: {
