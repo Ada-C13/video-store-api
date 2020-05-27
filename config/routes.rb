@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get 'rentals/index'
   # get 'videos/index'
   # get 'videos/show'
   # get 'videos/create'
@@ -9,4 +10,5 @@ Rails.application.routes.draw do
 
   resources :videos, only: [:index, :show, :create]
 
+  resources :rentals, only: [:index]
 end
