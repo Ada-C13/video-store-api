@@ -1,0 +1,20 @@
+valid_video1:
+  title: "my title"
+  release_date: "yesterday"
+  available_inventory: 10
+  
+valid_video2:
+  title: "another title"
+  release_date: "2018"
+  available_inventory: 9
+
+valid_video3:
+  title: "random"
+  release_date: "2017"
+  available_inventory: 8
+
+valid_video4:
+  title: "another random"
+  release_date: "2010"
+  available_inventory: 7
+  
