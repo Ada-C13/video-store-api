@@ -61,4 +61,42 @@ describe VideosController do
     end
   end
 
+  describe "create" do
+    let(:video_data) {
+      {
+        video: {
+          title: "La La Land",
+          overview: "A jazz pianist falls for an aspiring actress in Los Angeles.",
+          release_date: Date.new(2016),
+          total_inventory: 5,
+          available_inventory: 2
+        }
+      }
+    }
+
+    it "can create a new video" do
+      expect {
+        post videos_path, params: video_data
+      }.must_differ "Video.count", 1
+
+      must_respond_with :created
+    end
+
+    it "gives bad_request status when user gives bad data" do
+      video_data[:video][:title] = nil
+      expect {
+        post videos_path, params: video_data
+      }.wont_change "Video.count"
+
+      must_respond_with :bad_request
+
+      expect(response.header['Content-Type']).must_include 'json'
+
+      body = JSON.parse(response.body)
+      
+      expect(body['errors'].keys).must_include 'title'
+
+    end
+  end
+
 end
