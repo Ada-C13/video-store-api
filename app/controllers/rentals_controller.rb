@@ -1,3 +1,4 @@
+require 'pry'
 class RentalsController < ApplicationController
   def index
     rentals = Rental.all
@@ -13,13 +14,13 @@ class RentalsController < ApplicationController
       video = video.available
     end
 
-
     if video && customer
       rental = Rental.new(customer_id: customer.id, video_id: video.id)
       rental.check_out_date = Date.today
       rental.due_date = Date.today + 7
 
       if rental.save
+        
         video.decrease_inventory
         customer.add_to_checked_out
         render json: {customer_id: rental.customer_id,
@@ -39,7 +40,7 @@ class RentalsController < ApplicationController
       render json: {
         ok: false,
         errors: "Unable to create rental",
-      }, status: :bad_request
+      }, status: :not_found
       return
     end
   end
