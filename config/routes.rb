@@ -4,4 +4,5 @@ Rails.application.routes.draw do
   get '/customers/:id', to: 'customers#show', as: 'customer'
   
   get '/videos', to: 'videos#index', as: 'videos'
+  get '/videos/:id', to: 'videos#show', as: 'video'
 end
