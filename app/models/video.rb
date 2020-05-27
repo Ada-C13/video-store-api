@@ -1,6 +1,6 @@
 class Video < ApplicationRecord
 
-  belongs_to :customer
+  #has_many: rentals
 
   validates :title, presence: true
   validates :overview, presence: true
@@ -9,3 +9,5 @@ class Video < ApplicationRecord
   validates :available_inventory, presence: true
   
 end
+
+
