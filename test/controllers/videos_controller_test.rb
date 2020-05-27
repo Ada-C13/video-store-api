@@ -41,13 +41,39 @@ describe VideosController do
     end
   end
 
+  describe 'show' do
+    it 'will return a hash with the proper fields for an exisitng videos' do
+      video = videos(:frozen)
+
+      get videos_path(video.id)
+
+      must_respond_with :success
+
+      body = check_response(expected_type: Hash)
+      #TODO: for some reason this test keeps giving back body is an array???
+      expect(body.keys.sort).must_equal ['title', 'overview', 'release_date', 'total_inventory', 'available_inventory'].sort
+    end
+
+    it 'will return a 404 request with json for a non-exisitent video' do
+      invalid_id = -1 
+      get video_path(invalid_id)
+
+      must_respond_with :not_found
+
+      body = JSON.parse(response.body)
+      expect(body).must_be_instance_of Hash
+      expect(body['ok']).must_equal false
+      expect(body['message']).must_equal 'Not found'
+    end
+  end
+
   describe 'create' do
     let(:video_data) {
       {
         video: {
           title: 'Harry Potter 3',
           overview: 'The best movie ever!',
-          release_date: 2009-12-25,
+          release_date: '2009-12-25',
           total_inventory: 10,
           available_inventory: 10
         }
@@ -66,7 +92,7 @@ describe VideosController do
       video_data[:video][:overview] = nil
 
       expect {
-        post video_path, params: video_data
+        post videos_path, params: video_data
       }.wont_change "Video.count"
       body = check_response(expected_type: Hash, expected_status: :bad_request)
       expect(body["errors"].keys).must_include 'overview'
