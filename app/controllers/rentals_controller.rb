@@ -9,7 +9,7 @@ class RentalsController < ApplicationController
     date = DateTime.now + 1.week
     rental = Rental.new(due_date: date, customer_id: customer.id, video_id: video.id)
 
-    if rental.save 
+    if rental.save && Rental.update_inventory 
       render json: rental.as_json(except: [:created_at, :updated_at]), status: :created
       return 
     else
@@ -25,5 +25,5 @@ class RentalsController < ApplicationController
 
   end 
 
-  
+
 end
