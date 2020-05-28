@@ -6,7 +6,7 @@ customer:
   state: "OR"
   postal_code: "24309"
   phone: "(322) 510-8695"
-  videos_checked_out_count: 6
+  videos_checked_out_count: 0
 
 customer1:
   name: "Roanna Robinson"
@@ -17,3 +17,13 @@ customer1:
   postal_code: "15867"
   phone: "(323) 336-1841"
   videos_checked_out_count: 7
+
+customer2:
+  name: "Roanna Robinson"
+  registered_at: "Fri, 28 Nov 2014 13:14:08 -0800"
+  address: "Ap #561-4214 Eget St."
+  city: "Harrisburg"
+  state: "PA"
+  postal_code: "15867"
+  phone: "(323) 336-1841"
+  videos_checked_out_count: 6
