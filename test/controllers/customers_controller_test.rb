@@ -4,7 +4,6 @@ describe CustomersController do
   CUSTOMER_FIELDS = ["id", "name", "registered_at", "postal_code", "phone", "videos_checked_out_count"].sort
 
   it "must get index" do
-
     # Act
     get customers_path
 
@@ -16,7 +15,6 @@ describe CustomersController do
   end
 
   it "will return all the proper fields for a list of customers" do
-
     # Act
     get customers_path
 
@@ -43,7 +41,7 @@ describe CustomersController do
       get customers_path
 
       # Get body of the response
-      # as an array or hash - depending on what it is in the JSON
+      # as an array or hash - depending on what's in the JSON
       body = JSON.parse(response.body)
 
       # Assert
@@ -83,23 +81,4 @@ describe CustomersController do
         expect(body['message']).must_equal 'Not found'
       end
     end #describe show end
-
-    describe "create" do
-
-      it "can create a new customer" do 
-
-        customer_params = {
-          customer: {
-            name: "Minnie",
-            registered_at: "May 20, 2020",
-            postal_code: "98144",
-            phone: "2066610889"
-
-          }
-        }
-      end
-    end
-
-
-
 end # describe CustomersController end
