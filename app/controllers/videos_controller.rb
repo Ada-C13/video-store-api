@@ -22,7 +22,8 @@ class VideosController < ApplicationController
     end
     
     def create 
-      video = Video.new(video_params)
+      #TODO: Fix this!
+      video = Video.new(title: params[:video][:title], release_date: params[:video][:release_date], available_inventory: params[:video][:available_inventory], total_inventory: params[:video][:total_inventory], overview: params[:video][:overview])
       
       if video.save
         render json: video.as_json(only: [:id]), status: :created
@@ -38,6 +39,7 @@ class VideosController < ApplicationController
       private
       
       def video_params
+        # TODO: how can we get this up in create??
         return params.permit(:title, :release_date, :available_inventory, :total_inventory, :overview)
       end
       

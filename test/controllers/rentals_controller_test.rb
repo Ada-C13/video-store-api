@@ -3,7 +3,6 @@ require "test_helper"
 describe RentalsController do
   
   RENTAL_FIELDS = ['customer_id', 'video_id', 'due_date'].sort
-  #TODO add videos_checked_out, and available_inventory
   
   describe "check_out" do 
     
@@ -15,7 +14,7 @@ describe RentalsController do
       videos(:brazil)
     }
     
-    it "can get checkout path, creates a new rental with valid information and responds with success" do 
+    it "can get checkout path, creates a new rental with valid information and responds with success" do       
       rental_info = {
         rental: {
           customer_id: customer.id,
@@ -23,7 +22,11 @@ describe RentalsController do
         }
       }
       
+      count = customer.videos_checked_out_count
+      vid_count = video.available_inventory
+      
       post check_out_path(params: rental_info)
+      
       body = JSON.parse(response.body)
       
       must_respond_with :success
@@ -32,8 +35,11 @@ describe RentalsController do
       expect(body["due_date"]).must_equal (Date.today + 7).to_s
       expect(body["customer_id"]).must_equal customer.id
       expect(body["video_id"]).must_equal video.id
-      #TODO add videos_checked_out, and available_inventory
       
+      customer.reload
+      video.reload
+      expect(customer.videos_checked_out_count).must_equal count + 1
+      expect(video.available_inventory).must_equal vid_count - 1
     end 
     
     it "responds with not_found if customer is nil" do
@@ -81,6 +87,8 @@ describe RentalsController do
     it 'responds with bad_request if there are no videos available' do
       
     end
+    
+    
     
     
     
