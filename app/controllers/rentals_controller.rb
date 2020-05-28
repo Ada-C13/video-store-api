@@ -8,11 +8,11 @@ class RentalsController < ApplicationController
   def check_out
     #calling required params immediately
     #in Postman, test that this gets triggered by mispelling "rentals" to "rentils", will return a 400
-    rental_params()
+    # rental_params()
 
     #accessing customer_id and video_id
-    customer_id = params[:rental][:customer_id]
-    video_id = params[:rental][:video_id]
+    customer_id = rental_params[:customer_id]
+    video_id = rental_params[:video_id]
     # puts customer_id
     # puts video_id
     
@@ -28,12 +28,11 @@ class RentalsController < ApplicationController
       #head :not_found #404
       # response with error message per requirement
       render json: {
-        "errors": {
-          "user_video": [
-            "Not Found"
-          ]
-        }
+        "errors": [
+          "Not Found"
+        ]
       }, status: :not_found
+      
       return
     end
 
@@ -42,11 +41,9 @@ class RentalsController < ApplicationController
     if video.available_inventory < 1
       # response with error message per requirement
       render json: {
-        "errors": {
-          "available_inventory": [
-            "No available inventory"
-          ]
-        }
+        "errors": [
+          "No available inventory"
+        ]
       }, status: :bad_request
 
       return
@@ -89,10 +86,10 @@ class RentalsController < ApplicationController
   #*********************************************************************
 
   def check_in
-    rental_params
+    # rental_params
     #accessing customer_id and video_id
-    customer_id = params[:rental][:customer_id]
-    video_id = params[:rental][:video_id]
+    customer_id = rental_params[:customer_id]
+    video_id = rental_params[:video_id]
 
     #quering DB to find customer and video object
     customer = Customer.find_by(id: customer_id)
@@ -103,13 +100,10 @@ class RentalsController < ApplicationController
       #head :not_found #404
       # response with error message per requirement
       render json: {
-        "errors": {
-          "user_video": [
-            "Not Found"
-          ]
-        }
+        "errors": [
+          "Not Found"
+        ]
       }, status: :not_found
-
       return
     end
 
@@ -160,7 +154,7 @@ class RentalsController < ApplicationController
   private
 
   def rental_params
-    return params.require(:rental).permit(:customer_id, :video_id)
+    return params.permit(:customer_id, :video_id)
   end
 
 end #class
