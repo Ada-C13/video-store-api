@@ -67,4 +67,15 @@ describe Customer do
       expect(@customer.errors.messages).must_include :phone
     end
   end
+
+  describe 'relationship' do
+    it 'one customer can have many rentals' do
+      customer = customers(:shelley)
+
+      customer.rentals.each do |rental|
+        expect(rental).must_be_instance_of Rental
+      end
+      expect(customer.rentals.count).must_equal 0 
+    end   
+  end
 end
