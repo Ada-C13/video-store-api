@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_28_044917) do
+ActiveRecord::Schema.define(version: 2020_05_28_050650) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -36,10 +36,10 @@ ActiveRecord::Schema.define(version: 2020_05_28_044917) do
     t.datetime "due_date"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.bigint "customers_id"
-    t.bigint "videos_id"
-    t.index ["customers_id"], name: "index_rentals_on_customers_id"
-    t.index ["videos_id"], name: "index_rentals_on_videos_id"
+    t.bigint "customer_id"
+    t.bigint "video_id"
+    t.index ["customer_id"], name: "index_rentals_on_customer_id"
+    t.index ["video_id"], name: "index_rentals_on_video_id"
   end
 
   create_table "videos", force: :cascade do |t|
@@ -52,6 +52,6 @@ ActiveRecord::Schema.define(version: 2020_05_28_044917) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  add_foreign_key "rentals", "customers", column: "customers_id"
-  add_foreign_key "rentals", "videos", column: "videos_id"
+  add_foreign_key "rentals", "customers"
+  add_foreign_key "rentals", "videos"
 end
