@@ -1,9 +1,9 @@
 require "test_helper"
-require "date"
 
 describe VideosController do
 
-  REQUIRED_VIDEO_FIELDS = ["id", "title", "release_date", "available_inventory"].sort
+  REQUIRED_INDEX_VIDEO_FIELDS = ["id", "title", "release_date", "available_inventory"].sort
+  REQUIRED_SHOW_VIDEO_FIELDS = ["title", "overview", "release_date", "total_inventory", "available_inventory"].sort
 
   # helper method
   def check_response(expected_type:, expected_status: :success)
@@ -21,24 +21,19 @@ describe VideosController do
       get videos_path
       
       # Assert
-      # expect(response.header['Content-Type']).must_include 'json'
-      # must_respond_with :ok
       check_response(expected_type: Array)
     end
 
-    it "responds with an array of Video hashes" do
+    it "responds with an array of video hashes" do
       # Act 
       get videos_path
 
-      # Get the body of the response
-      body = JSON.parse(response.body)
-
       # Assert
-      expect(body).must_be_instance_of Array
+      body = check_response(expected_type: Array)
 
       body.each do |customer|
         expect(customer).must_be_instance_of Hash
-        expect(customer.keys.sort).must_be REQUIRED_VIDEO_FIELDS
+        expect(customer.keys.sort).must_equal REQUIRED_INDEX_VIDEO_FIELDS
       end
     end
     
@@ -48,50 +43,35 @@ describe VideosController do
 
       # Act
       get videos_path
-      body = JSON.parse(response.body)
 
       # Assert
-      expect(body).must_be_instance_of Array
+      body = check_response(expected_type: Array)
       expect(body).must_equal []
     end 
-
   end
 
-
   describe "show" do
-    before do 
-      video = Video.new(
-          "title": "Joker",
-          "overview": "Movie about a sad clown",
-          "release_date": Date.today,
-          "total_inventory": 5,
-          "available_inventory": 1
-      )
-      video.save
-    end 
-
-    it "responds with JSON, success, and video data when looking for one existing video" do
+    it "responds with JSON, success, and specific video data when looking for one existing video" do
       # Arrange
-      existing_video = Video.first
+      existing_video = videos(:joker) # see videos.yml
 
-      #Act
+      # Act
       get video_path(existing_video.id)
-      body = check_response(expected_type: Hash)
-
+      
       # Assert
-      expect(body.keys.sort).must_equal REQUIRED_VIDEO_FIELDS
-
-      expect(body["id"]).must_equal existing_video.id
+      body = check_response(expected_type: Hash)
+      expect(body.keys.sort).must_equal REQUIRED_SHOW_VIDEO_FIELDS
       expect(body["title"]).must_equal existing_video.title
+      expect(body["overview"]).must_equal existing_video.overview
       expect(body["release_date"]).must_equal existing_video.release_date.strftime("%Y-%m-%d")
+      expect(body["total_inventory"]).must_equal existing_video.total_inventory
       expect(body["available_inventory"]).must_equal existing_video.available_inventory
     end
   
-    it "responds with JSON, not found, and errors when looking for non-existent video" do
+    it "responds with not found error when looking for non-existent video" do
       get video_path(-1)
 
       body = check_response(expected_type: Hash, expected_status: :not_found)
-      expect(body["ok"]).must_equal false
       expect(body["errors"]).must_include "Not Found"
     end
   end
@@ -99,29 +79,25 @@ describe VideosController do
   describe "create" do 
     let (:valid_video){
       {
-        video: {
-          title: "Joker",
-          overview: "Movie about a sad clown",
-          release_date: Date.today,
-          total_inventory: 5,
-          available_inventory: 1
-        }
+        title: "A New Hope",
+        overview: "cool movie",
+        release_date: Date.today,
+        total_inventory: 5,
+        available_inventory: 1
       }
     }
 
     let (:invalid_video){
       {
-        video: {
-          title: nil,
-          overview: "movie with no title",
-          release_date: Date.today,
-          total_inventory: 5,
-          available_inventory: 1
-        }
+        title: nil,
+        overview: nil,
+        release_date: nil,
+        total_inventory: nil,
+        available_inventory: nil
       }
     }
   
-    it "can create a new video" do 
+    it "can create a new video that includes all valid data" do 
       expect {
         post videos_path, params: valid_video
       }.must_differ "Video.count", 1
@@ -129,7 +105,7 @@ describe VideosController do
       check_response(expected_type: Hash, expected_status: :created)
     end 
 
-    it "will respond with a bad request for invalid data" do 
+    it "will respond with a bad request error and error message per each invalid field of an invalid video" do 
       expect {
         # Act
         post videos_path, params: invalid_video
@@ -139,6 +115,10 @@ describe VideosController do
     
       body = check_response(expected_type: Hash, expected_status: :bad_request)
       expect(body["errors"].keys).must_include "title"
+      expect(body["errors"].keys).must_include "overview"
+      expect(body["errors"].keys).must_include "release_date"
+      expect(body["errors"].keys).must_include "total_inventory"
+      expect(body["errors"].keys).must_include "available_inventory"
     end
   end 
 end
