@@ -54,8 +54,7 @@ describe VideosController do
       get video_path(-1)
 
       body = check_response(expected_type: Hash, expected_status: :not_found)
-      expect(body["ok"]).must_equal false
-      expect(body["errors"]).must_include "Unable to find the video with id -1"
+      expect(body["errors"]).must_include "Not Found"
     end
   end
 
