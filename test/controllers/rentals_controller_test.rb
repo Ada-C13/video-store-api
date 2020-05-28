@@ -1,9 +1,8 @@
 require "test_helper"
 
 describe RentalsController do
-  it "must get check-in" do
-    # get rentals_check-in_url
-    # must_respond_with :success
+  describe "checkin" do
+    
   end
 
   describe 'checkout' do 
