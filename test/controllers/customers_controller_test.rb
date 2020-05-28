@@ -2,7 +2,17 @@ require "test_helper"
 
 describe CustomersController do
 
-  REQUIRED_CUSTOMER_FIELDS = [:id, :name, :registered_at, :postal_code, :phone, :videos_checkout_out_count].sort
+  REQUIRED_CUSTOMER_FIELDS = ["id", "name", "registered_at", "postal_code", "phone", "videos_checked_out_count"].sort
+
+  # helper method
+  def check_response(expected_type:, expected_status: :success)
+    must_respond_with expected_status
+    expect(response.header['Content-Type']).must_include 'json'
+
+    body = JSON.parse(response.body)
+    expect(body).must_be_kind_of expected_type
+    return body
+  end
 
   describe "index" do
     it "responds with JSON and success" do
@@ -10,36 +20,31 @@ describe CustomersController do
       get customers_path
       
       # Assert
-      expect(response.header['Content-Type']).must_include 'json'
-      must_respond_with :ok
+      check_response(expected_type: Array)
     end
 
-    it "responds with an array of Customer hashes" do
+    it "responds with an array of customer hashes" do
       # Act 
       get customers_path
 
-      # Get the body of the response
-      body = JSON.parse(response.body)
-
       # Assert
-      expect(body).must_be_instance_of Array
+      body = check_response(expected_type: Array)
 
       body.each do |customer|
         expect(customer).must_be_instance_of Hash
-        expect(customer.keys.sort).must_be REQUIRED_CUSTOMER_FIELDS
+        expect(customer.keys.sort).must_equal REQUIRED_CUSTOMER_FIELDS
       end
     end
     
-    it "will respond with an empty array when there are no Customers" do
+    it "will respond with an empty array when there are no customers" do
       # Arrange
       Customer.destroy_all
 
       # Act
       get customers_path
-      body = JSON.parse(response.body)
-
+      
       # Assert
-      expect(body).must_be_instance_of Array
+      body = check_response(expected_type: Array)
       expect(body).must_equal []
     end 
   end
