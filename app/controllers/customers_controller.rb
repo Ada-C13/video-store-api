@@ -1,5 +1,5 @@
 class CustomersController < ApplicationController
-  CUSTOMER_FIELDS = ["id", "name", "registered_at", "address", "city", "state", "postal_code", "phone"]
+  CUSTOMER_FIELDS = ["id", "name", "registered_at", "postal_code", "phone", "videos_checked_out_count"]
 
   def index
     customers = Customer.all

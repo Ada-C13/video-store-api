@@ -31,6 +31,13 @@ describe Video do
       expect(video.valid?).must_equal false
       expect(video.errors.messages).must_include :title
     end
+
+    it "is invalid without a overview" do
+      video.overview = nil
+      
+      expect(video.valid?).must_equal false
+      expect(video.errors.messages).must_include :overview
+    end
     
     it 'is invalid without a release_date' do
       video.release_date = nil
