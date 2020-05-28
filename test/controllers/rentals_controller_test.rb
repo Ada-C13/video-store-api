@@ -8,10 +8,8 @@ describe RentalsController do
   describe "check out" do
     let(:check_out_data) {
       {
-        rental: {
-          customer_id: customers(:customer_one).id,
-          video_id: videos(:fake_vid).id,
-        }
+        customer_id: customers(:customer_one).id,
+        video_id: videos(:fake_vid).id,
       }
     }
 
@@ -29,7 +27,7 @@ describe RentalsController do
       expect(customers(:customer_one).videos_checked_out_count).must_equal (customer_before_video_count + 1)
       expect(videos(:fake_vid).available_inventory).must_equal (videos_before_available_count - 1)
 
-      must_respond_with :created
+      must_respond_with :ok
 
       body = JSON.parse(response.body)
       expect(body).must_be_instance_of Hash
@@ -37,7 +35,7 @@ describe RentalsController do
     end
 
     it "will respond with bad_request if the customer is not found" do 
-      check_out_data[:rental][:customer_id] = nil
+      check_out_data[:customer_id] = nil
 
       expect {
         post check_out_path, params: check_out_data
@@ -47,11 +45,11 @@ describe RentalsController do
 
       expect(response.header['Content-Type']).must_include 'json'
       body = JSON.parse(response.body)
-      expect(body["errors"]).must_equal 'Customer does not exist.'
+      expect(body["errors"]).must_equal ["Not Found"]
     end
 
     it "will respond with bad_request if the video is not found" do 
-      check_out_data[:rental][:video_id] = nil
+      check_out_data[:video_id] = nil
 
       expect {
         post check_out_path, params: check_out_data
@@ -61,11 +59,11 @@ describe RentalsController do
 
       expect(response.header['Content-Type']).must_include 'json'
       body = JSON.parse(response.body)
-      expect(body["errors"]).must_equal 'Video does not exist.'
+      expect(body["errors"]).must_equal ["Not Found"]
     end
 
     it "will respond with ok false if the video is not in stock" do 
-      check_out_data[:rental][:video_id] = videos(:none_avail_vid).id
+      check_out_data[:video_id] = videos(:none_avail_vid).id
 
       expect {
         post check_out_path, params: check_out_data
@@ -75,23 +73,21 @@ describe RentalsController do
 
       expect(response.header['Content-Type']).must_include 'json'
       body = JSON.parse(response.body)
-      expect(body["errors"]).must_equal 'This video is out of stock.'
+      expect(body["errors"]).must_equal ["Not Found"]
     end
   end
 
   describe "check in" do
     let(:check_in_data) {
       {
-        rental: {
-          customer_id: customers(:customer_one).id,
-          video_id: videos(:fake_vid).id,
-        }
+        customer_id: customers(:customer_one).id,
+        video_id: videos(:fake_vid).id,
       }
     }
 
     it "Successfully checks in a rental" do 
       post check_out_path, params: check_in_data
-      must_respond_with :created
+      must_respond_with :ok
 
       customers(:customer_one).reload
       videos(:fake_vid).reload
@@ -117,7 +113,7 @@ describe RentalsController do
     end
 
     it "Will respond with not_found if customer is not found" do 
-      check_in_data[:rental][:customer_id] = nil 
+      check_in_data[:customer_id] = nil 
 
       expect {
         post check_in_path, params: check_in_data
@@ -127,11 +123,11 @@ describe RentalsController do
 
       expect(response.header['Content-Type']).must_include 'json'
       body = JSON.parse(response.body)
-      expect(body["errors"]).must_equal 'Customer does not exist.'
+      expect(body["errors"]).must_equal ["Not Found"]
     end
 
     it "Will respond with not_found if video is not found" do
-      check_in_data[:rental][:video_id] = nil 
+      check_in_data[:video_id] = nil 
       
       expect {
         post check_in_path, params: check_in_data
@@ -141,7 +137,7 @@ describe RentalsController do
 
       expect(response.header['Content-Type']).must_include 'json'
       body = JSON.parse(response.body)
-      expect(body["errors"]).must_equal 'Video does not exist.'
+      expect(body["errors"]).must_equal ["Not Found"]
     end
 
   end

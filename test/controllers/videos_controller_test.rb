@@ -1,7 +1,7 @@
 require "test_helper"
 
 describe VideosController do
-  REQUIRED_ATTRS = ["title", "overview", "release_date", "total_inventory", "available_inventory"].sort
+  REQUIRED_ATTRS = ["available_inventory", "overview", "release_date", "title", "total_inventory"].sort
 
   describe "index" do 
     it "responds with JSON and success" do
@@ -18,9 +18,10 @@ describe VideosController do
 
       expect(body).must_be_instance_of Array
 
+      expect(body[0].keys.sort).must_equal ['id', 'title', 'release_date', 'available_inventory'].sort
+
       body.each do |video|
         expect(video).must_be_instance_of Hash
-        expect(video.keys.sort).must_equal REQUIRED_ATTRS
       end
     end
 
@@ -64,21 +65,18 @@ describe VideosController do
       body = JSON.parse(response.body)
 
       expect(body).must_be_instance_of Hash
-      expect(body['ok']).must_equal false
-      expect(body['message']).must_equal 'Not Found'
+      expect(body['errors']).must_equal ['Not Found']
     end
   end
 
   describe "create" do 
     let(:video_data) {
       {
-        video: {
-          title: "Fake Video",
-          overview: "fake overview",
-          release_date: "2020-01-28",
-          total_inventory: 10,
-          available_inventory: 9
-        }
+        title: "Fake Video",
+        overview: "fake overview",
+        release_date: "2020-01-28",
+        total_inventory: 10,
+        available_inventory: 9
       }
     }
 
@@ -93,7 +91,7 @@ describe VideosController do
     end
 
     it "will respond with bad_request for invalid data" do 
-      video_data[:video][:title] = nil
+      video_data[:title] = nil
 
       expect {
         post videos_path, params: video_data
