@@ -27,13 +27,13 @@ describe Video do
 
     describe 'relationship' do
       it 'can have many rentals' do
-        video = videos(:frozen)
+        video = videos(:lalaland)
 
         video.rentals.each do |rental|
           expect(rental).must_be_instance_of Rental
         end
-      # TODO: ADD rental for yml
-        expect(video.rentals.count).must_equal 0 
+
+        expect(video.rentals.count).must_equal 2
       end   
     end
 

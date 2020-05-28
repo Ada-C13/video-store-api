@@ -1,11 +1,17 @@
 require "test_helper"
 
 describe Rental do
+  describe 'instantize' do
+    it 'can be'
+  end
+
+
+
   it "increment_videos_checked_out_count & decrement_available_inventory" do
   # Act
   customer = customers(:shelley)
   video = videos(:frozen)
-  rental = Rental.create!(customer_id: customer.id, video_id: video.id)
+  rental = Rental.create!(customer_id: customer.id, video_id: video.id, due_date:'Wed, 03 Jun 2020')
   # Assert
   customer.reload
   video.reload

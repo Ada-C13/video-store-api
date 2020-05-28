@@ -61,21 +61,20 @@ describe VideosController do
 
       body = JSON.parse(response.body)
       expect(body).must_be_instance_of Hash
-      expect(body['ok']).must_equal false
-      expect(body['errors']).must_equal ['Not found']
+      expect(body['errors']).must_equal ['Not Found']
     end
   end
 
   describe 'create' do
     let(:video_data) {
       {
-        video: {
+
           title: 'Harry Potter 3',
           overview: 'The best movie ever!',
           release_date: '2009-12-25',
           total_inventory: 10,
           available_inventory: 10
-        }
+
       }
     }
 
@@ -88,7 +87,7 @@ describe VideosController do
     end
 
     it 'will respond with bad_request for invalid data' do
-      video_data[:video][:overview] = nil
+      video_data[:overview] = nil
 
       expect {
         post videos_path, params: video_data
