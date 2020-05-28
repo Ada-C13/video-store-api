@@ -21,7 +21,7 @@ class RentalsController < ApplicationController
 		rental.due_date = Date.today + 7
 
 		if rental.save
-			customer.videos_checked_out_count += 1
+			customer.check_out_increase
 			customer.save
 			video.decrease_avail_inventory
 
@@ -58,7 +58,7 @@ class RentalsController < ApplicationController
 		rental = Rental.find_by(customer_id: rental_params[:customer_id].to_i, video_id: rental_params[:video_id].to_i)
 
 		if rental
-			customer.videos_checked_out_count -= 1
+			customer.check_in_decrease
 			customer.save
 			video.increase_avail_inventory
 
