@@ -3,16 +3,9 @@ class RentalsController < ApplicationController
 	def check_out
 		customer = Customer.find_by(id: rental_params[:customer_id])
 
-		if customer.nil?
-			render json: {
-				errors: ['Not Found']
-			}, status: :not_found
-			return
-		end
-
 		video = Video.find_by(id: rental_params[:video_id])
 		
-		if video.nil?
+		if video.nil? || customer.nil?
 			render json: {
 				errors: ['Not Found']
 			}, status: :not_found
@@ -53,16 +46,9 @@ class RentalsController < ApplicationController
 	def check_in
 		customer = Customer.find_by(id: rental_params[:customer_id])
 
-		if customer.nil?
-			render json: {
-				errors: ['Not Found']
-			}, status: :not_found
-			return
-		end
-
 		video = Video.find_by(id: rental_params[:video_id])
 
-		if video.nil?
+		if video.nil? || customer.nil?
 			render json: {
 				errors: ['Not Found']
 			}, status: :not_found
@@ -99,5 +85,4 @@ class RentalsController < ApplicationController
 	def rental_params
 		return params.permit(:customer_id, :video_id)
 	end
-
 end
