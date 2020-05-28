@@ -1,9 +1,17 @@
 frozen:
+  id: 1
   title: Frozen 2
   overview: The second movie of the best children movie of all years
   release_date: 2015-12-25
   total_inventory: 20
   available_inventory: 20
+frozen10:
+  id: 2
+  title: Frozen 10
+  overview: The second movie of the best children movie of all years
+  release_date: 2030-12-25
+  total_inventory: 1
+  available_inventory: 0
 split:
   title: Split
   overview: Three girls are kidnapped by a man with a diagnosed 23 distinct personalities.
