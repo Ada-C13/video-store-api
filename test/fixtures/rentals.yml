@@ -1,0 +1,20 @@
+# Sharon - renting lalaland
+one:
+  customer: sharon
+  video: lalaland
+  due_date: Wed, 03 Jun 2020
+# Joseph - renting sing
+two:
+  customer: joseph
+  video: sing
+  due_date: Mon, 01 Jun 2020
+# Ross - renting sing
+three: 
+  customer: ross
+  video: sing
+  due_date: Wed, 03 Jun 2020
+# joseph also renting lalaland
+four:
+  customer: joseph
+  video: lalaland
+  due_date: Wed, 03 Jun 2020

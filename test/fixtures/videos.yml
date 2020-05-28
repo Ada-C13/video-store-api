@@ -12,3 +12,21 @@ frozen10:
   release_date: 2030-12-25
   total_inventory: 1
   available_inventory: 0
+split:
+  title: Split
+  overview: Three girls are kidnapped by a man with a diagnosed 23 distinct personalities.
+  release_date: 2018-10-25
+  total_inventory: 15
+  available_inventory: 15
+sing:
+  title: Sing
+  overview: "In a city of humanoid animals, a hustling theater impresario's attempt to save his theater with a singing competition becomes grander than he anticipates even as its finalists' find that their lives will never be the same."
+  release_date: 2016-02-25
+  total_inventory: 50
+  available_inventory: 48
+lalaland:
+  title: La La Land
+  overview:  A jazz pianist falls for an aspiring actress in Los Angeles.
+  release_date: 2019-11-25
+  total_inventory: 12 
+  available_inventory: 11
