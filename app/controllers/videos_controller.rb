@@ -4,15 +4,17 @@ class VideosController < ApplicationController
   # GET /videos
   def index
     # TO-DO: available inventory
-    @videos = Video.all.as_json(only: [:id, :title, :release_date])
-    render json: @videos
+    @videos = Video.order(:title)
+
+    render json: @videos.to_json(
+      :only => [:id, :title, :release_date], :methods => [:available_inventory]), status: :ok
   end
 
   # GET /videos/1
   def show
     if @video
-      @video = @video.as_json(only: [:title, :overview, :release_date, :total_inventory])
-      render json: @video, status: :ok
+    render json: @video.to_json(
+      :only => [:title, :overview, :release_date, :total_inventory], :methods => [:available_inventory]), status: :ok
     else 
       render json: { errors: ["Not Found"]}, status: :not_found
     end
@@ -38,7 +40,7 @@ class VideosController < ApplicationController
 
       # rescue ActiveRecord::RecordNotFound => e
       #   render json: {
-      #     error: e.to_s
+      #     error: e
       #   }, status: :not_found
     
     end

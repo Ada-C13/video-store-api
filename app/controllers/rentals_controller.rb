@@ -7,14 +7,13 @@ class RentalsController < ApplicationController
 
     if rental
       rental.returned_on = Time.now
-      # rental.video.available_inventory += 1
       rental.save
 
       response = { 
         customer_id: rental.customer_id,
         video_id: rental.video_id,
         videos_checked_out_count: rental.customer.videos_checked_out_count,
-        # available_inventory: rental.video.available_inventory,
+        available_inventory: rental.video.available_inventory
       }
       render json: response, status: :ok
     else
@@ -32,14 +31,14 @@ class RentalsController < ApplicationController
     @rental = Rental.new(rental_params)
 
     if @rental.save
-      # @rental.video.available_inventory -= 1
       response = { 
         customer_id: @rental.customer_id,
         video_id: @rental.video_id,
         due_date: get_due_date(@rental),
         videos_checked_out_count: @rental.customer.videos_checked_out_count,
-        # available_inventory: @rental.video.available_inventory 
+        available_inventory: @rental.video.available_inventory
       }
+
       render json: response, status: :ok
     else
       render json: @rental.errors, status: :unprocessable_entity
