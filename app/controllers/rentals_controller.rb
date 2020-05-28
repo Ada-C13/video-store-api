@@ -3,7 +3,6 @@ class RentalsController < ApplicationController
     rentals = Rental.all
     render json: rentals.as_json(), status: :ok
   end
-end
 
   def check_in
     rental = Rental.find_by(customer_id: params[:customer_id], video_id: params[:video_id], check_in_date: nil)
