@@ -6,8 +6,8 @@ class RentalsController < ApplicationController
 
 def check_out
   customer = Customer.find_by(id: params[:customer_id])
-  video = Video.find_by(id: params[:video_id])
-  rental = Rental.new(customer_id: params[:customer_id], video_id: params[:video_id], check_out_date: Date.today, due_date: (Date.today + 7))
+  video = Video.find_by(id: params[:videos_id])
+  rental = Rental.new(customer_id: params[:customer_id], videos_id: params[:videos_id], check_out_date: Date.today, due_date: (Date.today + 7))
 
   if video.nil? || customer.nil? || video.available_inventory < 1
     render json: {
@@ -20,7 +20,7 @@ def check_out
       customer.add_videos_to_checked_out
       render json: {
         customer_id: rental.customer_id,
-        video_id: rental.video_id,
+        videos_id: rental.videos_id,
         due_date: rental.due_date},
         status: :ok
         return
@@ -30,7 +30,7 @@ def check_out
 
 
   def check_in
-    rental = Rental.find_by(customer_id: params[:customer_id], video_id: params[:video_id], check_in_date: nil)
+    rental = Rental.find_by(customer_id: params[:customer_id], videos_id: params[:videos_id], check_in_date: nil)
 
     if rental.nil?
       render json: {
@@ -40,14 +40,14 @@ def check_out
     end
     
     customer = Customner.find_by(id: params[:customer_id])
-    video = Video.find_by(id: params[:video_id])
+    video = Video.find_by(id: params[:videos_id])
     rental.check_in_date = Date.today
 
     if rental.save
       video.increase_inventory
       customer.remove_from_checked_out
       render json: {customer_id: rental.customer_id, 
-                    video_id: rental.video_id, videos_checked_out_count: customer.videos_checked_out_count,
+                    videos_id: rental.videos_id, videos_checked_out_count: customer.videos_checked_out_count,
                     available_inventory: video.available_inventory}, 
                     status: :ok
       return
@@ -63,5 +63,6 @@ def check_out
   private
 
   def check_in_params
-    return params.require(:rental).permit(:customer_id, :video_id)
+    return params.require(:rental).permit(:customer_id, :videos_id)
   end
+end
