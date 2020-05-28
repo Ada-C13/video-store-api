@@ -4,6 +4,16 @@ class RentalsController < ApplicationController
 
     def checkout
         rental = Rental.new(rental_params)
+
+        # video = Video.find_by(id: rental.video_id)
+        # p "1111111111#{video.available_inventory}"
+        # if video.available_inventory.nil?
+        #     render json: {
+        #         errors: ['No inventory available'] 
+        #     }, status: :not_found
+        #     return
+        # end    
+
         rental.checked_out = Date.today
         rental.due_date = rental.checked_out + 7.days
         if rental.save
@@ -39,11 +49,10 @@ class RentalsController < ApplicationController
         if rental
             rental.checked_in = Date.today
         else 
-           puts "hi Chelsea :) :) :)" 
-        render json: { 
-            errors: ["Not Found"]
-        }, status: :not_found
-           return
+            render json: { 
+                errors: ["Not Found"]
+            }, status: :not_found
+            return
         end
 
 
@@ -56,7 +65,7 @@ class RentalsController < ApplicationController
                 available_inventory: rental.video.available_inventory
             },status: :ok
             return
-                else 
+        else 
             render json:  {
                 errors: ['Not Found'] 
             }, status: :not_found

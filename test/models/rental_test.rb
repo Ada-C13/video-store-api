@@ -7,11 +7,9 @@ describe Rental do
       @c = customers(:customer1) 
       @v =  videos(:video2)
  
-     puts @c.id
-     puts @v.id
+     #puts @c.id
+     #puts @v.id
     end
-
-   
     
     it "belongs to a video" do
       expect(@rental.video).must_be_instance_of Video
@@ -26,8 +24,8 @@ describe Rental do
     before do
       video = videos(:video2)
       customer = customers(:customer1)
-      puts "this is #{video.id}"
-      puts customer.id
+      #puts "this is #{video.id}"
+      #puts customer.id
       @rental = Rental.create(video_id: video.id, customer_id: customer.id, due_date: Date.today)
       
     end
@@ -44,6 +42,14 @@ describe Rental do
     
     it "is not valid when customer is missing" do
       @rental.customer_id = nil
+      
+      expect(@rental.valid?).must_equal false
+    end
+
+
+    #chelsea added
+    it "is not valid when the due_date is missing" do
+      @rental.due_date = nil
       
       expect(@rental.valid?).must_equal false
     end

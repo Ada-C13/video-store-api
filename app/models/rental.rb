@@ -10,6 +10,7 @@ class Rental < ApplicationRecord
 
   def add_to_count
     if self.video.available_inventory.nil?
+      # chelsea confused here
       self.video.available_inventory = self.video.total_inventory - 1
       self.video.save
       
@@ -27,7 +28,7 @@ class Rental < ApplicationRecord
 
   def decrease_count
     if self.checked_out != nil
-      if self.video.available_inventory == nil
+      if self.video.available_inventory == nil   # when would this happen?
         return "This video has not been returned yet"
       else
         self.video.available_inventory += 1

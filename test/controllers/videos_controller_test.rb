@@ -12,7 +12,6 @@ end
 describe VideosController do
   REQUIRED_video_FIELDS = ["id", "title", "overview","release_date", "total_inventory","available_inventory"].sort
 
-
   describe "index" do
     it "responds with JSON and success" do
       get videos_path
@@ -38,21 +37,21 @@ describe VideosController do
       end
     end
 
-    # it "will respond with an empty array when there are no videos" do
-    #   # Arrange
-    #   Video.destroy_all
+    # added and dependent destroy
+    it "will respond with an empty array when there are no videos" do
+      # Arrange
+      Video.destroy_all
   
-    #   # Act
-    #   get videos_path
-    #   body = JSON.parse(response.body)
+      # Act
+      get videos_path
+      body = JSON.parse(response.body)
 
-    #   # Assert
-    #   expect(body).must_be_instance_of Array
-    #   expect(body).must_equal []
-    #   expect(status).must_equal 200 
-    # end
+      # Assert
+      expect(body).must_be_instance_of Array
+      expect(body).must_equal []
+      expect(status).must_equal 200 
+    end
   end
-
 
   describe "create" do
     let(:video_data) {
@@ -65,7 +64,6 @@ describe VideosController do
         }
     }
 
- 
     it "can create a new video" do
       expect {
         post videos_path, params: video_data
@@ -74,22 +72,60 @@ describe VideosController do
       check_response(expected_type: Hash, expected_status: :created)
     end
 
-    it "will respond with bad_request for invalid data" do
-      # Arrange - using let from above
-      # Our videosController test should just test generically
-      # for any kind of invalid data, so we will randomly pick
-      # the age attribute to invalidate
+    it "will respond with bad_request for invalid available_inventory" do
       video_data[:available_inventory] = nil
 
       expect {
-        # Act
         post videos_path, params: video_data
-
-      # Assert
       }.wont_change "Video.count"
     
       body = check_response(expected_type: Hash, expected_status: :bad_request)
       expect(body["errors"].keys).must_include "available_inventory"
+    end
+
+    
+    it "will respond with bad_request for invalid title" do
+      video_data[:title] = nil
+
+      expect {
+        post videos_path, params: video_data
+      }.wont_change "Video.count"
+    
+      body = check_response(expected_type: Hash, expected_status: :bad_request)
+      expect(body["errors"].keys).must_include "title"
+    end
+
+    it "will respond with bad_request for invalid release_date" do
+      video_data[:release_date] = nil
+
+      expect {
+        post videos_path, params: video_data
+      }.wont_change "Video.count"
+    
+      body = check_response(expected_type: Hash, expected_status: :bad_request)
+      expect(body["errors"].keys).must_include "release_date"
+    end
+
+    it "will respond with bad_request for invalid overview" do
+      video_data[:overview] = nil
+
+      expect {
+        post videos_path, params: video_data
+      }.wont_change "Video.count"
+    
+      body = check_response(expected_type: Hash, expected_status: :bad_request)
+      expect(body["errors"].keys).must_include "overview"
+    end
+
+    it "will respond with bad_request for invalid total_inventory" do
+      video_data[:total_inventory] = nil
+
+      expect {
+        post videos_path, params: video_data
+      }.wont_change "Video.count"
+    
+      body = check_response(expected_type: Hash, expected_status: :bad_request)
+      expect(body["errors"].keys).must_include "total_inventory"
     end
 
   end
