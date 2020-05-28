@@ -4,6 +4,6 @@ Rails.application.routes.draw do
   resources :customers, only: [:index]
   resources :rentals, only: [:create, :destroy]
 
-  post "/rentals/check-out", to: "rentals#create", as: "check-out"
-  post "/rentals/check-in", to: "rentals#destroy", as: "check-in"
+  post "/rentals/check-out", to: "rentals#create", as: "check_out"
+  post "/rentals/check-in", to: "rentals#check_in", as: "check_in"
 end

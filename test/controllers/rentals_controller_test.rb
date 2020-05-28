@@ -1,13 +1,14 @@
 require "test_helper"
 
 describe RentalsController do
+
   def check_response(expected_type:, expected_status: :success)
     must_respond_with expected_status
     expect(response.header['Content-Type']).must_include 'json'
 
     body = JSON.parse(response.body)
     expect(body).must_be_kind_of expected_type
-    pp body
+    # pp body
     return body
   end
 
@@ -70,8 +71,18 @@ describe RentalsController do
     end
   end
 
-  describe "destroy" do
+  describe "check-in" do
+    let(:rental_data) {
+      {
+        video_id: videos(:moana).id,
+        customer_id: customers(:nataliya).id
+      }
+    }
+    
     it "will destroy the instance of rental" do
+      rental = Rental.find_by(video_id: rental_data[:video_id], customer_id: rental_data[:customer_id])
+      expect{post check_in_path, params: rental_data}.must_differ "Rental.count", -1
+      
       
     end
 

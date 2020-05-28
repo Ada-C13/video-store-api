@@ -34,6 +34,25 @@ class RentalsController < ApplicationController
     end
   end
 
+  def check_in
+    rental = Rental.find_by(video_id: params[:video_id], customer_id: params[:customer_id])
+    
+    if rental
+      rental.destroy
+      rental.customer.videos_checked_out_count -= 1
+      rental.customer.save
+      rental.video.available_inventory += 1
+      rental.video.save
+
+      render json: {
+        customer_id: rental.customer_id,
+        video_id: rental.video_id,
+        videos_checked_out_count: rental.customer.videos_checked_out_count,
+        available_inventory: rental.video.available_inventory
+      }, status: :ok
+    end
+  end
+
   private
 
   # def require_inventory
