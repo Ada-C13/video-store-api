@@ -4,6 +4,5 @@ Rails.application.routes.draw do
   resources :videos, only: [:index, :show, :create]
 
   post "/rentals/check-out", to: "rentals#checkout", as: "checkout"
-  #TODO: figure out how to do two post or post + patch
-  patch "/rentals/check-in", to: "rentals#checkin", as: "checkin"
+  post "/rentals/check-in", to: "rentals#checkin", as: "checkin"
 end
