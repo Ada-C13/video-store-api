@@ -55,14 +55,14 @@ def check_out
       render json: {
         ok: false,
         errors: rental.errors.messages,
-        }, status: bad_request
+        }, status: :bad_request
       return
     end
   end
 
   private
 
-  def check_in_params
-    return params.require(:rental).permit(:customer_id, :videos_id)
+  def rental_params
+    return params.permit(:customer_id, :videos_id)
   end
 end

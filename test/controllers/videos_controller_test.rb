@@ -1,7 +1,7 @@
 require "test_helper"
 
 describe VideosController do
-  VIDEO_FIELDS = ["id", "title", "release_date", "available_inventory"].sort
+  VIDEO_FIELDS = ["id", "title", "release_date", "available_inventory", "overview"].sort
   it "must get index" do
     get videos_path
     

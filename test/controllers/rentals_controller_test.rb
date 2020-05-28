@@ -52,7 +52,7 @@ end
     must_respond_with :success
     expect(Rental.all.first.check_in_date).must_equal Date.today
 
-    customer = Customer.findP_by(id: rental_data[:customer_id])
+    customer = Customer.find_by(id: rental_data[:customer_id])
     video = Video.find_by(id: rental_data[:videos_id])
 
     expect(customer.videos_checked_out_count).must_respond_with customer_video_count
