@@ -26,7 +26,38 @@ end
 
 
   
-  def check_in 
+  def check_in
+    rentals = Rental.find_by(customer_id: params[:customer_id], video_id: params[:video_id], check_in_date: nil)
+    video = Video.find_by(id: params[:video_id])
+    customer = Customer.find_by(id: params[:customer_id])
+    
+
+    if rental.nil?
+      render json: {errors: ["Rental not Found"] }, status: :bad_request
+      return
+    end
+
+    rental.check_in_date = Date.today # check if this is neccessary
+    
+    if rental.save
+      video.increase_inventory
+      customer.remove_checked_out
+      render json: {customer_id: rental.customer_id,
+                    video_id: rental.video_id, videos_checked_out_count: customer.videos_checked_out_count,
+                    available_inventory: video.available_inventory}, status: :ok
+      return
+    else
+      render json: { ok: false, errors: rental.errors.messages }, status: :bad_request
+      return
+    end
+    
+
+    # customer.checked_in_count -= 1
+    # movie.available_inventory += 1
+    
+    # customer.save
+    # video.save
+       
   end
 
   def rentals_params
