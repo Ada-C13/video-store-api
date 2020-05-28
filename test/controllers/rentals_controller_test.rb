@@ -2,7 +2,7 @@ require "test_helper"
 
 describe RentalsController do
   
-  RENTAL_FIELDS = ['customer_id', 'video_id', 'due_date'].sort
+  RENTAL_FIELDS = ['available_inventory', 'videos_checked_out_count', 'customer_id', 'video_id', 'due_date'].sort
   
   describe "check_out" do 
     
@@ -16,16 +16,16 @@ describe RentalsController do
     
     it "can get checkout path, creates a new rental with valid information and responds with success" do       
       rental_info = {
-        rental: {
-          customer_id: customer.id,
-          video_id: video.id,
-        }
+        customer_id: customer.id,
+        video_id: video.id
       }
       
       count = customer.videos_checked_out_count
       vid_count = video.available_inventory
       
       post check_out_path(params: rental_info)
+      customer.reload
+      video.reload
       
       body = JSON.parse(response.body)
       
@@ -35,19 +35,18 @@ describe RentalsController do
       expect(body["due_date"]).must_equal (Date.today + 7).to_s
       expect(body["customer_id"]).must_equal customer.id
       expect(body["video_id"]).must_equal video.id
+      expect(body["videos_checked_out_count"]).must_equal customer.videos_checked_out_count
+      expect(body["available_inventory"]).must_equal video.available_inventory
       
-      customer.reload
-      video.reload
       expect(customer.videos_checked_out_count).must_equal count + 1
       expect(video.available_inventory).must_equal vid_count - 1
+      
     end 
     
     it "responds with not_found if customer is nil" do
       rental_info = {
-        rental: {
-          customer_id: 'pizza',
-          video_id: video.id,
-        }
+        customer_id: 'pizza',
+        video_id: video.id
       }
       
       expect {
@@ -58,18 +57,15 @@ describe RentalsController do
       
       must_respond_with :not_found
       expect(body).must_be_instance_of Hash 
-      expect(body['ok']).must_equal false
-      expect(body['message']).must_equal 'Customer could not be found'
+      expect(body['errors']).must_equal ['Not Found']
     end
     
     
     
     it "responds with not_found if video is nil" do
       rental_info = {
-        rental: {
-          customer_id: customer.id,
-          video_id: 'sandwich',
-        }
+        customer_id: customer.id,
+        video_id: 'sandwich',
       }
       
       expect {
@@ -80,8 +76,7 @@ describe RentalsController do
       
       must_respond_with :not_found
       expect(body).must_be_instance_of Hash 
-      expect(body['ok']).must_equal false
-      expect(body['message']).must_equal 'Video could not be found'
+      expect(body['errors']).must_equal ['Not Found']
     end
     
     it 'responds with bad_request if there are no videos available' do

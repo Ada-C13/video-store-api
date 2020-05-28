@@ -65,27 +65,34 @@ describe VideosController do
   
   describe "create" do
     let(:video_data) {
-      {
-        video: {
+        {
           title: "A Cool Movie",
           release_date: "2020-01-02",
           available_inventory: 3,
           total_inventory: 3,
           overview: "The best movie you've ever seen"
-        }
       }
     }
     
     it "can create a new video" do
+
+      data = {
+          title: "A Cool Movie",
+          release_date: "2020-01-02",
+          available_inventory: 3,
+          total_inventory: 3,
+          overview: "The best movie you've ever seen"
+      }
+
       expect {
-        post videos_path, params: video_data
+        post videos_path, params: data
       }.must_differ "Video.count", 1
       
       must_respond_with :created
     end
     
     it 'responds with bad request if field is empty' do
-      video_data[:video][:title] = nil
+      video_data[:title] = nil
       
       expect {
         post videos_path, params: video_data

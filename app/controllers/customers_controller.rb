@@ -8,6 +8,4 @@ class CustomersController < ApplicationController
     status: :ok
   end
   
-  
-  
 end
