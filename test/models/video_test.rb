@@ -81,27 +81,7 @@ describe Video do
   end
   
 
-  # describe 'relationships' do
-  #   before do
-  #     @work_votes = @work.votes
-  #     @work_users = @work.users
-  #   end
-  #   it 'relates to votes' do
-      
-  #     expect(@work_votes.count).must_equal 0
-  #     vote = Vote.create(work_id: @work.id, user_id: users(:user1).id)
-  #     expect(@work.votes.count).must_equal 1
-  #   end
-
-  #   it 'relates to users' do
-
-  #     expect(@work_users.count).must_equal 0
-
-  #     vote = Vote.create(work_id: @work.id, user_id: users(:user1).id)
-  #     expect(@work.users.count).must_equal 1
-  #   end
-
-  # end
+  
 
 end
 
