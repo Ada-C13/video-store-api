@@ -1,6 +1,14 @@
 frozen:
+  id: 1
   title: Frozen 2
   overview: The second movie of the best children movie of all years
   release_date: 2015-12-25
   total_inventory: 20
   available_inventory: 20
+frozen10:
+  id: 2
+  title: Frozen 10
+  overview: The second movie of the best children movie of all years
+  release_date: 2030-12-25
+  total_inventory: 1
+  available_inventory: 0
