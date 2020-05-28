@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
 
-  resources :videos, only: [:index, :show, :new, :create]
+  resources :videos, only: [:index, :show, :create]
   resources :customers, only: [:index, :show]
   resources :rentals, only: [:index]
 
