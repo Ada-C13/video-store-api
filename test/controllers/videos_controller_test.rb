@@ -29,8 +29,8 @@ describe VideosController do
       Video.destroy_all
 
       get videos_path
-      body = JSON.parse(response.body)
 
+      body = JSON.parse(response.body)
       expect(body).must_be_instance_of Array
       expect(body).must_be_empty
     end
@@ -39,6 +39,7 @@ describe VideosController do
   describe "show" do
     it "responds with JSON and success" do
       video = videos(:fake_vid)
+
       get video_path(video.id)
 
       expect(response.header['Content-Type']).must_include 'json'
@@ -47,12 +48,12 @@ describe VideosController do
 
     it "will return a hash of correct information for existing video" do
       video = videos(:fake_vid)
+
       get video_path(video.id)
 
       must_respond_with :success
 
       body = JSON.parse(response.body)
-
       expect(body).must_be_instance_of Hash
       expect(body.keys.sort).must_equal REQUIRED_ATTRS
     end
@@ -63,7 +64,6 @@ describe VideosController do
       must_respond_with :not_found
 
       body = JSON.parse(response.body)
-
       expect(body).must_be_instance_of Hash
       expect(body['errors']).must_equal ['Not Found']
     end

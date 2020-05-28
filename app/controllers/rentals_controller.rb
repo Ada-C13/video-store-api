@@ -2,7 +2,6 @@ class RentalsController < ApplicationController
 
 	def check_out
 		customer = Customer.find_by(id: rental_params[:customer_id])
-
 		video = Video.find_by(id: rental_params[:video_id])
 		
 		if video.nil? || customer.nil?
@@ -45,7 +44,6 @@ class RentalsController < ApplicationController
 
 	def check_in
 		customer = Customer.find_by(id: rental_params[:customer_id])
-
 		video = Video.find_by(id: rental_params[:video_id])
 
 		if video.nil? || customer.nil?

@@ -71,11 +71,6 @@ describe Video do
 
     describe "increase_avail_inventory" do 
       it "increases count for increase_avail_inventory" do
-        new_rental = Rental.create(
-          customer_id: customers(:customer_one).id,
-          video_id: videos(:fake_vid).id
-        )
-
         videos_before_available_count = videos(:fake_vid).available_inventory
 
         videos(:fake_vid).increase_avail_inventory
@@ -86,11 +81,6 @@ describe Video do
 
     describe "decrease_avail_inventory" do 
       it "decreases count for decrease_avail_inventory" do
-        new_rental = Rental.create(
-          customer_id: customers(:customer_one).id,
-          video_id: videos(:fake_vid).id
-        )
-
         videos_before_available_count = videos(:fake_vid).available_inventory
 
         videos(:fake_vid).decrease_avail_inventory
