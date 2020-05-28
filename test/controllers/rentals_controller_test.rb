@@ -6,6 +6,6 @@ describe RentalsController do
   end 
 
   describe "checkin" do 
-    
+
   end 
 end
