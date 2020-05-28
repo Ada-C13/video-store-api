@@ -1,9 +1,8 @@
 require "test_helper"
 
 describe RentalsController do
-  describe "checkin" do
+  describe "check-in" do
     before do
-      @rental = rentals(:test_rental)
       @customer = customers(:kiayada)
       @video = videos(:testvideo)
 

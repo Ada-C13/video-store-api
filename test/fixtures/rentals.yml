@@ -1,3 +1,0 @@
-test_rental:
-  customer_id: customers(:kiayada).id
-  video_id: videos(:testvideo).id
