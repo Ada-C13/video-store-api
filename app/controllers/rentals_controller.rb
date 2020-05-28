@@ -4,6 +4,31 @@ class RentalsController < ApplicationController
     render json: rentals.as_json(), status: :ok
   end
 
+def check_out
+  customer = Customer.find_by(id: params[:customer_id])
+  video = Video.find_by(id: params[:video_id])
+  rental = Rental.new(customer_id: params[:customer_id], video_id: params[:video_id], check_out_date: Date.today, due_date: (Date.today + 7))
+
+  if video.nil? || customer.nil? || video.available_inventory < 1
+    render json: {
+      errors: rental.errors.messages
+    }, status: :not_found
+    return
+    end
+    if rental.save
+      video.decrease_inventory
+      customer.add_videos_to_checked_out
+      render json: {
+        customer_id: rental.customer_id,
+        video_id: rental.video_id,
+        due_date: rental.due_date},
+        status: :ok
+        return
+      end
+    end
+
+
+
   def check_in
     rental = Rental.find_by(customer_id: params[:customer_id], video_id: params[:video_id], check_in_date: nil)
 
@@ -29,7 +54,7 @@ class RentalsController < ApplicationController
     else
       render json: {
         ok: false,
-        errors: rental.errors.messages, 
+        errors: rental.errors.messages,
         }, status: bad_request
       return
     end
@@ -40,4 +65,3 @@ class RentalsController < ApplicationController
   def check_in_params
     return params.require(:rental).permit(:customer_id, :video_id)
   end
-end

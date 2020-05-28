@@ -5,8 +5,23 @@ describe RentalsController do
   #   value(1+1).must_equal 2
   # end
 
-
-
+  describe "check_out" do
+    it "creates a rental"
+    let(:rental_data) {
+      {
+        rental: {
+          customer_id: customers(:charli).id,
+          video_id: videos(:firstvideo).id
+        }
+      }
+    }
+    
+    it "creates a rental" do
+      
+      expect { post check_out path, params: rental_data }.must_differ "Rental.count", 1
+      must_respond_with :created
+    end
+  end
 
 
   describe "check_in" do 
