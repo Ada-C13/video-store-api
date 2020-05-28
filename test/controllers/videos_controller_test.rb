@@ -64,13 +64,13 @@ describe VideosController do
   describe "create" do
     let(:video_data) {
       {
-        video: {
+        # video: {
           title: "La La Land",
           overview: "A jazz pianist falls for an aspiring actress in Los Angeles.",
           release_date: Date.new(2016),
           total_inventory: 5,
           available_inventory: 2
-        }
+        # }
       }
     }
 
@@ -83,7 +83,7 @@ describe VideosController do
     end
 
     it "gives bad_request status when user gives bad data" do
-      video_data[:video][:title] = nil
+      video_data[:title] = nil
       expect {
         post videos_path, params: video_data
       }.wont_change "Video.count"
