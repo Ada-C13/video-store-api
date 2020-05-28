@@ -39,7 +39,7 @@ class RentalsController < ApplicationController
         if rental
             rental.checked_in = Date.today
         else 
-           puts "hiiiiiiiiiiiiii" 
+           puts "hi Chelsea :) :) :)" 
         render json: { 
             errors: ["Not Found"]
         }, status: :not_found
