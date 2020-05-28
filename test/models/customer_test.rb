@@ -115,8 +115,10 @@ describe Customer do
 
   describe "increase_videos_checked_out_count" do
     it "increases the videos checked out count by 1" do
+      # Arrange
       new_customer.save!
 
+      # Assert
       expect {
         new_customer.increase_videos_checked_out_count
       }.must_differ "new_customer.videos_checked_out_count", 1
@@ -125,8 +127,10 @@ describe Customer do
 
   describe "decrease_videos_checked_out_count" do
     it "decreases the videos checked out count by 1" do
+      # Arrange
       new_customer.save!
 
+      # Assert
       expect {
         new_customer.decrease_videos_checked_out_count
       }.must_differ "new_customer.videos_checked_out_count", -1
