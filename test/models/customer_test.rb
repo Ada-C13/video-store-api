@@ -4,27 +4,31 @@ describe Customer do
 
   before do
     @customer = customers(:customer1)
-    @invalid_work = Customer.new(postal_code: '98102')
+    @invalid_customer = Customer.new(postal_code: '98102')
   end
 
-  # describe 'validations' do
+  describe 'validations' do
 
-  #   it 'is valid when all required params are present' do
-  #     result = @customer.valid?
-  #     expect(result).must_equal true
-  #   end
+    it 'validates that videos_checked_out_count is an integer' do
+      expect(@customer.valid?).must_equal true
+      expect(@invalid_customer.valid?).must_equal false
+      
+      @customer.videos_checked_out_count = 7.5
+      @customer.save
+      expect(@customer.valid?).must_equal false
+      
+    end
 
-  #   it 'is invalid when required params are not present' do
-  #     result = @invalid_work.valid?
-  #     @customer.title = nil
-  #     expect(result).must_equal false
-  #     expect(@customer.valid?).must_equal false
-  #   end
+    it 'validates that videos_checked_out_count is >= 0' do
+      expect(@customer.valid?).must_equal true
+      expect(@invalid_customer.valid?).must_equal false
+      
+      @customer.videos_checked_out_count = -6
+      @customer.save
+      expect(@customer.valid?).must_equal false
+    end
 
-  #   it 'will not allow you to create a work in the same category with the same title' do
-  #     expect(Customer.create(title:'Winnie the Pooh').valid?).must_equal false
-  #   end
-  # end
+  end
 
   # describe 'relationships' do
   #   before do

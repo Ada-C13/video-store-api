@@ -28,6 +28,7 @@ describe RentalsController do
      expect{post check_out_path, params: rental_params}.must_differ "Rental.count", 1
      check_response(expected_type: Hash, expected_status: :ok)
     end
+
     it "returns not_found if video or customer empty" do
       rental_params[:customer_id] = nil
       expect{post check_out_path, params: rental_params}.wont_change "Rental.count", 1
@@ -54,8 +55,41 @@ describe RentalsController do
       expect{post check_out_path, params: {customer_id: customer.id, video_id: video3.id }}.wont_change "Rental.count", 1
       check_response(expected_type: Hash, expected_status: :not_found)
     end
-
   end
-
   
+  # describe "check_in" do
+      
+  #   it "customer count"do
+  #     expect{post check_in_path, params: rental_params}.must_differ "Rental.count", 1
+  #     check_response(expected_type: Hash, expected_status: :ok)
+  #   end
+
+  #   it "returns not_found if video or customer empty" do
+  #     rental_params[:customer_id] = nil
+  #     expect{post check_in_path, params: rental_params}.wont_change "Rental.count", 1
+  #     check_response(expected_type: Hash, expected_status: :not_found)
+  #   end
+
+  #   it "customer  video checked in count changes" do
+  #     post check_out_path, params: rental_params
+  #     expect {post check_in_path, params: rental_params}.wont_change ""
+  #     updated_checkin_count = Customer.find_by(id: customers(:customer1).id)
+  #     expect(updated_checkin_count.videos_checkout_in_count).must_equal 1
+  #   end
+
+  #   it "available video count changes" do
+  #     post check_in_path, params: rental_params
+  #     updated_available_count = Video.find_by(id: videos(:video1).id)
+  #     expect(updated_available_count.available_inventory).must_equal 8
+  #   end
+
+  #   it "can return not_found when no video is in stock" do
+  #     video3 = videos(:video3)
+  #     video3.available_inventory = 0
+  #     video3.save!
+      
+  #     expect{post check_in_path, params: {customer_id: customer.id, video_id: video3.id }}.wont_change "Rental.count", 1
+  #     check_response(expected_type: Hash, expected_status: :not_found)
+  #   end 
+  # end
 end
