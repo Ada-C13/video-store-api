@@ -24,6 +24,10 @@ describe RentalsController do
       check_response(expected_type: Hash)
     end
 
+    it "will return JSON with the following keys: customer_id, video_id, due_date, videos_checked_out_count, available_inventory" do
+
+    end
+
     it "increase the customer's videos_checked_out_count by one" do
       expect(customers(:nataliya).videos_checked_out_count).must_equal 6
       
@@ -63,6 +67,29 @@ describe RentalsController do
       expect{post rentals_path, params: rental_data}.wont_change "Rental.count", 1
       body = check_response(expected_type: Hash, expected_status: :not_found)
       expect(body["errors"].keys).must_include "video_id"
+    end
+  end
+
+  describe "destroy" do
+    it "will destroy the instance of rental" do
+      
+    end
+
+    it "will decrease the customer's videos_checked_out_count by one" do
+    end
+
+    it "increase the video's available_inventory by one" do
+
+    end
+
+    it "will return JSON with the following keys: customer_id, video_id, videos_checked_out_count, available_inventory" do
+    
+    end
+
+    it "it will return 404: Not Found if the customer does not exist" do
+    end
+
+    it "404: Not Found if the video does not exist" do
     end
   end
 end
