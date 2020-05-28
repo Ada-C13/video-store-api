@@ -84,33 +84,54 @@ describe VideosController do
     end
   end
 
-  # describe "create" do
-  #   let(:video_data){
-  #     {
-  #       title: "Petty worman",
-  #       overview: "about a girl's dream",
-  #       release_date: 1985
-  #       available_inventory:
-  #       total_inventory: 
-  #     }
-  #   }
-  # end
-
-
+  describe "create video" do
+    let(:video_data){
+      {
+        video: {
+        title: "Petty woman",
+        overview: "about a girl's dream",
+        release_date: 1985
+        # total_inventory: 7,
+        # available_inventory: 2
+        
+        }
+      }
+    }
     
 
+    it "create a video and given a valid data" do
+      expect {
+        post videos_path, params: video_data
+      }.must_change "Video.count",1
 
+      body = JSON.parse(response.body)
+      expect(body).must_be_kind_of Hash
+      expect(body).must_include "title"
 
+      video = Video.find_by(title: body["title"])
+      must_respond_with :success
+    end
 
+    it "return an error for invalid video data" do
+      
+      video_data["title"] = nil
 
+      expect{
+        post video_path, params: {vidoe: video_data}
+      }.wont_change "Video.count"
 
+      body = JSON.parse(response.body)
 
+      expect(body).must_be_kind_of Hash
+      expect(body).must_include "error"
+      expect(body["errors"]).must_include "title"
+      must_respond_with :bad_request
+    end
+  end
 
-
-
-
-
-
+  it "can't create a video 0 in inventory" do
+    video_data[:video] [:available_inventory] = nil 
+  end
   
 
 end
