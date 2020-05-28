@@ -1,0 +1,36 @@
+shelley:
+  name: Shelley Rocha,
+  registered_at: Wed, 29 Apr 2015 07:54:14 -0700,
+  address: Ap 292-5216 Ipsum Rd.,
+  city: Hillsboro,
+  state: OR,
+  postal_code: 24309,
+  phone: (322) 510-8695
+  videos_checked_out_count: 0
+Joseph:
+  name: Joseph Nguyen
+  registered_at: Wed, 29 Apr 2020 08:54:14 -0700,
+  address: 5000 City Lights Drive
+  city: Aliso Viejo
+  state: CA
+  postal_code: 24309,
+  phone: (626)-688-7777
+  videos_checked_out_count: 2
+sharon:
+  name: Sharon Cheung
+  registered_at: Wed, 27 May 2020 10:54:14 -0700,
+  address: 1234 Main Street
+  city: Los Angeles
+  state: CA 
+  postal_code: 90024,
+  phone: (310) 333-3434
+  videos_checked_out_count: 1
+ross:
+  name: Ross Yu
+  registered_at: Wed, 27 May 2020 10:54:14 -0700,
+  address: 5678 Main Street
+  city: San Francisco
+  state: CA 
+  postal_code: 90210,
+  phone: (925) 564-3484
+  videos_checked_out_count: 1
