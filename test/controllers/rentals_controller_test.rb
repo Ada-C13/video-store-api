@@ -12,7 +12,7 @@ describe RentalsController do
   describe "check_in" do 
     let(:rental_data) {
       {
-        customer_id: customers(:charli).id
+        customer_id: customers(:charli).id,
         video_id: videos(:firstvideo).id
       }
     }
@@ -38,5 +38,6 @@ describe RentalsController do
     expect(customer.videos_checked_out_count).must_respond_with customer_video_count
     expect(video.available_inventory).must_equal video_inventory
     end
+  end # describe check-in end
     
-end
+end # describe RentalsController end
