@@ -74,4 +74,27 @@ describe Video do
       end
     end
   end
+
+  describe "check_availability" do
+    it "returns true if there is at least one available inventory count" do
+      expect(movie.available_inventory).must_equal 5
+      expect(movie.check_availability).must_equal true
+    end
+
+    it "returns false if there is zero available inventory" do
+      movie.update!(available_inventory: 0)
+      expect(movie.check_availability).must_equal false
+    end
+  end
+
+  describe "decrease_inventory" do
+    it "decreases the available inventory count by 1" do
+      expect {
+        movie.decrease_inventory
+      }.must_differ "movie.available_inventory", -1
+    end
+  end
+
+  describe "decrease_inventory" do
+  end
 end
