@@ -9,7 +9,8 @@ class RentalsController < ApplicationController
     @rental = Rental.new(customer_id: customer_id, video_id: video_id)
       
     if video != nil && customer != nil
-      Rental.checkout(rental: @rental)
+      @checkout = @rental.checkout
+      p @checkout
       if @rental.save
         render json: @rental.as_json(only: [:customer_id, :video_id, :due_date, :videos_checked_out_count, :available_inventory]), status: :ok
         return
@@ -27,6 +28,23 @@ class RentalsController < ApplicationController
 
 
   def checkin
+    video_id = params[:video_id]
+    customer_id = params[:customer_id]
+    exisiting_checkout = Rental.find_by(video_id: video_id, customer_id: customer_id)
+
+    if exisiting_checkout
+      @rental = exisiting_checkout.checkin
+      if @rental.save
+        exisiting_checkout.destroy
+        render json: @rental.as_json(only: [:customer_id, :video_id, :videos_checked_out_count, :available_inventory]), status: :ok
+        return
+      else
+        render json: {errors: ['Not Found']}, status: :not_found
+        return
+      end
+    else
+      render json: {errors: ['Not Found']}, status: :not_found
+    end
   end
 
   private

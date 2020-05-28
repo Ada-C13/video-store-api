@@ -86,8 +86,8 @@ describe Rental do
       )
     end
     it 'can add a due date to a rental' do
-      Rental.checkout(rental: @new_rental)
-      @rental.save!
+      @new_rental.checkout
+      @new_rental.save!
 
       expect(@new_rental.due_date).must_be_instance_of Date
       expect(@new_rental.due_date).must_equal Date.today + 7
@@ -95,16 +95,45 @@ describe Rental do
     end
 
     it 'can add videos_checked_out_count to rental' do
-      Rental.checkout(rental: @new_rental)
+      @new_rental.checkout
       @new_rental.save!
 
-      expect(@new_rental.videos_checked_out_count).must_equal @new_rental.customer.videos_checked_out_count
+      expect(@new_rental.videos_checked_out_count).must_equal 2
     end
 
     it ' can add available_inventory to rental' do
-      Rental.checkout(rental: @new_rental)
+      @new_rental.checkout
       @new_rental.save!
-      expect(@new_rental.available_inventory).must_equal @new_rental.video.available_inventory
+      expect(@new_rental.available_inventory).must_equal 8
+    end
+  end
+
+  describe 'checkin' do
+    before do
+      @new_rental = Rental.new(
+        customer_id: customers(:customer1).id, 
+        video_id: videos(:video1).id
+      )
+    end
+    
+    it 'can decrease videos_checked_out_count ' do
+      @new_rental.checkout
+      @new_rental.save!
+
+      @checked_in = @new_rental.checkin
+      @checked_in.save!
+
+      expect(@checked_in.videos_checked_out_count).must_equal 1
+    end
+
+    it ' can increase available_inventory' do
+      @new_rental.checkout
+      @new_rental.save!
+
+      @checked_in = @new_rental.checkin
+      @checked_in.save!
+
+      expect(@checked_in.available_inventory).must_equal 9
     end
   end
 

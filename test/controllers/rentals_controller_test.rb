@@ -37,13 +37,13 @@ describe RentalsController do
 
     it "customer  video checked out count changes" do
       post check_out_path, params: rental_params
-      updated_checkout_count = Customer.find_by(id: customers(:customer1).id)
+      updated_checkout_count = Rental.find_by(customer_id: customers(:customer1).id)
       expect(updated_checkout_count.videos_checked_out_count).must_equal 2
     end
 
     it "available video count changes" do
       post check_out_path, params: rental_params
-      updated_available_count = Video.find_by(id: videos(:video1).id)
+      updated_available_count = Rental.find_by(video_id: videos(:video1).id)
       expect(updated_available_count.available_inventory).must_equal 8
     end
 
@@ -57,39 +57,42 @@ describe RentalsController do
     end
   end
   
-  # describe "check_in" do
+  describe "check_in" do
+    before do 
+      post check_out_path, params: rental_params
+    end
+    it "can successfully check-in" do
+      expect{post check_in_path, params: rental_params}.wont_change "Rental.count", 1
+      check_response(expected_type: Hash, expected_status: :ok)
+    end
+
+    it "returns not found if video or customer nil" do
+      rental_params[:customer_id] = nil
+      expect{post check_in_path, params: rental_params}.wont_change "Rental.count", 1
+      check_response(expected_type: Hash, expected_status: :not_found)
+    end
+
+    it "can decrease changes customers checked out and also increase the videos inventory" do
       
-  #   it "customer count"do
-  #     expect{post check_in_path, params: rental_params}.must_change "Rental.count", 1
-  #     check_response(expected_type: Hash, expected_status: :ok)
-  #   end
+      current_video_count = Rental.find_by(video_id: videos(:video1).id).available_inventory
+      current_customer_count = Rental.find_by(customer_id: customers(:customer1).id).videos_checked_out_count
 
-  #   it "returns not found if video or customer nil" do
-  #     rental_params[:customer_id] = nil
-  #     expect{post check_in_path, params: rental_params}.wont_change "Rental.count", 1
-  #     check_response(expected_type: Hash, expected_status: :not_found)
-  #   end
+      post check_in_path, params: rental_params
 
-  #   it "can decrease changea customers checked out rental" do
-  #     post check_out_path, params: rental_params
-  #     expect {post check_in_path, params: rental_params}.wont_change ""
-  #     updated_checkin_count = Customer.find_by(id: customers(:customer1).id)
-  #     expect(updated_checkin_count.videos_checkout_in_count).must_equal 1
-  #   end
+      updated_current_video_count = Rental.find_by(video_id: videos(:video1).id)
+      updated_current_customer_count = Rental.find_by(customer_id: customers(:customer1).id)
 
-  #   it "available video count changes" do
-  #     post check_in_path, params: rental_params
-  #     updated_available_count = Video.find_by(id: videos(:video1).id)
-  #     expect(updated_available_count.available_inventory).must_equal 8
-  #   end
+      expect(updated_current_customer_count.videos_checked_out_count).must_equal 1
+      expect(updated_current_video_count.available_inventory).must_equal 9
+    end
 
-  #   it "can return not_found when no video is in stock" do
-  #     video3 = videos(:video3)
-  #     video3.available_inventory = 0
-  #     video3.save!
-      
-  #     expect{post check_in_path, params: {customer_id: customer.id, video_id: video3.id }}.wont_change "Rental.count", 1
-  #     check_response(expected_type: Hash, expected_status: :not_found)
-  #   end 
-  # end
+    it "can delete existing checkout" do
+      exisiting_rental = Rental.find_by(customer_id: customer.id)
+      post check_in_path, params: rental_params
+
+      find_existing = Rental.find_by(id: exisiting_rental.id)
+      assert_nil(find_existing)
+    end 
+
+  end
 end
