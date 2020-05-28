@@ -3,7 +3,7 @@ VIDEOKEYS = [:id, :title, :release_date, :available_inventory]
 SHOWKEYS = [:title, :overview, :release_date, :total_inventory, :available_inventory]
   
   def index
-    videos = Video.all.as_json(only: VIDEOKEYS.sort )
+    videos = Video.order(:title).all.as_json(only: VIDEOKEYS.sort )
     render json: videos, status: :ok
   end
 

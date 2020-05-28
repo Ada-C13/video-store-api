@@ -1,43 +1,6 @@
 class RentalsController < ApplicationController
-
-
-    def checkin
-        rental = Rental.find_by(customer_id: rental_params[:customer_id])
-        puts "rental #{rental}"
-        puts "customer #{rental_params[:customer_id]}"
-        puts "video #{rental_params[:video_id]}"
-        puts Customer.find_by(id: 23)
-        Rental.all.each{ |rental| p [rental.customer_id, rental.video_id]}
-
-        
-        if rental
-            rental.checked_in = Date.today
-        else 
-           puts "hiiiiiiiiiiiiii" 
-        render json: { 
-            errors: "rental does not exist!"
-        }, status: :not_found
-           return
-        end
-
-
-        if rental.save
-            rental.decrease_count
-            render json: { 
-                customer_id: rental.customer_id, 
-                video_id: rental.video_id,
-                due_date: rental.due_date,
-                videos_checked_out_count: rental.customer.videos_checked_out_count, 
-                available_inventory: rental.video.available_inventory
-            },status: :ok
-            return
-                else 
-            render json:  {
-                errors: ['Not Found'] 
-            }, status: :not_found
-            return
-        end
-    end
+    
+   
 
     def checkout
         rental = Rental.new(rental_params)
@@ -64,7 +27,42 @@ class RentalsController < ApplicationController
         end
     end
 
+    def checkin
+        rental = Rental.find_by_customer_id_and_video_id(rental_params[:customer_id],rental_params[:video_id])
+        
+        # puts "rental #{rental.customer_id}"
+        # puts "customer #{rental_params[:customer_id]}"
+        # puts "video #{rental_params[:video_id]}"
+        # Rental.all.each{ |rental| p [rental.customer_id, rental.video_id]}
 
+        
+        if rental
+            rental.checked_in = Date.today
+        else 
+           puts "hiiiiiiiiiiiiii" 
+        render json: { 
+            errors: ["Not Found"]
+        }, status: :not_found
+           return
+        end
+
+
+        if rental.save
+            rental.decrease_count
+            render json: { 
+                customer_id: rental.customer_id, 
+                video_id: rental.video_id,
+                videos_checked_out_count: rental.customer.videos_checked_out_count, 
+                available_inventory: rental.video.available_inventory
+            },status: :ok
+            return
+                else 
+            render json:  {
+                errors: ['Not Found'] 
+            }, status: :not_found
+            return
+        end
+    end
 
     private
     def rental_params

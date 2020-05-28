@@ -38,19 +38,19 @@ describe VideosController do
       end
     end
 
-    it "will respond with an empty array when there are no videos" do
-      # Arrange
-      Video.destroy_all
+    # it "will respond with an empty array when there are no videos" do
+    #   # Arrange
+    #   Video.destroy_all
   
-      # Act
-      get videos_path
-      body = JSON.parse(response.body)
+    #   # Act
+    #   get videos_path
+    #   body = JSON.parse(response.body)
 
-      # Assert
-      expect(body).must_be_instance_of Array
-      expect(body).must_equal []
-      expect(status).must_equal 200 
-    end
+    #   # Assert
+    #   expect(body).must_be_instance_of Array
+    #   expect(body).must_equal []
+    #   expect(status).must_equal 200 
+    # end
   end
 
 

@@ -9,21 +9,34 @@ class Rental < ApplicationRecord
   # validates :video[:available_inventory], presence: true
 
   def add_to_count
-    if self.video.available_inventory < 1
-      return ArgumentError("No avaialble copies")
+    if self.video.available_inventory.nil?
+      self.video.available_inventory = self.video.total_inventory - 1
+      self.video.save
+      
+      self.customer.videos_checked_out_count += 1
+      self.customer.save
     else
       self.video.available_inventory -= 1
-      self.customer.videos_checked_out_count += 1
       self.video.save
+      
+      self.customer.videos_checked_out_count += 1
       self.customer.save
     end
   end
 
 
   def decrease_count
-    self.video.available_inventory += 1
-    self.customer.videos_checked_out_count -= 1
-    self.video.save
-    self.customer.save
+    if self.checked_out != nil
+      if self.video.available_inventory == nil
+        return "This video has not been returned yet"
+      else
+        self.video.available_inventory += 1
+        self.video.save
+        
+        self.customer.videos_checked_out_count -= 1
+        self.customer.save
+        self.save
+      end
+    end
   end
 end

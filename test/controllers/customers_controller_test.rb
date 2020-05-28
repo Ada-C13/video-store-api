@@ -28,18 +28,18 @@ describe CustomersController do
       end
     end
 
-    it "will respond with an empty array when there are no customers" do
-      # Arrange
-      Customer.destroy_all
+    # it "will respond with an empty array when there are no customers" do
+    #   # Arrange
+    #   Customer.destroy_all
   
-      # Act
-      get customers_path
-      body = JSON.parse(response.body)
+    #   # Act
+    #   get customers_path
+    #   body = JSON.parse(response.body)
   
-      # Assert
-      expect(body).must_be_instance_of Array
-      expect(body).must_equal []
-      expect(status).must_equal 200  #added this
-    end
+    #   # Assert
+    #   expect(body).must_be_instance_of Array
+    #   expect(body).must_equal []
+    #   expect(status).must_equal 200  #added this
+    # end
   end
 end
