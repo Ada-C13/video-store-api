@@ -5,5 +5,14 @@ class Video < ApplicationRecord
   has_many :rentals, dependent: :nullify
   has_many :customers, through: :rentals
 
+  def increase_available_inventory
+    self.available_inventory += 1
+    self.save!
+  end
+
+  def decrease_available_inventory
+    self.available_inventory -= 1
+    self.save!
+  end
   
 end

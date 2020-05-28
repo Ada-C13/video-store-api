@@ -9,7 +9,7 @@ class RentalsController < ApplicationController
     @rental = Rental.new(customer_id: customer_id, video_id: video_id)
       
     if video != nil && customer != nil
-      Rental.checkout(customer_id: customer_id, video_id: video_id, rental: @rental)
+      Rental.checkout(rental: @rental)
       if @rental.save
         render json: @rental.as_json(only: [:customer_id, :video_id, :due_date, :videos_checked_out_count, :available_inventory]), status: :ok
         return

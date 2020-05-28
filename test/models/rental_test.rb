@@ -79,6 +79,33 @@ describe Rental do
   end
 
   describe 'checkout' do
+    before do
+      @new_rental = Rental.new(
+        customer_id: customers(:customer1).id, 
+        video_id: videos(:video1).id
+      )
+    end
+    it 'can add a due date to a rental' do
+      Rental.checkout(rental: @new_rental)
+      @rental.save!
+
+      expect(@new_rental.due_date).must_be_instance_of Date
+      expect(@new_rental.due_date).must_equal Date.today + 7
+
+    end
+
+    it 'can add videos_checked_out_count to rental' do
+      Rental.checkout(rental: @new_rental)
+      @new_rental.save!
+
+      expect(@new_rental.videos_checked_out_count).must_equal @new_rental.customer.videos_checked_out_count
+    end
+
+    it ' can add available_inventory to rental' do
+      Rental.checkout(rental: @new_rental)
+      @new_rental.save!
+      expect(@new_rental.available_inventory).must_equal @new_rental.video.available_inventory
+    end
   end
 
 end

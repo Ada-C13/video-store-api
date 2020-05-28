@@ -60,17 +60,17 @@ describe RentalsController do
   # describe "check_in" do
       
   #   it "customer count"do
-  #     expect{post check_in_path, params: rental_params}.must_differ "Rental.count", 1
+  #     expect{post check_in_path, params: rental_params}.must_change "Rental.count", 1
   #     check_response(expected_type: Hash, expected_status: :ok)
   #   end
 
-  #   it "returns not_found if video or customer empty" do
+  #   it "returns not found if video or customer nil" do
   #     rental_params[:customer_id] = nil
   #     expect{post check_in_path, params: rental_params}.wont_change "Rental.count", 1
   #     check_response(expected_type: Hash, expected_status: :not_found)
   #   end
 
-  #   it "customer  video checked in count changes" do
+  #   it "can decrease changea customers checked out rental" do
   #     post check_out_path, params: rental_params
   #     expect {post check_in_path, params: rental_params}.wont_change ""
   #     updated_checkin_count = Customer.find_by(id: customers(:customer1).id)

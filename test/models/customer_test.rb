@@ -29,7 +29,22 @@ describe Customer do
     end
 
   end
-
+  describe "Customer custom method" do
+    describe "Increase Customer Video Checkout Count" do
+      it "will increase the customer checked out count" do
+        customer_video_checked = @customer.videos_checked_out_count
+        @customer.increase_checked_out
+        expect(@customer.videos_checked_out_count).must_equal 2
+      end
+    end
+    describe "Decrease Customer Video Checkout Count" do
+      it "will decrease the video inventory" do
+        customer_video_checked = @customer.videos_checked_out_count
+        @customer.decrease_checked_out
+        expect(@customer.videos_checked_out_count).must_equal 0
+      end
+    end
+  end
   # describe 'relationships' do
   #   before do
   #     @work_votes = @work.votes
