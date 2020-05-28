@@ -139,6 +139,5 @@ describe RentalsController do
       body = JSON.parse(response.body)
       expect(body["errors"]).must_equal ["Not Found"]
     end
-
   end
 end
