@@ -69,13 +69,6 @@ describe Video do
 
   describe "custom methods" do
 
-    let(:check_in_data) {
-      {
-        customer_id: customers(:customer_one).id,
-        video_id: videos(:fake_vid).id,
-      }
-    }
-
     describe "increase_avail_inventory" do 
       it "increases count for increase_avail_inventory" do
         new_rental = Rental.create(
