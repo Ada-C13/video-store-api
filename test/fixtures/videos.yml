@@ -1,0 +1,18 @@
+vid1: 
+  title: One 
+  overview: the first 
+  release_date: <%= 54.day.ago.to_s(:db) %>
+  total_inventory: 3
+  available_inventory: 2
+vid2: 
+  title: Second
+  overview: the second
+  release_date: <%= 1.day.ago.to_s(:db) %>
+  total_inventory: 5
+  available_inventory: 1
+vid3: 
+  title: Third
+  overview: the third
+  release_date: <%= 3.day.ago.to_s(:db) %>
+  total_inventory: 3
+  available_inventory: 0
