@@ -2,7 +2,7 @@ class Rental < ApplicationRecord
   belongs_to :video
   belongs_to :customer
 
-  validates :video_id, presence: true
+  validates :video_id, presence: true, uniqueness: {scope: :customer_id}
   validates :customer_id, presence: true
   # validates :due_date, presence: true
   # validates :active, presence: true
