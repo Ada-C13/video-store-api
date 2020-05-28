@@ -6,10 +6,9 @@ class RentalsController < ApplicationController
 
     if !video.nil? && video.available_inventory <= 0 
       render json: {
-        ok: false,
-        "errors": ["Video does not have any available inventory"],
-        status: :not_found
-      }
+        errors: ['Not Found']
+      }, status: :not_found
+      return
     elsif rental.save 
       video.available_inventory -= 1
       video.save
@@ -23,10 +22,9 @@ class RentalsController < ApplicationController
         available_inventory: video.available_inventory }       
     else
       render json: {
-        ok: false,
-        errors: [rental.errors.messages],
-        status: :bad_request
-      }
+        errors: ['Not Found']
+      }, status: :not_found
+
       return
     end
   end
@@ -50,13 +48,6 @@ class RentalsController < ApplicationController
         due_date: rental.due_date,
         videos_checked_out_count: customer.videos_checked_out_count,
         available_inventory: video.available_inventory }       
-    else
-      render json: {
-        ok: false,
-        errors: [rental.errors.messages],
-        status: :bad_request
-      }
-      return
     end
   end
 
