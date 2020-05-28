@@ -7,6 +7,7 @@ describe RentalsController do
 
     body = JSON.parse(response.body)
     expect(body).must_be_kind_of expected_type
+    pp body
     return body
   end
 
@@ -26,12 +27,42 @@ describe RentalsController do
     it "increase the customer's videos_checked_out_count by one" do
       expect(customers(:nataliya).videos_checked_out_count).must_equal 6
       
-      post rentals_path, params: rental_data
-      expect(customers(:nataliya).videos_checked_out_count).must_equal 7
+      # post rentals_path, params: rental_data
+      # expect(customers(:nataliya).videos_checked_out_count).must_equal 7
     end
 
+    it "decrease the video's available_inventory by one" do
+    end
 
-      
+    it "will respond with 404: Not Found if the customer does not exist" do
+      rental_data[:customer_id] = -1
+      expect{post rentals_path, params: rental_data}.wont_change "Rental.count", 1
+      body = check_response(expected_type: Hash, expected_status: :not_found)
+      expect(body["errors"].keys).must_include "customer"
+    end
+
+    it "will respond with 404: Not Found if the video does not exist" do
+      rental_data[:video_id] = -1
+      expect{post rentals_path, params: rental_data}.wont_change "Rental.count", 1
+      body = check_response(expected_type: Hash, expected_status: :not_found)
+      expect(body["errors"].keys).must_include "video"
+    end
+
+    it "will respond with 400: Bad Request if the video does not have any available inventory before check out" do
+      rental_data = {
+        video_id: videos(:maleficent).id,
+        customer_id: customers(:nataliya).id
+      }
+      expect{post rentals_path, params: rental_data}.wont_change "Rental.count", 1
+      body = check_response(expected_type: Hash, expected_status: :bad_request)
+      expect(body["errors"]).must_equal ["No available copies of the video available"]
+    end
+
+    it "will respond with 404: Not Found if the customer is already renting this video title" do
+      post rentals_path, params: rental_data
+      expect{post rentals_path, params: rental_data}.wont_change "Rental.count", 1
+      body = check_response(expected_type: Hash, expected_status: :not_found)
+      expect(body["errors"].keys).must_include "video_id"
     end
   end
 end

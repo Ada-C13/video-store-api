@@ -1,11 +1,16 @@
 class RentalsController < ApplicationController
-  before_action :require_inventory
+  # before_action :require_inventory
   # before_action :require_customer
   # before_action :require_work
 
 
   def create
-    rental = Rental.new(customer_id: params[:customer_id], video_id: @video.id)
+    rental = Rental.new(customer_id: params[:customer_id], video_id: params[:video_id])
+
+    if Video.find_by(id: params[:video_id]) && rental.video.available_inventory == 0
+      render json: { errors: ["No available copies of the video available"] }, status: :bad_request
+      return
+    end
 
     if rental.save
       rental.customer.videos_checked_out_count += 1
@@ -31,12 +36,12 @@ class RentalsController < ApplicationController
 
   private
 
-  def require_inventory
-    @video = Video.find_by(id: params[:video_id])
-    if @video.available_inventory == 0
-      render json: { errors: ["No available copies of the video available"] }, status: :bad_request
-    end
-  end
+  # def require_inventory
+  #   @video = Video.find_by(id: params[:video_id])
+  #   if @video.available_inventory == 0
+  #     render json: { errors: ["No available copies of the video available"] }, status: :bad_request
+  #   end
+  # end
 
 
   # def require_customer
