@@ -30,8 +30,7 @@ class RentalsController < ApplicationController
 		if rental.save
 			customer.videos_checked_out_count += 1
 			customer.save
-			video.available_inventory -= 1
-			video.save
+			video.decrease_avail_inventory
 
 			rental_info = {
 				customer_id: rental.customer_id,
@@ -75,8 +74,7 @@ class RentalsController < ApplicationController
 		if rental
 			customer.videos_checked_out_count -= 1
 			customer.save
-			video.available_inventory += 1
-			video.save
+			video.increase_avail_inventory
 
 			rental_info = {
 				customer_id: customer.id,
