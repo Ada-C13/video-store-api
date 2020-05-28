@@ -1,5 +1,4 @@
 shelley:
-  id: 1 
   name: Shelley Rocha,
   registered_at: Wed, 29 Apr 2015 07:54:14 -0700,
   address: Ap 292-5216 Ipsum Rd.,
@@ -9,7 +8,6 @@ shelley:
   phone: (322) 510-8695
   videos_checked_out_count: 0
 Joseph:
-  id: 2
   name: Joseph Nguyen
   registered_at: Wed, 29 Apr 2020 08:54:14 -0700,
   address: 5000 City Lights Drive
@@ -19,7 +17,6 @@ Joseph:
   phone: (626)-688-7777
   videos_checked_out_count: 2
 sharon:
-  id: 3 
   name: Sharon Cheung
   registered_at: Wed, 27 May 2020 10:54:14 -0700,
   address: 1234 Main Street
@@ -29,7 +26,6 @@ sharon:
   phone: (310) 333-3434
   videos_checked_out_count: 1
 ross:
-  id: 4 
   name: Ross Yu
   registered_at: Wed, 27 May 2020 10:54:14 -0700,
   address: 5678 Main Street
