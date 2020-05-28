@@ -111,6 +111,25 @@ describe Customer do
       expect(new_customer.errors.messages).must_include :phone
       expect(new_customer.errors.messages[:phone]).must_equal ["can't be blank"]
     end
+  end
 
+  describe "increase_videos_checked_out_count" do
+    it "increases the videos checked out count by 1" do
+      new_customer.save!
+
+      expect {
+        new_customer.increase_videos_checked_out_count
+      }.must_differ "new_customer.videos_checked_out_count", 1
+    end
+  end
+
+  describe "decrease_videos_checked_out_count" do
+    it "decreases the videos checked out count by 1" do
+      new_customer.save!
+
+      expect {
+        new_customer.decrease_videos_checked_out_count
+      }.must_differ "new_customer.videos_checked_out_count", -1
+    end
   end
 end
