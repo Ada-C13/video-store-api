@@ -1,0 +1,367 @@
+Started GET "/videos" for ::1 at 2020-05-27 22:42:09 -0700
+Started GET "/customers" for ::1 at 2020-05-27 22:42:09 -0700
+   (28.8ms)  SELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC
+   (1.0ms)  SELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC
+Processing by CustomersController#index as */*
+Processing by VideosController#index as */*
+  Customer Load (53.9ms)  SELECT "customers".* FROM "customers"
+  ↳ app/controllers/customers_controller.rb:5:in `index'
+  Video Load (179.4ms)  SELECT "videos".* FROM "videos"
+  ↳ app/controllers/videos_controller.rb:6:in `index'
+Completed 200 OK in 635ms (Views: 28.9ms | ActiveRecord: 341.7ms | Allocations: 40565)
+
+
+Completed 200 OK in 1134ms (Views: 231.6ms | ActiveRecord: 246.3ms | Allocations: 63089)
+
+
+Started POST "/rentals/check-in" for ::1 at 2020-05-27 22:42:11 -0700
+Processing by RentalsController#checkin as */*
+  Parameters: {"customer_id"=>"1", "video_id"=>"90"}
+  Rental Load (7.7ms)  SELECT "rentals".* FROM "rentals" WHERE "rentals"."customer_id" = $1 LIMIT $2  [["customer_id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/rentals_controller.rb:5:in `checkin'
+rental 
+customer 1
+video 90
+  Customer Load (2.4ms)  SELECT "customers".* FROM "customers" WHERE "customers"."id" = $1 LIMIT $2  [["id", 23], ["LIMIT", 1]]
+  ↳ app/controllers/rentals_controller.rb:9:in `checkin'
+#<Customer:0x00007fb36337be00>
+  Rental Load (0.6ms)  SELECT "rentals".* FROM "rentals"
+  ↳ app/controllers/rentals_controller.rb:10:in `checkin'
+hiiiiiiiiiiiiii
+Completed 404 Not Found in 239ms (Views: 0.5ms | ActiveRecord: 215.3ms | Allocations: 4346)
+
+
+Started GET "/customers" for ::1 at 2020-05-27 22:42:30 -0700
+Started GET "/videos" for ::1 at 2020-05-27 22:42:30 -0700
+Processing by VideosController#index as */*
+  Video Load (2.9ms)  SELECT "videos".* FROM "videos"
+  ↳ app/controllers/videos_controller.rb:6:in `index'
+Processing by CustomersController#index as */*
+Completed 200 OK in 68ms (Views: 34.2ms | ActiveRecord: 2.9ms | Allocations: 12504)
+
+
+  Customer Load (196.6ms)  SELECT "customers".* FROM "customers"
+  ↳ app/controllers/customers_controller.rb:5:in `index'
+Completed 200 OK in 336ms (Views: 53.3ms | ActiveRecord: 196.6ms | Allocations: 34422)
+
+
+Started POST "/rentals/check-out" for ::1 at 2020-05-27 22:42:30 -0700
+Processing by RentalsController#checkout as */*
+  Parameters: {"customer_id"=>"1", "video_id"=>"90"}
+   (4.5ms)  BEGIN
+  ↳ app/controllers/rentals_controller.rb:46:in `checkout'
+  Video Load (0.3ms)  SELECT "videos".* FROM "videos" WHERE "videos"."id" = $1 LIMIT $2  [["id", 90], ["LIMIT", 1]]
+  ↳ app/controllers/rentals_controller.rb:46:in `checkout'
+  Customer Load (0.3ms)  SELECT "customers".* FROM "customers" WHERE "customers"."id" = $1 LIMIT $2  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/rentals_controller.rb:46:in `checkout'
+  Rental Create (63.9ms)  INSERT INTO "rentals" ("due_date", "created_at", "updated_at", "checked_out", "video_id", "customer_id") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"  [["due_date", "2020-06-03 00:00:00 UTC"], ["created_at", "2020-05-28 05:42:31.158282"], ["updated_at", "2020-05-28 05:42:31.158282"], ["checked_out", "2020-05-27 00:00:00"], ["video_id", 90], ["customer_id", 1]]
+  ↳ app/controllers/rentals_controller.rb:46:in `checkout'
+   (12.2ms)  COMMIT
+  ↳ app/controllers/rentals_controller.rb:46:in `checkout'
+   (19.2ms)  BEGIN
+  ↳ app/models/rental.rb:17:in `add_to_count'
+  Video Update (13.8ms)  UPDATE "videos" SET "available_inventory" = $1, "updated_at" = $2 WHERE "videos"."id" = $3  [["available_inventory", 4], ["updated_at", "2020-05-28 05:42:31.239930"], ["id", 90]]
+  ↳ app/models/rental.rb:17:in `add_to_count'
+   (0.6ms)  COMMIT
+  ↳ app/models/rental.rb:17:in `add_to_count'
+   (0.2ms)  BEGIN
+  ↳ app/models/rental.rb:18:in `add_to_count'
+  Customer Update (1.4ms)  UPDATE "customers" SET "videos_checked_out_count" = $1, "updated_at" = $2 WHERE "customers"."id" = $3  [["videos_checked_out_count", 2], ["updated_at", "2020-05-28 05:42:31.288966"], ["id", 1]]
+  ↳ app/models/rental.rb:18:in `add_to_count'
+   (1.0ms)  COMMIT
+  ↳ app/models/rental.rb:18:in `add_to_count'
+Completed 200 OK in 347ms (Views: 1.2ms | ActiveRecord: 238.5ms | Allocations: 18211)
+
+
+Started GET "/videos" for ::1 at 2020-05-27 22:42:31 -0700
+Processing by VideosController#index as */*
+  Video Load (10.1ms)  SELECT "videos".* FROM "videos"
+  ↳ app/controllers/videos_controller.rb:6:in `index'
+Completed 200 OK in 28ms (Views: 5.9ms | ActiveRecord: 10.1ms | Allocations: 12037)
+
+
+Started POST "/rentals/check-out" for ::1 at 2020-05-27 22:42:31 -0700
+Processing by RentalsController#checkout as */*
+  Parameters: {"customer_id"=>"-1", "video_id"=>"90"}
+   (0.3ms)  BEGIN
+  ↳ app/controllers/rentals_controller.rb:46:in `checkout'
+  Video Load (0.4ms)  SELECT "videos".* FROM "videos" WHERE "videos"."id" = $1 LIMIT $2  [["id", 90], ["LIMIT", 1]]
+  ↳ app/controllers/rentals_controller.rb:46:in `checkout'
+  Customer Load (0.4ms)  SELECT "customers".* FROM "customers" WHERE "customers"."id" = $1 LIMIT $2  [["id", -1], ["LIMIT", 1]]
+  ↳ app/controllers/rentals_controller.rb:46:in `checkout'
+   (0.6ms)  ROLLBACK
+  ↳ app/controllers/rentals_controller.rb:46:in `checkout'
+Completed 404 Not Found in 30ms (Views: 0.2ms | ActiveRecord: 1.7ms | Allocations: 5502)
+
+
+Started GET "/customers" for ::1 at 2020-05-27 22:42:31 -0700
+Processing by CustomersController#index as */*
+  Customer Load (22.1ms)  SELECT "customers".* FROM "customers"
+  ↳ app/controllers/customers_controller.rb:5:in `index'
+Completed 200 OK in 293ms (Views: 181.5ms | ActiveRecord: 22.1ms | Allocations: 34177)
+
+
+Started POST "/rentals/check-out" for ::1 at 2020-05-27 22:42:31 -0700
+Processing by RentalsController#checkout as */*
+  Parameters: {"customer_id"=>"2", "video_id"=>"-1"}
+   (0.2ms)  BEGIN
+  ↳ app/controllers/rentals_controller.rb:46:in `checkout'
+  Video Load (0.7ms)  SELECT "videos".* FROM "videos" WHERE "videos"."id" = $1 LIMIT $2  [["id", -1], ["LIMIT", 1]]
+  ↳ app/controllers/rentals_controller.rb:46:in `checkout'
+  Customer Load (11.7ms)  SELECT "customers".* FROM "customers" WHERE "customers"."id" = $1 LIMIT $2  [["id", 2], ["LIMIT", 1]]
+  ↳ app/controllers/rentals_controller.rb:46:in `checkout'
+   (0.2ms)  ROLLBACK
+  ↳ app/controllers/rentals_controller.rb:46:in `checkout'
+Completed 404 Not Found in 22ms (Views: 0.2ms | ActiveRecord: 12.7ms | Allocations: 4429)
+
+
+Started GET "/customers" for ::1 at 2020-05-27 22:42:32 -0700
+Started GET "/videos" for ::1 at 2020-05-27 22:42:32 -0700
+Processing by CustomersController#index as */*
+Processing by VideosController#index as */*
+  Customer Load (15.3ms)  SELECT "customers".* FROM "customers"
+  ↳ app/controllers/customers_controller.rb:5:in `index'
+Completed 200 OK in 129ms (Views: 25.9ms | ActiveRecord: 15.3ms | Allocations: 34696)
+
+
+  Video Load (310.9ms)  SELECT "videos".* FROM "videos"
+  ↳ app/controllers/videos_controller.rb:6:in `index'
+Completed 200 OK in 339ms (Views: 4.0ms | ActiveRecord: 310.9ms | Allocations: 46349)
+
+
+Started POST "/rentals/check-in" for ::1 at 2020-05-27 22:42:32 -0700
+Processing by RentalsController#checkin as */*
+  Parameters: {"customer_id"=>"2", "video_id"=>"90"}
+  Rental Load (3.9ms)  SELECT "rentals".* FROM "rentals" WHERE "rentals"."customer_id" = $1 LIMIT $2  [["customer_id", 2], ["LIMIT", 1]]
+  ↳ app/controllers/rentals_controller.rb:5:in `checkin'
+rental 
+customer 2
+video 90
+  Customer Load (0.5ms)  SELECT "customers".* FROM "customers" WHERE "customers"."id" = $1 LIMIT $2  [["id", 23], ["LIMIT", 1]]
+  ↳ app/controllers/rentals_controller.rb:9:in `checkin'
+#<Customer:0x00007fb361d70fc0>
+  Rental Load (57.6ms)  SELECT "rentals".* FROM "rentals"
+  ↳ app/controllers/rentals_controller.rb:10:in `checkin'
+[1, 90]
+hiiiiiiiiiiiiii
+Completed 404 Not Found in 68ms (Views: 0.2ms | ActiveRecord: 62.0ms | Allocations: 2030)
+
+
+Started GET "/videos" for ::1 at 2020-05-27 22:42:32 -0700
+Processing by VideosController#index as */*
+  Video Load (9.4ms)  SELECT "videos".* FROM "videos"
+  ↳ app/controllers/videos_controller.rb:6:in `index'
+Completed 200 OK in 49ms (Views: 5.3ms | ActiveRecord: 9.4ms | Allocations: 12037)
+
+
+Started POST "/rentals/check-in" for ::1 at 2020-05-27 22:42:32 -0700
+Processing by RentalsController#checkin as */*
+  Parameters: {"customer_id"=>"-1", "video_id"=>"90"}
+  Rental Load (5.8ms)  SELECT "rentals".* FROM "rentals" WHERE "rentals"."customer_id" = $1 LIMIT $2  [["customer_id", -1], ["LIMIT", 1]]
+  ↳ app/controllers/rentals_controller.rb:5:in `checkin'
+rental 
+customer -1
+video 90
+  Customer Load (2.8ms)  SELECT "customers".* FROM "customers" WHERE "customers"."id" = $1 LIMIT $2  [["id", 23], ["LIMIT", 1]]
+  ↳ app/controllers/rentals_controller.rb:9:in `checkin'
+#<Customer:0x00007fb363533d60>
+  Rental Load (21.0ms)  SELECT "rentals".* FROM "rentals"
+  ↳ app/controllers/rentals_controller.rb:10:in `checkin'
+[1, 90]
+hiiiiiiiiiiiiii
+Completed 404 Not Found in 35ms (Views: 0.3ms | ActiveRecord: 29.6ms | Allocations: 2018)
+
+
+Started GET "/customers" for ::1 at 2020-05-27 22:42:32 -0700
+Processing by CustomersController#index as */*
+  Customer Load (30.5ms)  SELECT "customers".* FROM "customers"
+  ↳ app/controllers/customers_controller.rb:5:in `index'
+Completed 200 OK in 230ms (Views: 95.0ms | ActiveRecord: 30.5ms | Allocations: 34165)
+
+
+Started POST "/rentals/check-in" for ::1 at 2020-05-27 22:42:33 -0700
+Processing by RentalsController#checkin as */*
+  Parameters: {"customer_id"=>"2", "video_id"=>"-1"}
+  Rental Load (7.6ms)  SELECT "rentals".* FROM "rentals" WHERE "rentals"."customer_id" = $1 LIMIT $2  [["customer_id", 2], ["LIMIT", 1]]
+  ↳ app/controllers/rentals_controller.rb:5:in `checkin'
+rental 
+customer 2
+video -1
+  Customer Load (3.9ms)  SELECT "customers".* FROM "customers" WHERE "customers"."id" = $1 LIMIT $2  [["id", 23], ["LIMIT", 1]]
+  ↳ app/controllers/rentals_controller.rb:9:in `checkin'
+#<Customer:0x00007fb361e7f2e0>
+  Rental Load (0.3ms)  SELECT "rentals".* FROM "rentals"
+  ↳ app/controllers/rentals_controller.rb:10:in `checkin'
+[1, 90]
+hiiiiiiiiiiiiii
+Completed 404 Not Found in 18ms (Views: 0.2ms | ActiveRecord: 11.8ms | Allocations: 2019)
+
+
+Started GET "/videos" for ::1 at 2020-05-27 22:49:15 -0700
+Started GET "/customers" for ::1 at 2020-05-27 22:49:15 -0700
+Processing by CustomersController#index as */*
+Processing by VideosController#index as */*
+  Customer Load (2.5ms)  SELECT "customers".* FROM "customers"
+  ↳ app/controllers/customers_controller.rb:5:in `index'
+Completed 200 OK in 183ms (Views: 83.3ms | ActiveRecord: 2.5ms | Allocations: 34908)
+
+
+  Video Load (181.2ms)  SELECT "videos".* FROM "videos"
+  ↳ app/controllers/videos_controller.rb:6:in `index'
+Completed 200 OK in 214ms (Views: 2.0ms | ActiveRecord: 181.2ms | Allocations: 46465)
+
+
+Started POST "/rentals/check-out" for ::1 at 2020-05-27 22:49:16 -0700
+Processing by RentalsController#checkout as */*
+  Parameters: {"customer_id"=>"2", "video_id"=>"90"}
+   (28.4ms)  BEGIN
+  ↳ app/controllers/rentals_controller.rb:46:in `checkout'
+  Video Load (0.5ms)  SELECT "videos".* FROM "videos" WHERE "videos"."id" = $1 LIMIT $2  [["id", 90], ["LIMIT", 1]]
+  ↳ app/controllers/rentals_controller.rb:46:in `checkout'
+  Customer Load (15.1ms)  SELECT "customers".* FROM "customers" WHERE "customers"."id" = $1 LIMIT $2  [["id", 2], ["LIMIT", 1]]
+  ↳ app/controllers/rentals_controller.rb:46:in `checkout'
+  Rental Create (1.1ms)  INSERT INTO "rentals" ("due_date", "created_at", "updated_at", "checked_out", "video_id", "customer_id") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"  [["due_date", "2020-06-03 00:00:00 UTC"], ["created_at", "2020-05-28 05:49:16.305210"], ["updated_at", "2020-05-28 05:49:16.305210"], ["checked_out", "2020-05-27 00:00:00"], ["video_id", 90], ["customer_id", 2]]
+  ↳ app/controllers/rentals_controller.rb:46:in `checkout'
+   (10.4ms)  COMMIT
+  ↳ app/controllers/rentals_controller.rb:46:in `checkout'
+   (0.1ms)  BEGIN
+  ↳ app/models/rental.rb:17:in `add_to_count'
+  Video Update (0.4ms)  UPDATE "videos" SET "available_inventory" = $1, "updated_at" = $2 WHERE "videos"."id" = $3  [["available_inventory", 3], ["updated_at", "2020-05-28 05:49:16.319796"], ["id", 90]]
+  ↳ app/models/rental.rb:17:in `add_to_count'
+   (0.5ms)  COMMIT
+  ↳ app/models/rental.rb:17:in `add_to_count'
+   (0.4ms)  BEGIN
+  ↳ app/models/rental.rb:18:in `add_to_count'
+  Customer Update (0.3ms)  UPDATE "customers" SET "videos_checked_out_count" = $1, "updated_at" = $2 WHERE "customers"."id" = $3  [["videos_checked_out_count", 2], ["updated_at", "2020-05-28 05:49:16.324513"], ["id", 2]]
+  ↳ app/models/rental.rb:18:in `add_to_count'
+   (0.4ms)  COMMIT
+  ↳ app/models/rental.rb:18:in `add_to_count'
+Completed 200 OK in 90ms (Views: 0.6ms | ActiveRecord: 61.8ms | Allocations: 9584)
+
+
+Started GET "/videos" for ::1 at 2020-05-27 22:49:16 -0700
+Processing by VideosController#index as */*
+  Video Load (3.2ms)  SELECT "videos".* FROM "videos"
+  ↳ app/controllers/videos_controller.rb:6:in `index'
+Completed 200 OK in 36ms (Views: 21.1ms | ActiveRecord: 3.2ms | Allocations: 12037)
+
+
+Started POST "/rentals/check-out" for ::1 at 2020-05-27 22:49:16 -0700
+Processing by RentalsController#checkout as */*
+  Parameters: {"customer_id"=>"-1", "video_id"=>"90"}
+   (40.1ms)  BEGIN
+  ↳ app/controllers/rentals_controller.rb:46:in `checkout'
+  Video Load (3.9ms)  SELECT "videos".* FROM "videos" WHERE "videos"."id" = $1 LIMIT $2  [["id", 90], ["LIMIT", 1]]
+  ↳ app/controllers/rentals_controller.rb:46:in `checkout'
+  Customer Load (4.4ms)  SELECT "customers".* FROM "customers" WHERE "customers"."id" = $1 LIMIT $2  [["id", -1], ["LIMIT", 1]]
+  ↳ app/controllers/rentals_controller.rb:46:in `checkout'
+   (2.1ms)  ROLLBACK
+  ↳ app/controllers/rentals_controller.rb:46:in `checkout'
+Completed 404 Not Found in 62ms (Views: 0.3ms | ActiveRecord: 50.5ms | Allocations: 4381)
+
+
+Started GET "/customers" for ::1 at 2020-05-27 22:49:16 -0700
+Processing by CustomersController#index as */*
+  Customer Load (2.2ms)  SELECT "customers".* FROM "customers"
+  ↳ app/controllers/customers_controller.rb:5:in `index'
+Completed 200 OK in 131ms (Views: 53.4ms | ActiveRecord: 2.2ms | Allocations: 34165)
+
+
+Started POST "/rentals/check-out" for ::1 at 2020-05-27 22:49:16 -0700
+Processing by RentalsController#checkout as */*
+  Parameters: {"customer_id"=>"3", "video_id"=>"-1"}
+   (0.7ms)  BEGIN
+  ↳ app/controllers/rentals_controller.rb:46:in `checkout'
+  Video Load (22.9ms)  SELECT "videos".* FROM "videos" WHERE "videos"."id" = $1 LIMIT $2  [["id", -1], ["LIMIT", 1]]
+  ↳ app/controllers/rentals_controller.rb:46:in `checkout'
+  Customer Load (17.0ms)  SELECT "customers".* FROM "customers" WHERE "customers"."id" = $1 LIMIT $2  [["id", 3], ["LIMIT", 1]]
+  ↳ app/controllers/rentals_controller.rb:46:in `checkout'
+   (16.8ms)  ROLLBACK
+  ↳ app/controllers/rentals_controller.rb:46:in `checkout'
+Completed 404 Not Found in 67ms (Views: 0.2ms | ActiveRecord: 57.4ms | Allocations: 4383)
+
+
+Started GET "/videos" for ::1 at 2020-05-27 22:49:16 -0700
+Started GET "/customers" for ::1 at 2020-05-27 22:49:16 -0700
+Processing by VideosController#index as */*
+Processing by CustomersController#index as */*
+  Video Load (233.6ms)  SELECT "videos".* FROM "videos"
+  ↳ app/controllers/videos_controller.rb:6:in `index'
+Completed 200 OK in 253ms (Views: 3.9ms | ActiveRecord: 233.6ms | Allocations: 12568)
+
+
+  Customer Load (240.0ms)  SELECT "customers".* FROM "customers"
+  ↳ app/controllers/customers_controller.rb:5:in `index'
+Completed 200 OK in 399ms (Views: 52.9ms | ActiveRecord: 240.0ms | Allocations: 46293)
+
+
+Started POST "/rentals/check-in" for ::1 at 2020-05-27 22:49:17 -0700
+Processing by RentalsController#checkin as */*
+  Parameters: {"customer_id"=>"3", "video_id"=>"90"}
+  Rental Load (2.2ms)  SELECT "rentals".* FROM "rentals" WHERE "rentals"."customer_id" = $1 LIMIT $2  [["customer_id", 3], ["LIMIT", 1]]
+  ↳ app/controllers/rentals_controller.rb:5:in `checkin'
+rental 
+customer 3
+video 90
+  Customer Load (3.7ms)  SELECT "customers".* FROM "customers" WHERE "customers"."id" = $1 LIMIT $2  [["id", 23], ["LIMIT", 1]]
+  ↳ app/controllers/rentals_controller.rb:9:in `checkin'
+#<Customer:0x00007fb3625a3d00>
+  Rental Load (0.3ms)  SELECT "rentals".* FROM "rentals"
+  ↳ app/controllers/rentals_controller.rb:10:in `checkin'
+[1, 90]
+[2, 90]
+hiiiiiiiiiiiiii
+Completed 404 Not Found in 13ms (Views: 0.2ms | ActiveRecord: 6.9ms | Allocations: 2072)
+
+
+Started GET "/videos" for ::1 at 2020-05-27 22:49:17 -0700
+Processing by VideosController#index as */*
+  Video Load (94.5ms)  SELECT "videos".* FROM "videos"
+  ↳ app/controllers/videos_controller.rb:6:in `index'
+Completed 200 OK in 115ms (Views: 4.8ms | ActiveRecord: 94.5ms | Allocations: 12061)
+
+
+Started POST "/rentals/check-in" for ::1 at 2020-05-27 22:49:17 -0700
+Processing by RentalsController#checkin as */*
+  Parameters: {"customer_id"=>"-1", "video_id"=>"90"}
+  Rental Load (0.4ms)  SELECT "rentals".* FROM "rentals" WHERE "rentals"."customer_id" = $1 LIMIT $2  [["customer_id", -1], ["LIMIT", 1]]
+  ↳ app/controllers/rentals_controller.rb:5:in `checkin'
+rental 
+customer -1
+video 90
+  Customer Load (1.0ms)  SELECT "customers".* FROM "customers" WHERE "customers"."id" = $1 LIMIT $2  [["id", 23], ["LIMIT", 1]]
+  ↳ app/controllers/rentals_controller.rb:9:in `checkin'
+#<Customer:0x00007fb362c8a088>
+  Rental Load (0.3ms)  SELECT "rentals".* FROM "rentals"
+  ↳ app/controllers/rentals_controller.rb:10:in `checkin'
+[1, 90]
+[2, 90]
+hiiiiiiiiiiiiii
+Completed 404 Not Found in 6ms (Views: 0.2ms | ActiveRecord: 1.7ms | Allocations: 2037)
+
+
+Started GET "/customers" for ::1 at 2020-05-27 22:49:17 -0700
+Processing by CustomersController#index as */*
+  Customer Load (1.7ms)  SELECT "customers".* FROM "customers"
+  ↳ app/controllers/customers_controller.rb:5:in `index'
+Completed 200 OK in 121ms (Views: 50.2ms | ActiveRecord: 1.7ms | Allocations: 34165)
+
+
+Started POST "/rentals/check-in" for ::1 at 2020-05-27 22:49:18 -0700
+Processing by RentalsController#checkin as */*
+  Parameters: {"customer_id"=>"3", "video_id"=>"-1"}
+  Rental Load (25.4ms)  SELECT "rentals".* FROM "rentals" WHERE "rentals"."customer_id" = $1 LIMIT $2  [["customer_id", 3], ["LIMIT", 1]]
+  ↳ app/controllers/rentals_controller.rb:5:in `checkin'
+rental 
+customer 3
+video -1
+  Customer Load (0.3ms)  SELECT "customers".* FROM "customers" WHERE "customers"."id" = $1 LIMIT $2  [["id", 23], ["LIMIT", 1]]
+  ↳ app/controllers/rentals_controller.rb:9:in `checkin'
+#<Customer:0x00007fb3635423b0>
+  Rental Load (0.3ms)  SELECT "rentals".* FROM "rentals"
+  ↳ app/controllers/rentals_controller.rb:10:in `checkin'
+[1, 90]
+[2, 90]
+hiiiiiiiiiiiiii
+Completed 404 Not Found in 31ms (Views: 0.2ms | ActiveRecord: 26.1ms | Allocations: 2037)
+

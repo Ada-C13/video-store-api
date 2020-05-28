@@ -1,0 +1,20 @@
+rental:
+  customer_id: 981560992 #customers(:customer).id 
+  video_id: 678499636 # videos(:video2).id 
+  checked_out: 2010-09-21
+  checked_in: 2010-09-26
+  due_date: 2010-09-28
+
+rental1:
+  customer_id: 2
+  video_id: 2
+  checked_out: 2010-07-21
+  checked_in: 2010-07-26
+  due_date: 2010-07-28
+
+rental2:
+  customer_id: 3
+  video_id: 3
+  checked_out: 2010-09-21
+  checked_in: 2010-09-26
+  due_date: 2010-09-28
