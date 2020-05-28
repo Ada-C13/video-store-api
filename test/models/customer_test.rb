@@ -34,13 +34,6 @@ describe Customer do
       expect(customer.errors.messages).must_include :name
     end
     
-    it 'is invalid without a name' do
-      customer.name = nil
-      
-      expect(customer.valid?).must_equal false
-      expect(customer.errors.messages).must_include :name
-    end
-    
     it 'is invalid without address' do
       customer.address = nil
       
