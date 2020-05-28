@@ -95,6 +95,11 @@ describe Video do
     end
   end
 
-  describe "decrease_inventory" do
+  describe "increase_inventory" do
+    it "increases the available inventory count by 1" do
+      expect {
+        movie.increase_inventory
+      }.must_differ "movie.available_inventory", 1
+    end
   end
 end
