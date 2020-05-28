@@ -64,13 +64,11 @@ describe VideosController do
   describe "create" do
     let(:video_data) {
       {
-        # video: {
           title: "La La Land",
           overview: "A jazz pianist falls for an aspiring actress in Los Angeles.",
           release_date: Date.new(2016),
           total_inventory: 5,
           available_inventory: 2
-        # }
       }
     }
 

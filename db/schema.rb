@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_28_214729) do
+ActiveRecord::Schema.define(version: 2020_05_28_230822) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -51,4 +51,6 @@ ActiveRecord::Schema.define(version: 2020_05_28_214729) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  add_foreign_key "rentals", "customers"
+  add_foreign_key "rentals", "videos"
 end
