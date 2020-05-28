@@ -34,20 +34,20 @@ class RentalsController < ApplicationController
 
     if rental.nil?
       render json: {
-        ok: false,
-        errors: "This rental does not exist",
+        errors: ["Not Found"],
       },status: :not_found
     elsif rental 
       rental.customer.videos_checked_out_count -= 1
+      rental.customer.save
       rental.video.available_inventory += 1
+      rental.video.save
       rental.returned = true
       rental.save
       
       render json: { customer_id: rental.customer_id,
         video_id: rental.video_id,
-        due_date: rental.due_date,
-        videos_checked_out_count: customer.videos_checked_out_count,
-        available_inventory: video.available_inventory }       
+        videos_checked_out_count: rental.customer.videos_checked_out_count,
+        available_inventory: rental.video.available_inventory }, status: :ok      
     end
   end
 
