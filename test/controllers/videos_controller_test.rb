@@ -68,11 +68,13 @@ describe VideosController do
           {
           video: {
             title: "Video",
+            overview: "a video is a video is a video",
             release_date: "11/11/1111",
-            available_inventory: 13
-          }
+            total_inventory: 13,
+            available_inventory: 12
         }
         }
+      }
 
         it "can create a new video" do
         expect { post videos_path, params: video_data }.must_differ "Video.count", 1
