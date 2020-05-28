@@ -61,13 +61,11 @@ describe VideosController do
   describe "create" do
     let(:video_data) {
       {
-        video: {
-          title: "Cinderella",
-          overview: "After her father unexpectedly dies, young Ella (Lily James) finds herself at the mercy of her cruel stepmother (Cate Blanchett) and stepsisters, who reduce her to scullery maid. Despite her circumstances, she refuses to despair.",
-          release_date: "2015-03-06",
-          total_inventory: 5,
-          available_inventory: 5
-        }
+        title: "Cinderella",
+        overview: "After her father unexpectedly dies, young Ella (Lily James) finds herself at the mercy of her cruel stepmother (Cate Blanchett) and stepsisters, who reduce her to scullery maid. Despite her circumstances, she refuses to despair.",
+        release_date: "2015-03-06",
+        total_inventory: 5,
+        available_inventory: 5
       }
     }
 
@@ -80,7 +78,7 @@ describe VideosController do
     end
 
     it "will respond with bad_request for invalid data" do
-      video_data[:video][:title] = nil
+      video_data[:title] = nil
       expect {post videos_path, params: video_data}.wont_change "Video.count"
 
       body = check_response(expected_type: Hash, expected_status: :bad_request)
