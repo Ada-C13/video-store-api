@@ -10,6 +10,8 @@ describe RentalsController do
         customer_id: @customer.id,
         video_id: @video.id
       }
+
+      @rental = Rental.create!(customer_id: @customer.id, video_id: @video.id)
     end
     it "will check in a valid customer" do
       post check_in_path, params: @rental_params
@@ -28,13 +30,20 @@ describe RentalsController do
     end
 
     it "will add 1 to the Video's inventory and subtract 1 from Customer's rentals" do
-      expect{
-        post check_in_path, params: @rental_params
-      }.must_differ 'Customer.find_by(id: @rental_params[:customer_id]).videos_checked_out_count', -1
+      count = @customer.videos_checked_out_count
+      inventory = @video.available_inventory
 
-      expect{
-        post check_in_path, params: @rental_params
-      }.must_differ 'Video.find_by(id: @rental_params[:video_id]).available_inventory', 1
+      post check_in_path, params: @rental_params
+
+      expect(@customer.videos_checked_out_count).must_equal count - 1
+      expect(@video.available_inventory).must_equal inventory + 1
+      # expect{
+      #   post check_in_path, params: @rental_params
+      # }.must_differ 'Customer.find_by(id: @rental_params[:customer_id]).videos_checked_out_count', -1
+
+      # expect{
+      #   post check_in_path, params: @rental_params
+      # }.must_differ 'Video.find_by(id: @rental_params[:video_id]).available_inventory', 1
     end
 
     it "will return a 404 status and error message with an invalid Customer" do

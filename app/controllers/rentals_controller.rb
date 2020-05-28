@@ -26,33 +26,35 @@ class RentalsController < ApplicationController
   end
 
   def check_in
-    customer = Customer.find_by(id: rental_params[:customer_id])
-    video = Video.find_by(id: rental_params[:video_id])
+    # customer = Customer.find_by(id: rental_params[:customer_id])
+    # video = Video.find_by(id: rental_params[:video_id])
+    rental = Rental.where(customer_id: rental_params[:customer_id], video_id: rental_params[:video_id]).first
 
-    if customer.nil? || video.nil?
+    if rental.nil?
       render json: { errors: ["Not Found"] }, status: :not_found
     else
-      count = customer.videos_checked_out_count
-      avail = video.available_inventory
+      rental.customer.videos_checked_out_count = rental.customer.videos_checked_out_count - 1
+      rental.video.available_inventory = rental.video.available_inventory + 1
 
-      if count > 0
-        customer.videos_checked_out_count = count - 1
-      end
-      video.available_inventory = avail + 1
+      # if count > 0
+      # customer.videos_checked_out_count = count - 1
+      # end
+      # video.available_inventory = avail + 1
+      # customer.save
+      # video.save
 
-
-      if customer.save && video.save
-        check_in_hash = { "customer_id": customer.id,
-          "video_id": video.id,
-          "videos_checked_out_count": customer.videos_checked_out_count,
-          "available_inventory": video.available_inventory }
+      # if customer.save && video.save
+        check_in_hash = { "customer_id": rental.customer.id,
+          "video_id": rental.video.id,
+          "videos_checked_out_count": rental.customer.videos_checked_out_count,
+          "available_inventory": rental.video.available_inventory }
 
         render json: check_in_hash.as_json, status: :ok
         return
-      else
-        render json: { error: "Unable to update database" }, status: :internal_server_error
-        return
-      end
+      # else
+      #   render json: { error: "Unable to update database" }, status: :internal_server_error
+      #   return
+      # end
     end
   end
 
