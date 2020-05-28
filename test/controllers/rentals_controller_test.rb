@@ -9,12 +9,13 @@ describe RentalsController do
    
     @rental_data = {
           customer_id: customer.id,
-          video_id: video.id
+          video_id: video.id,
+          due_date: Date.today + 7.days
     }
     end
 
     it "responds with JSON and success" do
-      post checkout_path, params: @rental_data
+      post check_out_path, params: @rental_data
 
       expect(response.header['Content-Type']).must_include 'json'
       must_respond_with :created
@@ -22,7 +23,7 @@ describe RentalsController do
  
     it "responds with id" do
       # Act
-      post checkout_path, params: @rental_data
+      post check_out_path, params: @rental_data
     
       # Get the body of the response
       body = JSON.parse(response.body)

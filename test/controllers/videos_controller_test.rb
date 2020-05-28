@@ -33,8 +33,7 @@ describe VideosController do
       body.each do |video|
         expect(video).must_be_instance_of Hash
   
-        required_video_attrs = ["id","title", "overview", "release_date", "total_inventory","available_inventory"]
-  
+        required_video_attrs = ["id","title", "release_date", "available_inventory"]
         expect(video.keys.sort).must_equal required_video_attrs.sort
       end
     end
@@ -97,14 +96,12 @@ describe VideosController do
 
   describe "show" do
     it "responds with JSON and success and correct video data" do
-      videos = Video.all
-      video = videos.first
+      video = Video.first
 
       get video_path(video.id)
       body = check_response(expected_type: Hash)
       
-      expect(body.keys.sort).must_equal REQUIRED_video_FIELDS.sort
-      expect(body["id"]).must_equal video.id
+      expect(body.keys.sort).must_equal ["available_inventory", "overview", "release_date", "title", "total_inventory"].sort
       expect(body["title"]).must_equal video.title
       expect(body["release_date"]).must_equal "1979-01-18"
       expect(body["available_inventory"]).must_equal video.available_inventory
@@ -116,7 +113,6 @@ describe VideosController do
       get video_path(-1)
 
       body = check_response(expected_type: Hash, expected_status: :not_found)
-      expect(body["ok"]).must_equal false
       expect(body["errors"]).must_include "Not Found"
     end
   end

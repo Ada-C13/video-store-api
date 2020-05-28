@@ -1,7 +1,9 @@
 class VideosController < ApplicationController
-
+VIDEOKEYS = [:id, :title, :release_date, :available_inventory]
+SHOWKEYS = [:title, :overview, :release_date, :total_inventory, :available_inventory]
+  
   def index
-    videos = Video.all.as_json(only: [:id, :title, :overview, :release_date, :total_inventory, :available_inventory])
+    videos = Video.all.as_json(only: VIDEOKEYS.sort )
     render json: videos, status: :ok
   end
 
@@ -12,23 +14,24 @@ class VideosController < ApplicationController
       render json: video.as_json(only: [:id]), status: :created
       return
     else
+      puts video.errors.messages
       render json: {
-          ok: false,
           errors: video.errors.messages
         }, status: :bad_request
       return
+      puts "these are the error messages #{video.errors.messages}"
     end
   end
-
 
 def show
     video = Video.find_by(id: params[:id])
 
     if video
-      render json: video.as_json(only: [:id, :title, :overview, :release_date, :total_inventory, :available_inventory])
+      render json: video.as_json(only: SHOWKEYS.sort)
       return
     else
-      render json: { ok: false, errors: ["Not Found"] }, status: :not_found
+      render json: { errors: ['Not Found'] }, status: :not_found
+      # 'errors': ['Not Found'] | AssertionError: expected [ 'ok', 'errors' ] to have the same members as [ 'errors' ]
       return
     end
   end

@@ -1,8 +1,8 @@
 class CustomersController < ApplicationController
+ KEYS =  [:id, :name, :registered_at, :postal_code, :phone, :videos_checked_out_count]
 
-
-    def index
-      customers = Customer.all.as_json(only: [:id, :name, :registered_at, :postal_code, :phone, :videos_checked_out_count])  # TODO Videos checked out
+    def index 
+      customers = Customer.all.as_json(only: KEYS.sort)  # TODO Videos checked out
       render json: customers, status: :ok
     end
   

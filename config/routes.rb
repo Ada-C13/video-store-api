@@ -8,8 +8,8 @@ Rails.application.routes.draw do
     resources :rentals
   end
 
-  post 'rentals/checkout/', to: "rentals#checkout", as: "checkout"
-  post 'rentals/checkoin/', to: "rentals#checkin", as: "checkin"
+  post 'rentals/check-out/', to: "rentals#checkout", as: "check-out"
+  post 'rentals/check-in/', to: "rentals#checkin", as: "check-in"
   # get "/zomg", to: " ", as: "zomg"
 
 end
