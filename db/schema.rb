@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_27_060415) do
+ActiveRecord::Schema.define(version: 2020_05_27_055921) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -23,22 +23,21 @@ ActiveRecord::Schema.define(version: 2020_05_27_060415) do
     t.string "state"
     t.string "postal_code"
     t.string "phone"
+    t.integer "videos_checked_out_count"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "rentals", force: :cascade do |t|
-    t.string "title"
-    t.string "name"
-    t.string "postal_code"
-    t.datetime "checkout_date"
-    t.datetime "due_date"
+    t.date "check_in"
+    t.date "check_out"
+    t.date "due_date"
+    t.bigint "customer_id"
+    t.bigint "video_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.bigint "customers_id"
-    t.bigint "videos_id"
-    t.index ["customers_id"], name: "index_rentals_on_customers_id"
-    t.index ["videos_id"], name: "index_rentals_on_videos_id"
+    t.index ["customer_id"], name: "index_rentals_on_customer_id"
+    t.index ["video_id"], name: "index_rentals_on_video_id"
   end
 
   create_table "videos", force: :cascade do |t|
@@ -51,6 +50,6 @@ ActiveRecord::Schema.define(version: 2020_05_27_060415) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  add_foreign_key "rentals", "customers", column: "customers_id"
-  add_foreign_key "rentals", "videos", column: "videos_id"
 end
+
+#to recreate schema: https://stackoverflow.com/questions/9731585/lost-my-schema-rb-can-it-be-regenerated
