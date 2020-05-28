@@ -12,26 +12,13 @@ describe RentalsController do
   describe "check_in" do 
     let(:rental_data) {
       {
-<<<<<<< HEAD
-        customer_id: customers(:charli).id
-=======
         customer_id: customers(:charli).id,
->>>>>>> 92d038741202c6046716d8286242efdce41caab8
         video_id: videos(:firstvideo).id
       }
     }
 
     before do
       post check_out_path, params: rental_data
-<<<<<<< HEAD
-  end
-
-  it "will allow a video check in" do
-    customer_video_count = customers(:charli).videos_checked_out_count
-    video_inventory = videos(:firstvideo).available_inventory
-  end
-end
-=======
     end
 
     it "will allow a video check in" do
@@ -54,4 +41,3 @@ end
   end # describe check-in end
     
 end # describe RentalsController end
->>>>>>> 92d038741202c6046716d8286242efdce41caab8
