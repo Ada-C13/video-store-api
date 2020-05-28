@@ -1,0 +1,24 @@
+parasite:
+  title: Parasite
+  overview: This starts out almost like an 'Ocean's Eleven' heist film and then expands into a comedy, mystery, thriller, drama, romance, crime and even horror film. 
+  release_date: 2019
+  total_inventory: 10
+  available_inventory: 5
+us:
+  title: Us
+  overview: With Jordan Peele's second inventive, ambitious horror film, we have seen how to beat the sophomore jinx, and it is Us.
+  release_date: 2019
+  total_inventory: 2
+  available_inventory: 0
+toy_story:
+  title: TOY STORY 4
+  overview: Heartwarming, funny, and beautifully animated, Toy Story 4 manages the unlikely feat of extending -- and perhaps concluding -- a practically perfect animated saga.
+  release_date: 2019
+  total_inventory: 2
+  available_inventory: 1
+avengers:
+  title: Avengers
+  overview: Endgame does whatever it takes to deliver a satisfying finale to Marvel's epic Infinity Saga.
+  release_date: 2019
+  total_inventory: 3
+  available_inventory: 1

@@ -1,0 +1,34 @@
+Gloria Anzaldua:
+  name: Gloria Anzaldua
+  registered_at: Fri, 07, Jun 2018 16:36:45 -0800
+  address: 634 Main St. 
+  city: Casper
+  state: Wyoming
+  postal_code: 82501
+  phone: 307.364.2354
+
+Pink Panther:
+  name: Pink Panther
+  registered_at: Mon, 04, Dec 2018 14:36:45 -0800
+  address: 432 Eugene Rd.
+  city: Portland
+  state: Oregon
+  postal_code: 98234
+  phone: 987.354.2245
+pengsoo: 
+  name: pengsoo
+  registered_at: Sun, 06 Apr 2014 15:46:40 -0700
+  address: P.O. Box 666, 7743 Mauris Road
+  city: Knoxville
+  state: TN
+  postal_code: 47671
+  phone: (200) 706-8284
+  
+goblin:
+  name: goblin
+  registered_at: Fri, 06 Feb 2015 11:31:26 -0800
+  address: P.O. Box 161, 9318 Non, Ave
+  city: Boise
+  state: Idaho
+  postal_code: 81837
+  phone: (669) 244-0896
