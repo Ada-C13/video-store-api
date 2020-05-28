@@ -5,12 +5,9 @@ class Rental < ApplicationRecord
   validates :customer_id, presence: true
   validates :video_id, presence: true
   validates :due_date, presence: true
-  # validates :customer[:videos_checked_out_count], presence: true
-  # validates :video[:available_inventory], presence: true
 
   def add_to_count
     if self.video.available_inventory.nil?
-      # chelsea confused here
       self.video.available_inventory = self.video.total_inventory - 1
       self.video.save
       
@@ -25,10 +22,9 @@ class Rental < ApplicationRecord
     end
   end
 
-
   def decrease_count
     if self.checked_out != nil
-      if self.video.available_inventory == nil   # when would this happen?
+      if self.video.available_inventory == nil
         return "This video has not been returned yet"
       else
         self.video.available_inventory += 1

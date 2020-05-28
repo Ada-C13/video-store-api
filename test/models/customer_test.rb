@@ -48,7 +48,6 @@ describe Customer do
       expect(@customer.valid?).must_equal false
     end
     
-    #registered_at
     it "is not valid if registered_at is not present" do 
       @customer.registered_at = nil
       

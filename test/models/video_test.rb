@@ -27,14 +27,6 @@ describe Video do
         expect(video["available_inventory"]).wont_be_nil
     end
 
-    # it 'testing total_inventory validations' do
-      
-    #   puts "this is total inventory #{video.total_inventory}"
-    #   expect(video.valid?).must_equal false
-    
-       
-    # end
-
     it "is not valid when title is missing" do
       video.title = nil
       
@@ -65,7 +57,6 @@ describe Video do
       expect(video.valid?).must_equal false
     end
 
-    #chelsea added
     it "is not valid when available_inventory is not an integer" do
       video.available_inventory = "five"
       

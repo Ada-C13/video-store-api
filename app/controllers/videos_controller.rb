@@ -7,7 +7,6 @@ SHOWKEYS = [:title, :overview, :release_date, :total_inventory, :available_inven
     render json: videos, status: :ok
   end
 
-
   def create
     video = Video.new(video_params)
     if video.save
@@ -23,7 +22,7 @@ SHOWKEYS = [:title, :overview, :release_date, :total_inventory, :available_inven
     end
   end
 
-def show
+  def show
     video = Video.find_by(id: params[:id])
 
     if video
@@ -31,16 +30,13 @@ def show
       return
     else
       render json: { errors: ['Not Found'] }, status: :not_found
-      # 'errors': ['Not Found'] | AssertionError: expected [ 'ok', 'errors' ] to have the same members as [ 'errors' ]
       return
     end
   end
   
-
   private
 
   def video_params
     return params.permit(:title, :overview, :release_date, :total_inventory, :available_inventory)
   end
-
 end

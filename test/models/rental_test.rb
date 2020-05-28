@@ -6,9 +6,7 @@ describe Rental do
       @rental = rentals(:rental)
       @c = customers(:customer1) 
       @v =  videos(:video2)
- 
-     #puts @c.id
-     #puts @v.id
+
     end
     
     it "belongs to a video" do
@@ -24,8 +22,7 @@ describe Rental do
     before do
       video = videos(:video2)
       customer = customers(:customer1)
-      #puts "this is #{video.id}"
-      #puts customer.id
+
       @rental = Rental.create(video_id: video.id, customer_id: customer.id, due_date: Date.today)
       
     end
@@ -46,8 +43,6 @@ describe Rental do
       expect(@rental.valid?).must_equal false
     end
 
-
-    #chelsea added
     it "is not valid when the due_date is missing" do
       @rental.due_date = nil
       
