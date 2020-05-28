@@ -15,6 +15,7 @@ describe Video do
       required_fields.each do |field|
         movie[field] = nil
         expect(movie.valid?).must_equal false
+        expect(movie.errors.messages).must_include field.to_sym
 
         movie.reload
       end
@@ -26,9 +27,13 @@ describe Video do
       inventory_fields.each do |field|
         movie[field] = 0.5
         expect(movie.valid?).must_equal false
+        expect(movie.errors.messages).must_include field.to_sym
+        expect(movie.errors.messages[field.to_sym]).must_equal ["must be an integer"]
 
         movie[field] = "number_as_string"
         expect(movie.valid?).must_equal false
+        expect(movie.errors.messages).must_include field.to_sym
+        expect(movie.errors.messages[field.to_sym]).must_equal ["is not a number"]
 
         movie.reload
       end
