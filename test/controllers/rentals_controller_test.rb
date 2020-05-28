@@ -2,7 +2,25 @@ require "test_helper"
 
 describe RentalsController do
   describe "checkin" do
-    
+    it "will check in a valid customer" do
+
+    end
+
+    it "will give back the appropriate details in json" do
+
+    end
+
+    it "will add 1 to the Video's inventory and subtract 1 from Customer's rentals" do
+
+    end
+
+    it "will return a 404 status and error message with an invalid Customer" do
+
+    end
+
+    it "will return a 404 status and error message with an invalid Video" do
+
+    end
   end
 
   describe 'checkout' do 
