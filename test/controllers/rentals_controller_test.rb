@@ -2,6 +2,9 @@ require "test_helper"
 
 describe RentalsController do
   describe "checkin" do
+    before do
+
+    end
     it "will check in a valid customer" do
 
     end

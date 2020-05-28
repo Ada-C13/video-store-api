@@ -1,5 +1,0 @@
-kiayada_rental:
-  customer_id: customers(:kiayada)
-  video_id: videos(:testvideo)
-# customers(:debra)
-# customers(:signe)
