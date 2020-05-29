@@ -9,7 +9,7 @@ class RentalsController < ApplicationController
 
 
   def check_out  
-    rental = Rental.new(rentals_params)
+    rental = Rental.new(rentals_params.merge({checked_out_date: DateTime.now, due_date: DateTime.now + 7.days}))
     video = Video.find_by(id: rentals_params[:video_id])
     customer = Customer.find_by(id: rentals_params[:customer_id])
 
@@ -23,15 +23,14 @@ class RentalsController < ApplicationController
       return
     end
 
+
+    
     if video.available_inventory > 0
       rental.save
 
-      video.available_inventory -= 1
-      video.save
-     
-      customer.videos_checked_out_count += 1
-      customer.save
-  end
+      video.decrease_inventory
+      customer.add_checked_out
+    end
 
   render json: {
     customer_id: customer.id, 
@@ -45,17 +44,17 @@ end
 
 
   def check_in
-    rentals = Rental.find_by(customer_id: params[:customer_id], video_id: params[:video_id], check_in_date: nil)
+    rental = Rental.find_by(customer_id: params[:customer_id], video_id: params[:video_id], checked_in_date: nil)
     video = Video.find_by(id: params[:video_id])
     customer = Customer.find_by(id: params[:customer_id])
     
 
     if rental.nil?
-      render json: {errors: ["Rental not Found"] }, status: :bad_request
+      render json: {errors: ["Not Found"] }, status: :not_found
       return
     end
 
-    rental.check_in_date = Date.today # check if this is neccessary
+    rental.checked_in_date = DateTime.now
     
     if rental.save
       video.increase_inventory
@@ -68,13 +67,6 @@ end
       render json: { ok: false, errors: rental.errors.messages }, status: :bad_request
       return
     end
-    
-
-    # customer.checked_in_count -= 1
-    # movie.available_inventory += 1
-    
-    # customer.save
-    # video.save
        
   end
 
