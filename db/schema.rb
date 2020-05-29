@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 0) do
+ActiveRecord::Schema.define(version: 2020_05_28_052524) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -27,7 +27,15 @@ ActiveRecord::Schema.define(version: 0) do
     t.datetime "updated_at", null: false
   end
 
-
+  create_table "videos", force: :cascade do |t|
+    t.string "title"
+    t.string "overview"
+    t.string "release_date"
+    t.integer "total_inventory"
+    t.integer "available_inventory"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
 
   # create_table "rentals", force: :cascade do |t|
   #   t.date "check_out_date"
@@ -36,6 +44,5 @@ ActiveRecord::Schema.define(version: 0) do
   #   t.datetime "created_at", null: false
   #   t.datetime "updated_at", null: false
   # end
-
 
 end
