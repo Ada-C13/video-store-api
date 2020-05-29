@@ -1,7 +1,15 @@
 require 'date'
 
 class RentalsController < ApplicationController
+  def index
+    rentals = Rental.all.order(:check_out)
   
+    # render json: { ready_for_lunch: "yessss" }, status: :ok
+    render json: rentals.as_json(), 
+    status: :ok
+  end
+
+
   #decrease available_inventory
   #increase videos_checked_out_count
   #POST

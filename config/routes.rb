@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  get 'rentals/index'
+  get '/rentals', to: 'rentals#index', as: 'rentals_index'
   # get 'videos/index'
   # get 'videos/show'
   # get 'videos/create'
