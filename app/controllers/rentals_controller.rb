@@ -1,5 +1,12 @@
 class RentalsController < ApplicationController
 
+  def index
+    rentals = Rental.all
+    render json: rentals.as_json(),
+            status: :ok
+
+  end
+
 
   def check_out  
     rental = Rental.new(rentals_params)
@@ -11,21 +18,32 @@ class RentalsController < ApplicationController
       return
     end
 
+    if video.nil?
+      render json: {errors: ["Not Found"] }, status: :not_found
+      return
+    end
+
     if video.available_inventory > 0
       rental.save
 
       video.available_inventory -= 1
       video.save
-
-      customer.checked_out_count += 1
+     
+      customer.videos_checked_out_count += 1
       customer.save
   end
 
-  return rental
+  render json: {
+    customer_id: customer.id, 
+    video_id: video.id,
+    due_date: rental.due_date, 
+    videos_checked_out_count: customer.videos_checked_out_count, 
+    available_inventory: video.available_inventory
+  }
+
 end
 
 
-  
   def check_in
     rentals = Rental.find_by(customer_id: params[:customer_id], video_id: params[:video_id], check_in_date: nil)
     video = Video.find_by(id: params[:video_id])
