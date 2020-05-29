@@ -49,6 +49,12 @@ describe VideosController do
 
     end
     it "will return a 404 request with a json for a non-existing video" do 
+      get video_path(-1)
+      must_respond_with :not_found
+
+      body = JSON.parse(response.body)
+      expect(body).must_be_instance_of Hash
+      expect(body['errors']).must_equal "Not Found"
 
     end
   end

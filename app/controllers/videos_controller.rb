@@ -11,9 +11,10 @@ class VideosController < ApplicationController
     if video
       render json: video.as_json(only: [:title, :overview, :release_date, :total_inventory, :available_inventory])
       return
-    else
+    else #### TODO -- Do we need to include the id or not? was not included in the index action but it is for the show action?
+      
       render json: {
-        errors: ["Not Found"],
+        errors: "Not Found",
       }, status: :not_found
       return
     end
