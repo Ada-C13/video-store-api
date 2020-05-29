@@ -1,7 +1,9 @@
 class RentalsController < ApplicationController
 
   def check_in
+
     new_rental = Rental.find_by(id: params[:id])
+    
     if new_rental.nil?
       render json: {ok: false, errors: "Not found"}, status: :not_found
       return
