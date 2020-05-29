@@ -11,5 +11,10 @@ class Video < ApplicationRecord
       #video = Video.find_by(id: video_id)
       self.available_inventory -= 1
       self.save
-  end
+    end
+
+    def increase_inventory
+        self.available_inventory += 1
+        self.save
+      end
 end

@@ -15,4 +15,12 @@ class Rental < ApplicationRecord
     #     customer.videos_checked_out_count += 1
     #     customer.save
     # end
+
+    # def is_overdue
+    #     if Date.today > rental.due_date
+    #       self.is_overdue = true
+    #       self.save
+    #     end
+    # end
+
 end
