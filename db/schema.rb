@@ -15,6 +15,7 @@ ActiveRecord::Schema.define(version: 2020_05_29_061123) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+<<<<<<< Updated upstream
   create_table "customers", force: :cascade do |t|
     t.string "name"
     t.datetime "registered_at"
@@ -35,6 +36,8 @@ ActiveRecord::Schema.define(version: 2020_05_29_061123) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+=======
+>>>>>>> Stashed changes
   create_table "videos", force: :cascade do |t|
     t.string "title"
     t.string "overview"
