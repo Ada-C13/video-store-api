@@ -106,7 +106,8 @@ describe RentalsController do
       
       must_respond_with :bad_request
       expect(body).must_be_instance_of Hash 
-      expect(body['errors']).must_equal 'Video not available'
+      
+      
       
     end
     
@@ -119,20 +120,20 @@ describe RentalsController do
         customer_id: customer.id,
         video_id: video.id
       }
-
+      
       post check_out_path(params: rental_info)
-
+      
       customer.reload
       video.reload
-
+      
       cust_count = customer.videos_checked_out_count
       vid_count = video.available_inventory
-
+      
       expect {      
         post check_in_path(params: rental_info)
       }.must_differ "Rental.count", -1
-
-
+      
+      
       body = JSON.parse(response.body)
       
       must_respond_with :success
@@ -144,15 +145,66 @@ describe RentalsController do
     end 
     
     it "returns detailed error and status 404 if cust does not exist" do 
-      # The API should return back detailed errors and a status 404: Not Found if the customer does not exist
-    end 
+      rental_info = {
+        customer_id: 'Pizza',
+        video_id: video.id
+      }
+      
+      expect {      
+        post check_in_path(params: rental_info)
+      }.wont_change "Rental.count"
+      
+      body = JSON.parse(response.body)
 
-    it "returns detailed error and status 404 if cust does not exist" do 
-      # The API should return back detailed errors and a status 404: Not Found if the video does not exist
+      must_respond_with :not_found 
+      expect(body['errors']).must_equal ['Not Found']
+      
+    end 
+    
+    it "returns detailed error and status 404 if video does not exist" do 
+      rental_info = {
+        customer_id: customer.id,
+        video_id: 'Pasta'
+      }
+      
+      expect {      
+        post check_in_path(params: rental_info)
+      }.wont_change "Rental.count"
+      
+      body = JSON.parse(response.body)
+
+      must_respond_with :not_found 
+      expect(body['errors']).must_equal ['Not Found']
     end 
     
     it "returns an error if a video is tried to check in multiple times" do 
-
+      rental_info = {
+        customer_id: customer.id,
+        video_id: video.id
+      }
+      
+      post check_out_path(params: rental_info)
+      
+      post check_in_path(params: rental_info)
+      
+      customer.reload
+      video.reload
+      
+      cust_count = customer.videos_checked_out_count
+      vid_count = video.available_inventory
+      
+      expect {      
+        post check_in_path(params: rental_info)
+      }.wont_change "Rental.count"
+      
+      body = JSON.parse(response.body)
+      
+      must_respond_with :bad_request
+      
+      expect(customer[:videos_checked_out_count]).must_equal cust_count
+      expect(video[:available_inventory]).must_equal vid_count
+      expect(body['errors']).must_equal ['Rental not valid']
+      
     end 
     
   end

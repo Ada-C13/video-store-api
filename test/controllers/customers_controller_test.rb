@@ -11,7 +11,6 @@ describe CustomersController do
       must_respond_with :success 
       
       expect(response.header['Content-Type']).must_include 'json'
-      #TODO: check_response(expected_type: Array)
     end
     
     it 'returns correct fields for the list of customers' do
