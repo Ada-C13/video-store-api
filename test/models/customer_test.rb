@@ -1,7 +1,19 @@
 require "test_helper"
 
 describe Customer do
-  # it "does a thing" do
-  #   value(1+1).must_equal 2
-  # end
+  before do
+    @customer = customers(:charli)
+  end
+  
+  describe 'validations' do
+    it "has required fields" do
+      result = @customer.valid?
+      expect(result).must_equal true
+    end
+    
+    it "must fail if nil" do
+      @customer.name = nil
+      expect(@customer.valid?).must_equal false
+    end
+  end
 end
