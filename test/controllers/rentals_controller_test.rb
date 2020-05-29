@@ -14,6 +14,7 @@ describe RentalsController do
       @rental = Rental.create!(customer_id: @customer.id, video_id: @video.id)
     end
     it "will check in a valid customer" do
+
       post check_in_path, params: @rental_params
 
       must_respond_with :ok
@@ -30,20 +31,20 @@ describe RentalsController do
     end
 
     it "will add 1 to the Video's inventory and subtract 1 from Customer's rentals" do
-      count = @customer.videos_checked_out_count
-      inventory = @video.available_inventory
+      customer = Customer.last
+      video = Video.last
 
-      post check_in_path, params: @rental_params
+      rental_data = {
+        customer_id: customer.id ,
+        video_id: video.id
+      } 
+      p customer 
+      post check_in_path, params: rental_data
 
-      expect(@customer.videos_checked_out_count).must_equal count - 1
-      expect(@video.available_inventory).must_equal inventory + 1
-      # expect{
-      #   post check_in_path, params: @rental_params
-      # }.must_differ 'Customer.find_by(id: @rental_params[:customer_id]).videos_checked_out_count', -1
+      p Customer.find_by(id:customer.id)
+      expect{post check_in_path, params: rental_data}.must_differ "Customer.last.videos_checked_out_count", -1
 
-      # expect{
-      #   post check_in_path, params: @rental_params
-      # }.must_differ 'Video.find_by(id: @rental_params[:video_id]).available_inventory', 1
+ 
     end
 
     it "will return a 404 status and error message with an invalid Customer" do
@@ -95,9 +96,25 @@ describe RentalsController do
       } 
 
       expect{post check_out_path, params: rental_data}.must_differ "Rental.count", 1 
+
       must_respond_with :ok
     end
 
+    it "will change customer and video fields in data when check out" do 
+      # customer video_checked_out 2 , video available is 2 
+      customer = Customer.first
+      video = Video.first
+
+      rental_data = {
+        customer_id: customer.id ,
+        video_id: video.id
+      } 
+
+      expect{post check_out_path, params: rental_data}.must_differ "Customer.first.videos_checked_out_count", 1
+
+     
+
+    end 
 
     it "will return 404 if customer doen't exist and errors details" do 
 
@@ -119,7 +136,7 @@ describe RentalsController do
     end 
 
     it "will return bad_request if video has 0 inventory" do 
-
+      # skip
       customer = Customer.first
       video = Video.first
       
@@ -129,7 +146,7 @@ describe RentalsController do
         video_id: video.id
       } 
 
-      
+      video.available_inventory = 0 
 
       expect{post check_out_path, params: rental_data}.wont_change "Rental.count"
 
