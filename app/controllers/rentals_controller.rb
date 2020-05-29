@@ -10,7 +10,7 @@ def check_out
   rental = Rental.new(customer_id: params[:customer_id], videos_id: params[:videos_id], check_out_date: Date.today, due_date: (Date.today + 7))
   if video.nil? || customer.nil? || video.available_inventory < 1
     render json: {
-      errors: rental.errors.messages
+      errors: ['Not Found']
     }, status: :not_found
     return
   end
@@ -20,8 +20,11 @@ def check_out
     render json: {
       customer_id: rental.customer_id,
       videos_id: rental.videos_id,
-      due_date: rental.due_date},
-      status: :created
+      due_date: rental.due_date,
+      videos_checked_out_count: customer.videos_checked_out_count,
+      available_inventory: video.available_inventory
+    },
+      status: :ok
       return
   end
 end
