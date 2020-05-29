@@ -9,6 +9,22 @@ class Video < ApplicationRecord
   validates :total_inventory, presence: true
   validates :available_inventory, presence: true
   
+
+  def decrease_inventory
+    self.available_inventory -= 1
+    save
+
+  end
+
+
+  def increase_inventory
+    self.available_inventory += 1
+    save
+    
+  end
+
+  
+    
 end
 
 
