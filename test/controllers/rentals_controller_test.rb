@@ -29,6 +29,16 @@ describe RentalsController do
       expect(body).must_be_instance_of Hash 
     end
 
+    it "Can not chech_out rental if video dosnt exist" do
+      rental_params[:video_id] = nil
+      expect{ post check_out_path, params: rental_params}.wont_change "Rental.count"
+      must_respond_with :not_found
+      expect(response.header['Content-Type']).must_include 'json'
+      body = JSON.parse(response.body)
+      expect(body).must_be_instance_of Hash
+      expect(body["errors"]).must_equal ["Not Found"]
+    end
+
 
   end
 
