@@ -1,6 +1,6 @@
 class Rental < ApplicationRecord
-  # belongs_to :video
-  # belongs_to :customer
+  has_many :videos
+  has_many :customers
 
-  # validates :customer_id, :videos_id, uniqueness: true
+  validates :customer_id, :videos_id, uniqueness: true
 end
