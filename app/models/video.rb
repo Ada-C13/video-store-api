@@ -4,7 +4,6 @@ class Video < ApplicationRecord
 
   validates :title, :overview, :release_date, :total_inventory, :available_inventory, presence: true
 
-
   def decrease_inventory
     self.available_inventory -= 1
     self.save

@@ -8,8 +8,6 @@ def check_out
   customer = Customer.find_by(id: params[:customer_id])
   video = Video.find_by(id: params[:videos_id])
   rental = Rental.new(customer_id: params[:customer_id], videos_id: params[:videos_id], check_out_date: Date.today, due_date: (Date.today + 7))
-# require "pry"
-# binding.pry
   if video.nil? || customer.nil? || video.available_inventory < 1
     render json: {
       errors: rental.errors.messages
@@ -17,8 +15,6 @@ def check_out
     return
   end
   if rental.save
-    # require "pry"
-    # binding.pry
     video.decrease_inventory
     customer.add_videos_to_checked_out
     render json: {
