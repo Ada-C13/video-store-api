@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-
   resources :rentals
   resources :customers, only: [:index, :create, :show]
   resources :videos, only: [:index, :create, :show]

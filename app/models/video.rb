@@ -1,5 +1,4 @@
 class Video < ApplicationRecord
-
   has_many :rentals
   has_many :customers, through: :rentals
 
@@ -8,23 +7,14 @@ class Video < ApplicationRecord
   validates :release_date, presence: true
   validates :total_inventory, presence: true
   validates :available_inventory, presence: true
-  
 
   def decrease_inventory
     self.available_inventory -= 1
     save
-
   end
-
 
   def increase_inventory
     self.available_inventory += 1
     save
-    
   end
-
-  
-    
 end
-
-

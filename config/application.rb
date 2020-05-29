@@ -1,4 +1,4 @@
-require_relative 'boot'
+require_relative "boot"
 
 require "rails"
 # Pick the frameworks you want:
@@ -21,10 +21,10 @@ Bundler.require(*Rails.groups)
 
 module VideoStoreApi
   class Application < Rails::Application
-  config.generators do |g|
-    # Force new test files to be generated in the minitest-spec style
-    g.test_framework :minitest, spec: true
-  end
+    config.generators do |g|
+      # Force new test files to be generated in the minitest-spec style
+      g.test_framework :minitest, spec: true
+    end
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 6.0
 

@@ -1,9 +1,8 @@
 require "test_helper"
 
 describe VideosController do
-
   VIDEO_FIELDS = ["id", "title", "release_date", "available_inventory"].sort
-  let(:video) {videos(:video_1)}
+  let(:video) { videos(:video_1) }
 
   describe "index" do
     it "list all the videos" do
@@ -67,7 +66,7 @@ describe VideosController do
 
       body = JSON.parse(response.body)
 
-      expect(response.header["Content-Type"]).must_include "json"  
+      expect(response.header["Content-Type"]).must_include "json"
 
       expect(body).must_be_instance_of Hash
       expect(body.keys.sort).must_equal VIDEO_FIELDS
@@ -85,20 +84,20 @@ describe VideosController do
   end
 
   describe "create video" do
-    let(:video_data){
+    let(:video_data) {
       {
         title: "New video",
         overview: "all about the new video",
         release_date: DateTime.now,
         total_inventory: 7,
-        available_inventory: 2
-        }
+        available_inventory: 2,
       }
+    }
 
     it "create a video when given a valid data" do
       expect {
         post videos_path, params: video_data
-      }.must_change "Video.count",1
+      }.must_change "Video.count", 1
 
       body = JSON.parse(response.body)
       expect(body).must_be_kind_of Hash
@@ -109,11 +108,10 @@ describe VideosController do
     end
 
     it "return an error for invalid video data" do
-      
       video_data["title"] = nil
 
-      expect{
-        post videos_path, params: {video: video_data}
+      expect {
+        post videos_path, params: { video: video_data }
       }.wont_change "Video.count"
 
       body = JSON.parse(response.body)
@@ -123,6 +121,5 @@ describe VideosController do
       expect(body["errors"]).must_include "title"
       must_respond_with :bad_request
     end
-  end 
-  
+  end
 end
