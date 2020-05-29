@@ -1,0 +1,20 @@
+video1:
+  title: Video1
+  overview: Lorem blah blah blah balh.
+  release_date: '2002-05-18'
+  total_inventory: 10
+  available_inventory: 5
+
+video2:
+  title: Video2
+  overview: Stuff and things and huh huh.
+  release_date: '2017-23-11'
+  total_inventory: 1
+  available_inventory: 1
+
+video3:  
+  title: Video3
+  overview: Yeah these are words.
+  release_date: '1999-12-31'
+  total_inventory: 1
+  available_inventory: 1
