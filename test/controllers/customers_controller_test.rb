@@ -1,7 +1,7 @@
 require "test_helper"
 
 describe CustomersController do
-  CUSTOMER_KEYS = ["id", "name", "registered_at", "address", "city", "state", "postal_code", "phone", "movies_checked_out_count"].sort
+  CUSTOMER_KEYS = ["id", "name", "registered_at", "address", "city", "state", "postal_code", "phone", "videos_checked_out_count"].sort
   # it "does a thing" do
   #   value(1+1).must_equal 2
   # end
@@ -23,7 +23,7 @@ describe CustomersController do
       expect(body).must_be_instance_of Array
       body.each do |customer|
         expect(customer).must_be_instance_of Hash
-        required_cust_attrs = ["id", "name", "phone", "postal_code", "registered_at", "videos_checked_out_count"]
+        # required_cust_attrs = ["id", "name", "phone", "postal_code", "registered_at", "videos_checked_out_count"]
   
         expect(customer.keys.sort).must_equal CUSTOMER_KEYS
       end
