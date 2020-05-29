@@ -1,11 +1,11 @@
 class RentalsController < ApplicationController
   # before_action :require_inventory
-  before_action :require_customer, only: [:check_in]
-  before_action :require_video, only: [:check_in]
+  before_action :require_customer
+  before_action :require_video
 
 
   def create
-    rental = Rental.new(customer_id: params[:customer_id], video_id: params[:video_id])
+    rental = Rental.new(customer_id: @customer.id, video_id: @video.id)
 
     if Video.find_by(id: params[:video_id]) && rental.video.available_inventory == 0
       render json: { errors: ["No available copies of the video available"] }, status: :bad_request
@@ -28,7 +28,6 @@ class RentalsController < ApplicationController
 
     else
       render json: {
-          ok: false,
           errors: rental.errors.messages
       }, status: :not_found
     end
@@ -53,8 +52,7 @@ class RentalsController < ApplicationController
 
     else
       render json: {
-        ok: false,
-        errors: rental.errors.messages
+        errors: ["No existing rental for this video and customer"]
     }, status: :not_found
     end
   end
@@ -71,14 +69,14 @@ class RentalsController < ApplicationController
   def require_customer
     @customer = Customer.find_by(id: params[:customer_id])
     if @customer.nil?
-      render json: { errors: ["Customer Not Found"] }, status: :not_found
+      render json: { errors: ["Not Found"] }, status: :not_found
     end
   end
 
   def require_video
     @video = Video.find_by(id: params[:video_id])
     if @video.nil?
-      render json: { errors: ["Video Not Found"] }, status: :not_found
+      render json: { errors: ["Not Found"] }, status: :not_found
     end
   end
 

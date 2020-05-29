@@ -84,14 +84,14 @@ describe RentalsController do
       @rental_data[:customer_id] = -1
       expect{post check_out_path, params: @rental_data}.wont_change "Rental.count", 1
       body = check_response(expected_type: Hash, expected_status: :not_found)
-      expect(body["errors"].keys).must_include "customer"
+      expect(body["errors"]).must_equal ["Not Found"]
     end
 
     it "will respond with 404: Not Found if the video does not exist" do
       @rental_data[:video_id] = -1
       expect{post check_out_path, params: @rental_data}.wont_change "Rental.count", 1
       body = check_response(expected_type: Hash, expected_status: :not_found)
-      expect(body["errors"].keys).must_include "video"
+      expect(body["errors"]).must_equal ["Not Found"]
     end
 
     it "will respond with 400: Bad Request if the video does not have any available inventory before check out" do
@@ -185,14 +185,14 @@ describe RentalsController do
       @rental_data[:customer_id] = -1
       expect{post check_in_path, params: @rental_data}.wont_change "Rental.count"
       body = check_response(expected_type: Hash, expected_status: :not_found)
-      expect(body["errors"]).must_equal ["Customer Not Found"]
+      expect(body["errors"]).must_equal ["Not Found"]
     end
 
     it "will respond with 404: Not Found if the video does not exist" do
       @rental_data[:video_id] = -1
       expect{post check_in_path, params: @rental_data}.wont_change "Rental.count"
       body = check_response(expected_type: Hash, expected_status: :not_found)
-      expect(body["errors"]).must_equal ["Video Not Found"]
+      expect(body["errors"]).must_equal ["Not Found"]
     end
   end
 end
