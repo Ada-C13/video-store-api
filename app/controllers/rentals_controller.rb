@@ -6,6 +6,7 @@ class RentalsController < ApplicationController
     new_rental.return_date = nil
 
 
+
     if new_rental.save
       new_rental.video.available_inventory -= 1
       available_inventory = new_rental.video.available_inventory
@@ -29,12 +30,17 @@ class RentalsController < ApplicationController
   end
 
   def checkin
-    if rental.save
-      rental.video.available_inventory += 1
-      available_inventory = new_rental.video.available_inventory
+    rental = Rental.find_by(video_id: params[:video_id], customer_id: params[:customer_id], return_date: nil)
 
-      new_rental.customer.videos_checked_out_count -= 1
-      videos_checked_out_count = new_rental.customer.videos_checked_out_count
+    if rental
+      rental.video.available_inventory += 1
+      available_inventory = rental.video.available_inventory
+
+      rental.customer.videos_checked_out_count -= 1
+      videos_checked_out_count = rental.customer.videos_checked_out_count
+
+      rental.return_date = Date.today
+      puts rental.return_date
 
       rental_view = rental.as_json(only: [:customer_id, :video_id])
       rental_view[:videos_checked_out_count] = videos_checked_out_count

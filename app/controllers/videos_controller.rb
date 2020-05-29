@@ -1,6 +1,6 @@
 class VideosController < ApplicationController
   def index
-    videos = Video.all.as_json(only: %i[id title release_date available_inventory])
+    videos = Video.order(:title).as_json(only: %i[id title release_date available_inventory])
 
     if videos.nil?
       render json: 
