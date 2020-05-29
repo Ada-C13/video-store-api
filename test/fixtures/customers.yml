@@ -1,0 +1,12 @@
+charli: 
+  name: Charli
+  registered_at: May 26, 2020
+  postal_code: 98122
+  phone: 2068881000
+  videos_checked_out_count: 5
+karen: 
+  name: Karen
+  registered_at: May 24, 2020
+  postal_code: vp3423
+  phone: 303999100054
+  videos_checked_out_count: 5
