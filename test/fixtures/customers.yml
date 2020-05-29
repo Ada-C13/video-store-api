@@ -1,0 +1,54 @@
+kiayada:
+  name: Kiayada Cabrera
+  registered_at: 2020-11-01T13:38:37
+  postal_code: 40727
+  phone: (200) 748-8533
+  videos_checked_out_count: 2
+debra:
+  name: Debra Travis
+  registered_at: 2021-04-05T20:30:29
+  postal_code: 53875
+  phone: (749) 895-9074
+  videos_checked_out_count: 6
+signe:
+  name: Signe Galloway
+  registered_at: 2021-05-16T23:41:48
+  postal_code: 81136
+  phone: (480) 996-7366
+  videos_checked_out_count: 3
+elton:
+  name: Elton Shaw
+  registered_at: 2019-10-19T23:02:37
+  postal_code: 34312
+  phone: (585) 217-5891
+  videos_checked_out_count: 5
+azalia:
+  name: Azalia Butler
+  registered_at: 2020-02-19T03:39:54
+  postal_code: 21107
+  phone: (571) 322-0263
+  videos_checked_out_count: 7
+leo:
+  name: Leo Blankenship
+  registered_at: 2019-12-20T02:05:46
+  postal_code: 54248
+  phone: (742) 340-6051
+  videos_checked_out_count: 2
+gwen:
+  name: Gwendolyn Thornton
+  registered_at: 2020-04-23T11:58:57
+  postal_code: 10486
+  phone: (876) 661-9891
+  videos_checked_out_count: 8
+donna:
+  name: Donna Murphy
+  registered_at: 2019-10-10T16:07:35
+  postal_code: 21260
+  phone: (209) 454-8488
+  videos_checked_out_count: 1
+diana:
+  name: Diana Grimes
+  registered_at: 2020-08-06T13:37:23
+  postal_code: 98880
+  phone: (679) 266-8546
+  videos_checked_out_count: 9
