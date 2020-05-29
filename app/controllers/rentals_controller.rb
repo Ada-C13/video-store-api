@@ -8,7 +8,7 @@ class RentalsController < ApplicationController
     end
     
     video = Video.find_by(id: params[:video_id])
-    #TODO: Check to see if there is available inventory
+
     if video.nil?
       render json: { errors: ['Not Found'] }, status: :not_found
       return
@@ -34,58 +34,56 @@ class RentalsController < ApplicationController
         video_id: video.id, 
         videos_checked_out_count: customer.videos_checked_out_count, 
         available_inventory: video.available_inventory }, status: :ok
-        return
-        
-      else
-        render json: { errors: rental.errors.full_messages }, status: :bad_request
-        return 
-      end 
-    end
+      return
     
-    def check_in
+    else
+      render json: { errors: rental.errors.full_messages }, status: :bad_request
+      return 
+    end 
+  end
+    
+  def check_in
+    
+    rental = Rental.find_by(customer_id: params[:customer_id], video_id: params[:video_id])
+    customer = Customer.find_by(id: params[:customer_id])
+    video = Video.find_by(id: params[:video_id])
+    
+    if rental.nil?
+      render json: { errors: rental.errors.full_messages }, status: :bad_request
+      return 
+    end 
+    
+    if customer.nil? || video.nil?
+      render json: { errors: ['Not Found']}, status: :not_found
+      return 
+    end 
+    
+    
+    if rental.destroy!
+      customer[:videos_checked_out_count] -= 1
+      customer.save
       
-      rental = Rental.find_by(customer_id: params[:customer_id], video_id: params[:video_id])
-      customer = Customer.find_by(id: params[:customer_id])
-      video = Video.find_by(id: params[:video_id])
+      video[:available_inventory] += 1
+      video.save
       
-      if rental.nil?
-        render json: { errors: rental.errors.full_messages }, status: :bad_request
-        return 
-      end 
-      
-      if customer.nil? || video.nil?
-        render json: { errors: ['Not Found']}, status: :not_found
-        return 
-      end 
-      
-      
-      if rental.destroy!
-        customer[:videos_checked_out_count] -= 1
-        customer.save
-        
-        video[:available_inventory] += 1
-        video.save
-        
-        render json: { 
-          customer_id: customer.id, 
-          video_id: video.id, 
-          videos_checked_out_count: customer.videos_checked_out_count, 
-          available_inventory: video.available_inventory }, status: :ok
+      render json: { 
+        customer_id: customer.id, 
+        video_id: video.id, 
+        videos_checked_out_count: customer.videos_checked_out_count, 
+        available_inventory: video.available_inventory }, status: :ok
 
-        rental.save
-    
-        # rental = Rental.find_by(customer_id: params[:customer_id], video_id: params[:video_id])
-        puts "rental ************* #{rental}"
-        return
-      end 
+      rental.save
         
-      end 
+      return
+    end 
       
-      private
-      
-      def rental_params
-        return params.permit(:customer_id, :video_id)
-      end
-      
-    end
+  end 
+    
+  private
+  
+  def rental_params
+    return params.permit(:customer_id, :video_id)
+  end
+  
+end
     
