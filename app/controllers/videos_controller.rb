@@ -19,7 +19,7 @@ class VideosController < ApplicationController
   def show
     video = Video.find_by(id: params[:id])
     if video
-      render json: video.as_json([:id, :title, :release_date, :available_inventory, :total_inventory]), status: :ok
+      render json: video.as_json(only: [:id, :title, :release_date, :available_inventory, :total_inventory]), status: :ok
     else
       render json: {
         ok: false,
