@@ -1,0 +1,12 @@
+toystory:
+  title: Toy Story
+  overview: Toys rule!
+  release_date: 1995-01-01
+  total_inventory: 5
+  available_inventory: 5
+jurassicpark:
+  title: Jurassic Park
+  overview: Dinosaurs!!!
+  release_date: 1993-01-01
+  total_inventory: 10
+  available_inventory: 9

@@ -1,0 +1,18 @@
+jessica:
+  name: Jessica
+  address: 123 Street
+  city: Seattle
+  state: WA
+  postal_code: 12345
+  phone: 123-345-5678
+  registered_at: 2014-12-12T06:20:46.000Z
+  videos_checked_out_count: 1
+cathy:
+  name: Cathy
+  address: 456 Street
+  city: Seattle
+  state: WA
+  postal_code: 67890
+  phone: 123-345-5765
+  registered_at: 2015-03-16T23:45:12.000Z
+  videos_checked_out_count: 1
