@@ -55,7 +55,7 @@ end
     customer = Customer.find_by(id: rental_data[:customer_id])
     video = Video.find_by(id: rental_data[:videos_id])
 
-    expect(customer.videos_checked_out_count).must_respond_with customer_video_count
+    expect(customer.videos_checked_out_count).must_equal customer_video_count
     expect(video.available_inventory).must_equal video_inventory
     end
   end # describe check-in end
