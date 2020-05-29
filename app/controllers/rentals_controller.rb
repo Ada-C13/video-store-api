@@ -9,11 +9,6 @@ class RentalsController < ApplicationController
       return
     end
 
-    if @rental.video.available_inventory == 0
-      render json: { errors: ["No inventory available"] }, status: :bad_request
-      return
-    end
-
     if @rental.save
       response = { 
         customer_id: @rental.customer_id,
@@ -24,7 +19,7 @@ class RentalsController < ApplicationController
       }
       render json: response, status: :ok
     else
-      render_error(@rental, :unprocessable_entity)
+      render json: { errors: @rental.errors[:message] }, status: :not_found
     end
   end
 
@@ -49,7 +44,7 @@ class RentalsController < ApplicationController
       }
       render json: response, status: :ok
     else
-      render json: { errors: @rental }, status: :unprocessable_entity
+      render json: { errors: @rental.errors }, status: :bad_request
     end
   end
 

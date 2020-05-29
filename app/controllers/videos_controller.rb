@@ -3,7 +3,6 @@ class VideosController < ApplicationController
 
   # GET /videos
   def index
-    # TO-DO: available inventory
     @videos = Video.order(:title)
 
     render json: @videos.to_json(
@@ -12,11 +11,12 @@ class VideosController < ApplicationController
 
   # GET /videos/1
   def show
+
     if @video
     render json: @video.to_json(
       :only => [:title, :overview, :release_date, :total_inventory], :methods => [:available_inventory]), status: :ok
     else 
-      render json: { errors: ["Not Found"]}, status: :not_found
+      render json: { errors: ["Not Found"] }, status: :not_found
     end
 
   end
@@ -30,18 +30,14 @@ class VideosController < ApplicationController
     else
       render json: {errors: @video.errors }, status: :bad_request
     end
+
+    
   end
 
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_video
       @video = Video.find_by(id: params[:id])
-      # @video = Video.find(params[:id])  
-
-      # rescue ActiveRecord::RecordNotFound => e
-      #   render json: {
-      #     error: e
-      #   }, status: :not_found
     
     end
 
