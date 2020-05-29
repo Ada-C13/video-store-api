@@ -1,6 +1,6 @@
 require "test_helper"
 
-describe RentalsController do  # "check_in_date" "check_out_date",
+describe RentalsController do  
   REQUIRED_RENTALS_FIELDS = ["id", "customer_id", "video_id", "checked_in_date", "checked_out_date", "created_at", "due_date", "updated_at"].sort
 
   def check_response(expected_type:, expected_status: :success)
@@ -76,4 +76,45 @@ describe RentalsController do  # "check_in_date" "check_out_date",
       must_respond_with :not_found
     end
   end
+
+
+  describe "check in" do  
+    let(:rental_data) {
+    {
+    video_id: videos(:video_1).id,
+    customer_id: customers(:customer_1).id
+    }
+    }
+    
+    it "will allow customer to check_in a video" do
+      post check_in_path, params: rental_data
+      must_respond_with :success
+      post check_in_path, params: rental_data
+      must_respond_with :not_found
+    end
+
+    it "won't allow customer to check_in a video that has already been checked-in" do
+      post check_in_path, params: { 
+        video_id: videos(:video_2).id,
+        customer_id: customers(:customer_1).id
+        }
+      must_respond_with :not_found
+    end
+    
+
+
+    it "won't allow customer to check_in if video does not exist" do
+      rental_data[:video_id] = nil
+      post check_in_path, params: rental_data
+      must_respond_with :not_found
+    end
+
+    it "won't allow check_in if there is no customer" do
+      rental_data[:customer_id] = nil
+      post check_in_path, params: rental_data
+      must_respond_with :not_found
+    end
+
+  end
+
 end
