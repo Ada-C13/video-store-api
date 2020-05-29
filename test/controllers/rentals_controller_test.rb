@@ -60,7 +60,7 @@ describe RentalsController do
       @video.reload
       
       # Assert 
-      expect(@video.available_inventory).must_equal 4
+      expect(@video.available_inventory).must_equal 3
     end 
 
     it "creates a due date that is the seven days from the current date." do 
@@ -111,6 +111,58 @@ describe RentalsController do
   end 
 
   describe "checkin" do 
+    # Success Cases 
+    it "returns 200 status for request with valid params" do 
+      # Act
+      post checkin_path, params: rental
 
+      # Assert
+      check_response(expected_type: Hash, expected_status: :ok)
+    end 
+
+    it "decreases the customer's videos_checked_out_count by one" do 
+      # Act
+      post checkout_path, params: rental
+      @customer.reload
+
+      # Assert 
+      expect(@customer.videos_checked_out_count).must_equal 0
+    end 
+
+    it "increases the video's available_inventory by one" do 
+      # Act
+      post checkin_path, params: rental
+      @video.reload
+      
+      # Assert 
+      expect(@video.available_inventory).must_equal 5
+    end 
+
+    # Error Cases
+    it "should return back detailed errors and a status 404: Not Found if the customer does not exist" do 
+      # Arrange
+      invalid_customer_id = -1
+      invalid_data = {customer_id: invalid_customer_id, video_id: @video.id}
+
+      # Act
+      post checkout_path, params: invalid_data
+
+     # Assert 
+      body = check_response(expected_type: Hash, expected_status: :not_found)
+      expect(body["errors"]).must_include "Not Found"
+    end 
+    
+    it "should return back detailed errors and a status 404: Not Found if the video does not exist" do 
+      # Arrange
+      invalid_video_id = -1
+      invalid_data = {customer_id: @customer.id, video_id: invalid_video_id}
+
+      # Act 
+      post checkin_path, params: invalid_data
+
+      # Assert
+      body = check_response(expected_type: Hash, expected_status: :not_found)
+      expect(body["errors"]).must_include "Not Found"
+    end 
   end 
 end
