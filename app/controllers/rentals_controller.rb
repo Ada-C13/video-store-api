@@ -7,7 +7,7 @@ class RentalsController < ApplicationController
 def check_out
   customer = Customer.find_by(id: params[:customer_id])
   video = Video.find_by(id: params[:videos_id])
-  rental = Rental.new(customer_id: params[:customer_id], videos_id: params[:videos_id], check_out_date: Date.today, due_date: (Date.today + 7))
+  rental = Rental.new(customer_id: params[:customer_id], videos_id: params[:videos_id], due_date: (Date.today + 7))
   if video.nil? || customer.nil? || video.available_inventory < 1
     render json: {
       errors: ['Not Found']
