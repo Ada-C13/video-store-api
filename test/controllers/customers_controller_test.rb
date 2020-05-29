@@ -32,4 +32,6 @@ describe CustomersController do
     expect(body).must_be_instance_of Array
     expect(body.length).must_equal 0 
   end
+
+  
 end
