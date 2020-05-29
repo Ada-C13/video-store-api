@@ -1,6 +1,13 @@
 require "test_helper"
 
 describe VideosController do
+  let(:video) { Video.new(
+    title: "a", 
+    overview: "this is a transformative movie", 
+    release_date: "2020-01-01", 
+    total_inventory: 20,
+    available_inventory: 19
+    ) }
     describe "video#index" do
       it "responds with success" do
         get videos_path
@@ -20,7 +27,7 @@ describe VideosController do
         video_attr = ["id", "title", "release_date", "available_inventory"]
         body.each do |video|
           expect(video).must_be_instance_of Hash
-          expect(pet.keys.sort).must_equal video_attr.sort
+          expect(video.keys.sort).must_equal video_attr.sort
         end
       end
     end

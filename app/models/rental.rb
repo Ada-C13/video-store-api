@@ -5,8 +5,12 @@ class Rental < ApplicationRecord
   validates :video_id, presence: true
   validates :customer_id, presence: true
   
-  def due_date
+  def set_due_date
     return self.created_at + 1.week
+  end
+
+  def set_check_in_date
+    check_in_date = DateTime.now
   end
 
 end

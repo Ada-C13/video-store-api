@@ -10,6 +10,17 @@ class Customer < ApplicationRecord
   validates :state, presence: true
   validates :postal_code, presence: true
   validates :videos_checked_out_count, presence: true
+
+  def checked_out_movie
+    self.checked_out_count += 1
+    self.save
+  end
+
+  def checked_in_movie
+    self.checked_out_count -= 1
+    self.save
+  end
+
 end
 
 

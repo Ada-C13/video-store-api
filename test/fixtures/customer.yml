@@ -1,0 +1,9 @@
+customer_1:
+  name: "Shelley Rocha"
+  registered_at: "Wed, 29 Apr 2015 07:54:14 -0700"
+  address: "Ap #292-5216 Ipsum Rd."
+  city: "Hillsboro"
+  state: "OR"
+  postal_code: "24309"
+  phone: "(322) 510-8695"
+  videos_checked_out_count: 1
