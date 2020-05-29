@@ -87,17 +87,14 @@ describe VideosController do
   describe "create video" do
     let(:video_data){
       {
-        video: {
-        title: "Petty woman",
-        overview: "about a girl's dream",
-        release_date: 1985
-        # total_inventory: 7,
-        # available_inventory: 2
+        title: "New video",
+        overview: "all about the new video",
+        release_date: DateTime.now,
+        total_inventory: 7,
+        available_inventory: 2
         
         }
       }
-    }
-    
 
     it "create a video and given a valid data" do
       expect {
@@ -127,11 +124,6 @@ describe VideosController do
       expect(body["errors"]).must_include "title"
       must_respond_with :bad_request
     end
-  end
-
-  it "can't create a video 0 in inventory" do
-    video_data[:video] [:available_inventory] = nil 
-  end
+  end 
   
-
 end
