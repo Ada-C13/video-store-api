@@ -145,13 +145,13 @@ describe RentalsController do
       invalid_data = {customer_id: invalid_customer_id, video_id: @video.id}
 
       # Act
-      post checkout_path, params: invalid_data
+      post checkin_path, params: invalid_data
 
      # Assert 
       body = check_response(expected_type: Hash, expected_status: :not_found)
       expect(body["errors"]).must_include "Not Found"
     end 
-    
+
     it "should return back detailed errors and a status 404: Not Found if the video does not exist" do 
       # Arrange
       invalid_video_id = -1
