@@ -15,4 +15,27 @@ ActiveRecord::Schema.define(version: 0) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+  create_table "customers", force: :cascade do |t|
+    t.string "name"
+    t.datetime "registered_at"
+    t.string "address"
+    t.string "city"
+    t.string "state"
+    t.string "postal_code"
+    t.string "phone"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+
+
+  # create_table "rentals", force: :cascade do |t|
+  #   t.date "check_out_date"
+  #   t.date "check_in_date"
+  #   t.date "due_date"
+  #   t.datetime "created_at", null: false
+  #   t.datetime "updated_at", null: false
+  # end
+
+
 end
