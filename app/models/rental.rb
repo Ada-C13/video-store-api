@@ -2,8 +2,11 @@ class Rental < ApplicationRecord
   belongs_to :customer
   belongs_to :video
 
-  validates :due_date, presence: true
-  validates :checkout_date, presence: true
   validates :video_id, presence: true
   validates :customer_id, presence: true
+  
+  def due_date
+    return self.created_at + 1.week
+  end
+
 end
