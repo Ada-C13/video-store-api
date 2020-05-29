@@ -1,0 +1,18 @@
+junito:
+  name: Junito
+  registered_at: 2019-12-31
+  postal_code: 98168
+  phone: 823-4034
+  address: 1234 Main St
+  city: Seattle
+  state: WA
+  videos_checked_out_count: 0
+leah:
+  name: Leah
+  registered_at: 2019-07-31
+  postal_code: 98166
+  phone: 823-4056
+  address: 1234 Any St
+  city: Seattle
+  state: WA
+  videos_checked_out_count: 1
