@@ -1,0 +1,14 @@
+# Faezeh:
+#   name: Daenerys Targaryen 
+#   address: some big house
+#   registered_at: Date.parse("28 May 2020"), city: Valyria 
+#   state: Essos 
+#   postal_code: 98122
+#   phone: 4251234567
+# Liv:
+#   name: Sherlock Holmes
+#   address: 221B Baker Street
+#   registered_at: Date.parse("28 May 2020"), city: London
+#   state: England 
+#   postal_code: 343234
+#   phone: 4251234567
