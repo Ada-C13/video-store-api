@@ -5,10 +5,19 @@ class RentalsController < ApplicationController
     new_rental.due_date = Date.today + 7.days
     new_rental.return_date = nil
 
-
+    if new_rental.customer.nil? || new_rental.video.nil? 
+      render json: {
+        errors: [
+          "Not Found"
+        ]
+        }, status: :not_found
+      return
+    end
 
     if new_rental.save
       video = new_rental.video
+      customer = new_rental.customer
+
       if video.available_inventory <= 0
         render json: {
           errors: new_rental.errors.messages
@@ -20,7 +29,6 @@ class RentalsController < ApplicationController
         available_inventory = new_rental.video.available_inventory
       end
 
-      customer = new_rental.customer
       customer.videos_checked_out_count += 1
       customer.save
       videos_checked_out_count = new_rental.customer.videos_checked_out_count
@@ -42,6 +50,15 @@ class RentalsController < ApplicationController
 
   def checkin
     rental = Rental.find_by(video_id: params[:video_id], customer_id: params[:customer_id], return_date: nil)
+
+    if rental.nil?
+      render json: {
+        errors: [
+          "Not Found"
+        ]
+        }, status: :not_found
+      return
+    end
 
     if rental
       video = rental.video
