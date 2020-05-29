@@ -1,11 +1,8 @@
 rental_1:
-  customer: Hannah
-  video: pretty_woman
+  customer: customer_1
+  video: video_1
 
 rental_2: 
-  customer: Haben
-  video: man_in_black
+  customer: customer_2
+  video: video_2
 
-rental_3: 
-  customer: Calder
-  video: all_things_good
