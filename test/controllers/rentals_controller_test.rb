@@ -4,15 +4,15 @@ describe RentalsController do
   
   RENTAL_FIELDS = ['available_inventory', 'videos_checked_out_count', 'customer_id', 'video_id', 'due_date'].sort
   
+  let(:customer) {
+    customers(:junito)
+  }
+  
+  let(:video) {
+    videos(:brazil)
+  }
+  
   describe "check_out" do 
-    
-    let(:customer) {
-      customers(:junito)
-    }
-    
-    let(:video) {
-      videos(:brazil)
-    }
     
     it "can get checkout path, creates a new rental with valid information and responds with success" do       
       rental_info = {
@@ -23,7 +23,9 @@ describe RentalsController do
       count = customer.videos_checked_out_count
       vid_count = video.available_inventory
       
-      post check_out_path(params: rental_info)
+      expect {
+        post check_out_path(params: rental_info)
+      }.must_differ "Rental.count", 1
       customer.reload
       video.reload
       
@@ -94,6 +96,7 @@ describe RentalsController do
         video_id: video.id,
       }
       
+      
       expect {
         post check_out_path, params: rental_info
       }.wont_change "Rental.count"
@@ -107,10 +110,55 @@ describe RentalsController do
       
     end
     
-    
   end 
   
   describe "check_in" do 
+    it "can get check_in path and responds with success" do       
+      
+      rental_info = {
+        customer_id: customer.id,
+        video_id: video.id
+      }
+      puts "Before test #{Rental.count}*********"
+      post check_out_path(params: rental_info)
+      
+      puts "After Checkout test #{Rental.count}*********"
+      cust_count = customer.videos_checked_out_count
+      vid_count = video.available_inventory
+      
+      # expect {      
+        post check_in_path(params: rental_info)
+      # }.must_differ "Rental.count", -1
+      puts "After Checkin test #{Rental.count}*********"
+      body = JSON.parse(response.body)
+      
+      puts "body ********** #{body}"
+      
+      must_respond_with :success
+      expect(response.header['Content-Type']).must_include 'json'
+      expect(body["customer_id"]).must_equal customer.id
+      expect(body["video_id"]).must_equal video.id
+      expect(body["videos_checked_out_count"]).must_equal cust_count - 1
+      expect(body["available_inventory"]).must_equal vid_count + 1
+      
+    end 
     
-  end 
+    it "deletes current rental and updates cust checked out and video inventory" do 
+      #check in will delete rental 
+      #updated customers checked out movie count to -1 
+      #update video inventory +1 
+      #send back: 
+      # "customer_id": 122581016,
+      # "video_id": 277419103,
+      # "videos_checked_out_count": 1,
+      # "available_inventory": 6
+      # respond with success
+    end 
+    #errors 
+    # The API should return back detailed errors and a status 404: Not Found if the customer does not exist
+    # The API should return back detailed errors and a status 404: Not Found if the video does not exist
+    
+    # what happens if someone tries to check in a video multiple times - that should not increase the available_inventory
+  end
+  
 end
