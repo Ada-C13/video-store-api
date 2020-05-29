@@ -8,10 +8,21 @@ class RentalsController < ApplicationController
 
 
     if new_rental.save
-      new_rental.video.available_inventory -= 1
-      available_inventory = new_rental.video.available_inventory
+      video = new_rental.video
+      if video.available_inventory <= 0
+        render json: {
+          errors: new_rental.errors.messages
+        }, status: :not_found
+        return
+      else
+        video.available_inventory -= 1
+        video.save
+        available_inventory = new_rental.video.available_inventory
+      end
 
-      new_rental.customer.videos_checked_out_count += 1
+      customer = new_rental.customer
+      customer.videos_checked_out_count += 1
+      customer.save
       videos_checked_out_count = new_rental.customer.videos_checked_out_count
 
       rental_view = new_rental.as_json(only: [:customer_id, :video_id, 
@@ -33,11 +44,22 @@ class RentalsController < ApplicationController
     rental = Rental.find_by(video_id: params[:video_id], customer_id: params[:customer_id], return_date: nil)
 
     if rental
-      rental.video.available_inventory += 1
+      video = rental.video
+      video.available_inventory += 1
+      video.save
       available_inventory = rental.video.available_inventory
 
-      rental.customer.videos_checked_out_count -= 1
-      videos_checked_out_count = rental.customer.videos_checked_out_count
+      customer = rental.customer
+      if customer.videos_checked_out_count <= 0
+        render json: {
+          errors: rental.errors.messages
+        }, status: :not_found
+        return
+      else
+        customer.videos_checked_out_count -= 1
+        customer.save
+        videos_checked_out_count = rental.customer.videos_checked_out_count
+      end
 
       rental.return_date = Date.today
       puts rental.return_date
