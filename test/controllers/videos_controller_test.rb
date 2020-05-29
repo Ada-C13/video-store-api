@@ -2,7 +2,7 @@ require "test_helper"
 
 describe VideosController do
 
-  VIDEO_FIELDS = ["id", "title", "overview", "release_date", "total_inventory", "available_inventory"].sort
+  VIDEO_FIELDS = ["id", "title", "release_date", "available_inventory"].sort
   let(:video) {videos(:video_1)}
 
   describe "index" do
@@ -92,20 +92,19 @@ describe VideosController do
         release_date: DateTime.now,
         total_inventory: 7,
         available_inventory: 2
-        
         }
       }
 
-    it "create a video and given a valid data" do
+    it "create a video when given a valid data" do
       expect {
         post videos_path, params: video_data
       }.must_change "Video.count",1
 
       body = JSON.parse(response.body)
       expect(body).must_be_kind_of Hash
-      expect(body).must_include "title"
+      expect(body).must_include "id"
 
-      video = Video.find_by(title: body["title"])
+      video = Video.find_by_id(body["id"])
       must_respond_with :success
     end
 
@@ -114,13 +113,13 @@ describe VideosController do
       video_data["title"] = nil
 
       expect{
-        post video_path, params: {vidoe: video_data}
+        post videos_path, params: {video: video_data}
       }.wont_change "Video.count"
 
       body = JSON.parse(response.body)
 
       expect(body).must_be_kind_of Hash
-      expect(body).must_include "error"
+      expect(body).must_include "errors"
       expect(body["errors"]).must_include "title"
       must_respond_with :bad_request
     end

@@ -1,7 +1,7 @@
 require "test_helper"
 
 describe CustomersController do
-  REQUIRED_CUSTOMER_FIELDS = ["id", "name", "address", "city", "state", "postal_code", "phone", "registered_at"].sort
+  REQUIRED_CUSTOMER_FIELDS = ["id", "name", "postal_code", "phone", "registered_at","videos_checked_out_count"].sort
 
   def check_response(expected_type:, expected_status: :success)
     must_respond_with expected_status
