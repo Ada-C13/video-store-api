@@ -14,6 +14,7 @@ def check_out
     }, status: :not_found
     return
   end
+
   if rental.save
     video.decrease_inventory
     customer.add_videos_to_checked_out
