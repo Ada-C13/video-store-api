@@ -7,6 +7,5 @@ class AddAttributesToCustomers < ActiveRecord::Migration[6.0]
     add_column :customers, :state, :string
     add_column :customers, :postal_code, :string
     add_column :customers, :phone, :string
-    add_column :customers, :videos_checked_out_count, :integer
   end
 end

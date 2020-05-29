@@ -1,5 +1,4 @@
 class RentalsController < ApplicationController
-
   def checkout
     video = Video.find_by(id: params[:video_id])
     customer = Customer.find_by(id: params[:customer_id])
@@ -32,6 +31,7 @@ class RentalsController < ApplicationController
 
     else
       render json: {errors: ["Video currently not available"]}, status: :bad_request
+      return
     end
   end
 
@@ -56,11 +56,10 @@ class RentalsController < ApplicationController
       videos_checked_out_count: customer.videos_checked_out_count,
       available_inventory: video.available_inventory,
     } , status: :ok
+
     # see if due_date is passed
     # rental.is_overdue
-    
   end 
-
 end
 
 private

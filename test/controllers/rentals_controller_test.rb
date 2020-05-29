@@ -122,7 +122,7 @@ describe RentalsController do
 
     it "decreases the customer's videos_checked_out_count by one" do 
       # Act
-      post checkout_path, params: rental
+      post checkin_path, params: rental
       @customer.reload
 
       # Assert 
