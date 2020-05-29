@@ -14,13 +14,9 @@ class RentalsController < ApplicationController
       new_rental = Rental.new(rental_params)
       
       if new_rental.save
-        # new_rental.decrease_inventory
-        video.available_inventory -= 1
-        video.save
-
-        # new_rental.increase_videos_checked_out_count
-        customer.videos_checked_out_count += 1
-        customer.save
+        # update video & customer
+        video.decrease_inventory
+        customer.increase_videos_checked_out_count
 
         # render json object 
         render json: {
