@@ -11,21 +11,28 @@ class RentalsController < ApplicationController
     # check video is available
     if video.available_inventory > 0
       new_rental = Rental.new(rental_params)
+      
+      if new_rental.save
+        # call decrease_inventory
+        new_rental.decrease_inventory
+  
+        # call increase_videos_checked_out_count
+        new_rental.increase_videos_checked_out_count
+  
+        # render json object 
+        render json: {
+          customer_id: customer.id, 
+          video_id: video.id, 
+          due_date: Date.today + 7,
+          videos_checked_out_count: customer.videos_checked_out_count,
+          available_inventory: video.available_inventory,
+        } , status: :ok
+        return
+      end
     else
-      render json: {errors: video.errors.messages}, status: :bad_request
+      render json: {errors: ["Video currently not available"]}, status: :bad_request
     end
 
-    if new_rental.save
-      # call decrease_inventory
-      new_rental.decrease_inventory
-
-      # call increase_videos_checked_out_count
-      new_rental.increase_videos_checked_out_count
-
-      # render json object 
-      render json: rental.as_json(only: [:video_id, :customer_id, customer.videos_checked_out_count, video.available_inventory]), status: :ok
-      return
-    end
   end
 
   def checkin
@@ -37,5 +44,5 @@ end
 private
 
 def rental_params
-  params.require(:rental).permit(:video_id, :customer_id)
+  params.permit(:video_id, :customer_id)
 end

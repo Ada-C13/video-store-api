@@ -2,7 +2,7 @@ class Rental < ApplicationRecord
     belongs_to :customer
     belongs_to :video
 
-    def self.decrease_inventory
+    def decrease_inventory
         video = Video.find_by(id: video_id)
         video.available_inventory -= 1
         video.save

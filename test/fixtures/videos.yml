@@ -3,10 +3,10 @@ joker:
   overview: A sad movie about a clown
   release_date: 2019-10-04
   total_inventory: 5
-  available_inventory: 1
+  available_inventory: 5
 titanic: 
   title: Titanic
   overview: A sad movie about a boat
   release_date: 1997-12-19
   total_inventory: 5
-  available_inventory: 1
+  available_inventory: 5
