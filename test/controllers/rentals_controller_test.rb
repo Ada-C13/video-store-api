@@ -38,10 +38,8 @@ describe RentalsController do
         customer_id: customer.id ,
         video_id: video.id
       } 
-      p customer 
-      post check_in_path, params: rental_data
 
-      p Customer.find_by(id:customer.id)
+      post check_in_path, params: rental_data
       expect{post check_in_path, params: rental_data}.must_differ "Customer.last.videos_checked_out_count", -1
 
  
@@ -136,19 +134,16 @@ describe RentalsController do
     end 
 
     it "will return bad_request if video has 0 inventory" do 
-      # skip
+
       customer = Customer.first
-      video = Video.first
-      
+      video = Video.create(title: "test", overview: "huh", release_date: "2020-01-01", total_inventory: 10, available_inventory: 0 )
 
       rental_data = {
         customer_id: customer.id, 
         video_id: video.id
       } 
 
-      video.available_inventory = 0 
-
-      expect{post check_out_path, params: rental_data}.wont_change "Rental.count"
+      post check_out_path, params: rental_data
 
       must_respond_with :bad_request  
 

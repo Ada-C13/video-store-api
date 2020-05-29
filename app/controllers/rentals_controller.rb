@@ -1,8 +1,17 @@
 class RentalsController < ApplicationController
   def check_out
+    check_if_available = Video.find_by(id: rental_params[:video_id]).available_inventory
+
+    if !(check_if_available > 0)   
+      render json: {errors: ["No available inventory from video"]}, status: :bad_request
+      return 
+    end 
+
     due_date = DateTime.now + 7 
     rental = Rental.new(rental_params)
     rental.due_date = due_date
+
+
 
     if rental.save 
 
