@@ -1,0 +1,19 @@
+customer_1:    
+  name: "Shelley Rocha"
+  registered_at: "2015-04-29T14:54:14.000Z"
+  address: "Ap #292-5216 Ipsum Rd."
+  city: "Hillsboro"
+  state: "OR"
+  postal_code: "24309"
+  phone: "(322) 510-8695"
+  videos_checked_out_count: 1
+customer_2:
+  name: "Jacqueline Perry"
+  registered_at: "2015-07-23T17:18:35.000Z"
+  address: "Ap #288-7228 Dis Rd."
+  city: "Anchorage"
+  state: "AK"
+  postal_code: "99789"
+  phone: "(479) 207-8414"
+  videos_checked_out_count: 1
+
