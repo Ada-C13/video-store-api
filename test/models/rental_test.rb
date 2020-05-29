@@ -4,6 +4,7 @@ describe Rental do
   let(:customer) { customers(:Jane) }
   let(:video_with_stock) { videos(:Underwater) }
   let(:video_with_no_stock) { videos(:Shrek) }
+  
   describe "validations" do
     it "Rental is valid when created with a movie with available stock" do
       rental = Rental.new(
