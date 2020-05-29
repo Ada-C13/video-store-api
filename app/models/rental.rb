@@ -1,7 +1,6 @@
 class Rental < ApplicationRecord
   belongs_to :video
   belongs_to :customer
-  # validates_with AvailableInventory
 
   validate :inventory_available, on: :create
 

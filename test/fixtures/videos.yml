@@ -8,3 +8,8 @@ Underwater:
   overview: like a space horror except it's underwater
   release_date: 2020-01-10
   total_inventory: 2
+Shrek: 
+  title: Shrek
+  overview: that'll do donkey, that'll do
+  release_date: 2001-05-18
+  total_inventory: 0
