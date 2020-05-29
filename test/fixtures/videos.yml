@@ -1,0 +1,36 @@
+video1:
+  title: Blacksmith Of The Banished
+  overview: The unexciting life of a boy will be permanently altered as a strange woman enters his life.
+  release_date: 1979-01-18
+  total_inventory: 10
+  available_inventory: 9
+video2:
+  title: Savior Of The Curse
+  overview: The strange woman claims the boy has a DNA strain which very likely offers the key to cure several crippling diseases. Tests will have to be done, but the key to save millions of lives is within the grasp of science through this DNA strain. Unsure what to think of all this and of this strange woman, the boy hesitantly agrees to the proposal, there's something exciting about this whole situation, surely the right choice was made.
+  release_date: 2010-11-05
+  total_inventory: 10
+  available_inventory: 9
+video3:
+  title: Women Of Destruction
+  overview: But what if this strange woman is a con artist. Or what if everything told is completely true. How could an ordinary boy be relied upon in something this big. Time will tell.
+  release_date: 2006-10-01
+  total_inventory: 1
+  available_inventory: 1
+video4:
+  title: Robots Of Eternity
+  overview: The laid-back life of a woman is going in a different direction as a childhood friend enters her life.
+  release_date: 2007-10-10
+  total_inventory: 7
+  available_inventory: 5
+video5:
+  title: Rats And Strangers
+  overview: The childhood friend claims the woman is heir to an incredible fortune, all paperwork has been taken care of already, all there's left to do is sign them. Distrustful of both this situation and of this childhood friend, the woman somewhat gladly agrees to the proposal, but there's no time to waste, a decision had to be made quickly.
+  release_date: 2012-09-25
+  total_inventory: 2
+  available_inventory: 2
+video6:
+  title: Soldiers And Gangsters
+  overview: But what if this childhood friend is just a crazy person. Or what if the complete opposite is true. How could an ordinary woman be relied upon in something this big. No turning back now though.",
+  release_date: 1948-03-31
+  total_inventory: 9
+  available_inventory: 8
