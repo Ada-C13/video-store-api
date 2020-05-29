@@ -1,8 +1,17 @@
 rental_1:
   customer: customer_1
   video: video_1
-
+  due_date: "2015-07-30T17:18:35.000Z"
+  checked_out_date: "2015-07-23T17:18:35.000Z"
 rental_2: 
   customer: customer_2
   video: video_2
+  due_date: "2015-07-30T17:18:35.000Z"
+  checked_out_date: "2015-07-23T17:18:35.000Z"
+rental_3: 
+  customer: customer_1
+  video: video_2
+  due_date: "2015-07-30T17:18:35.000Z"
+  checked_out_date: "2015-07-23T17:18:35.000Z"
+  checked_in_date: "2015-07-30T17:18:35.000Z"
 
