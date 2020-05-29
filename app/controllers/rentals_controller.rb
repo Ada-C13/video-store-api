@@ -38,8 +38,6 @@ class RentalsController < ApplicationController
         videos_checked_out_count: customer.videos_checked_out_count,
         available_inventory: video.available_inventory
         },status: :ok
-        # include: [customer: { only: [:videos_checked_out_count]}, 
-        # video: { only: [:available_inventory]}]),status: :ok
 
       return    
     else
@@ -53,8 +51,6 @@ class RentalsController < ApplicationController
   def check_in
     customer = Customer.find_by(id: params[:customer_id])
     video = Video.find_by(id: params[:video_id])
-    p customer
-    p video
     if customer.nil? || video.nil? 
       render json: {
         errors: ["Not Found"]
@@ -65,7 +61,6 @@ class RentalsController < ApplicationController
       customer.save
       video.available_inventory += 1
       video.save
-      # rental.save
 
       render json: {
         customer_id: customer.id,

@@ -1,5 +1,0 @@
-# rental1:
-#   customer: customer1
-#   video: video1
-#   due_date: Date.today + 7
-
