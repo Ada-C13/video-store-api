@@ -3,7 +3,7 @@ class VideosController < ApplicationController
     REQUIRED_SHOW_VIDEO_FIELDS = [:title, :overview, :release_date, :total_inventory, :available_inventory]
 
     def index
-        videos = Video.all.as_json(only: REQUIRED_INDEX_VIDEO_FIELDS)
+        videos = Video.order(:title).as_json(only: REQUIRED_INDEX_VIDEO_FIELDS)
         render json: videos, status: :ok
     end
     
