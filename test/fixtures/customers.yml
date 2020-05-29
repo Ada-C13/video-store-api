@@ -1,0 +1,12 @@
+customer1:
+  name: Kate
+  registered_at: 2018-11-29T14:09:14.000Z
+  postal_code: 11374
+  phone: (345) 222-8888
+  videos_checked_out_count: 1
+customer2:
+  name: Keta
+  registered_at: 2018-09-29T14:90:14.000Z
+  postal_code: 89102
+  phone: (222) 333-3333
+  videos_checked_out_count: 1
