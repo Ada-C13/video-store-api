@@ -5,7 +5,8 @@ class RentalsController < ApplicationController
 
     # check video and customer exists
     if video.nil? || customer.nil? 
-      render json: {errors: ['Not Found'] }, status: :not_found
+      render json: {errors: ['Not Found']}, status: :not_found
+      return
     end
 
     # check video is available
@@ -13,12 +14,14 @@ class RentalsController < ApplicationController
       new_rental = Rental.new(rental_params)
       
       if new_rental.save
-        # call decrease_inventory
-        new_rental.decrease_inventory
-  
-        # call increase_videos_checked_out_count
-        new_rental.increase_videos_checked_out_count
-  
+        # new_rental.decrease_inventory
+        video.available_inventory -= 1
+        video.save
+
+        # new_rental.increase_videos_checked_out_count
+        customer.videos_checked_out_count += 1
+        customer.save
+
         # render json object 
         render json: {
           customer_id: customer.id, 
@@ -29,10 +32,10 @@ class RentalsController < ApplicationController
         } , status: :ok
         return
       end
+
     else
       render json: {errors: ["Video currently not available"]}, status: :bad_request
     end
-
   end
 
   def checkin
