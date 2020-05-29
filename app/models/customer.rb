@@ -11,4 +11,14 @@ class Customer < ApplicationRecord
   validates :phone, presence: true
   validates :registered_at, presence: true
 
+  def add_checked_out 
+    self.videos_checked_out_count += 1
+    save
+  end
+
+  def remove_checked_out 
+    self.videos_checked_out_count -= 1
+    save
+
+  end
 end
