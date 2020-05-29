@@ -1,6 +1,10 @@
 Jumanji:
-  title: Jumanji, 
-  overview: Dark board game, 
-  release_date: 2013-09-13, 
-  total_inventory: 10, 
-  available_inventory: 4,
+  title: Jumanji
+  overview: Dark board game
+  release_date: 2013-09-13
+  total_inventory: 10
+Underwater: 
+  title: Underwater
+  overview: like a space horror except it's underwater
+  release_date: 2020-01-10
+  total_inventory: 2
