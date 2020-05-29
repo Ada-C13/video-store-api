@@ -1,8 +1,10 @@
 require "test_helper"
 
 describe VideosController do
-  VIDEO_FIELDS = ["id", "title", "release_date", "available_inventory"].sort
-  let(:video) { videos(:video_1) }
+ #:title, :overview, :release_date, :total_inventory, :available_inventory
+  INDEX_FIELDS = %w[id title release_date available_inventory].sort
+  SHOW_FIELDS =  %w[title release_date available_inventory overview total_inventory].sort
+  let(:video) {videos(:video_1)}
 
   describe "index" do
     it "list all the videos" do
@@ -28,7 +30,7 @@ describe VideosController do
       body = JSON.parse(response.body)
       body.each do |video|
         expect(video).must_be_instance_of Hash
-        expect(video.keys.sort).must_equal VIDEO_FIELDS
+        expect(video.keys.sort).must_equal INDEX_FIELDS
       end
     end
 
@@ -69,7 +71,7 @@ describe VideosController do
       expect(response.header["Content-Type"]).must_include "json"
 
       expect(body).must_be_instance_of Hash
-      expect(body.keys.sort).must_equal VIDEO_FIELDS
+      expect(body.keys.sort).must_equal SHOW_FIELDS
     end
 
     it "will give error for inexistent video" do
