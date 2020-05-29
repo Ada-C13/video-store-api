@@ -77,7 +77,7 @@ describe RentalsController do
     expect(video.available_inventory).must_equal video_inventory
     end
     
-    it "will not allow check-in for non-existet video" do
+    it "will not allow check-in for nnonexistent video" do
       rental_data[:videos_id] = nil
       
       expect {
@@ -87,7 +87,7 @@ describe RentalsController do
      must_respond_with :not_found
     end
 
-    it "will not allow check-in for non-existet customer" do
+    it "will not allow check-in for nnonexistent customer" do
       rental_data[:customer_id] = nil
       
       expect {
