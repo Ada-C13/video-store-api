@@ -1,7 +1,8 @@
 require "test_helper"
 
 describe VideosController do
-  VIDEO_FIELDS = ["id", "title", "overview", "release_date", "total_inventory", "available_inventory"].sort
+  VIDEO_FIELDS = ["available_inventory", "id", "release_date", "title"].sort
+  SHOW_FIELDS = ["available_inventory", "overview", "release_date", "title", "total_inventory"].sort
 
   it "must get index" do
     get videos_path
@@ -37,9 +38,9 @@ describe VideosController do
 
   describe "show" do
     # Nominal
-    it "for an existing video will return a hash with the proper fields" do
+    it "for an existing video will return a hash with the proper fields" do 
       video = videos(:video1)
-
+    
       get video_path(video.id)
 
       must_respond_with :success
@@ -49,9 +50,9 @@ describe VideosController do
       expect(response.header['Content-Type']).must_include 'json'
 
       expect(body).must_be_instance_of Hash
-      expect(body.keys.sort).must_equal VIDEO_FIELDS
+      expect(body.keys.sort).must_equal SHOW_FIELDS
     end
-
+    
     # Edge Case
     it " for a non-existent video will return a 404 request with json" do
       get video_path(-1)
@@ -59,34 +60,33 @@ describe VideosController do
       must_respond_with :not_found
       body = JSON.parse(response.body)
       expect(body).must_be_instance_of Hash
-      expect(body['ok']).must_equal false
-      expect(body['message']).must_equal 'Not found'
+      expect(body["errors"]).must_equal ["Not Found"]
     end
   end
 
   describe "create" do
     let (:video_params){
-        {video: { 
-          title: "video1",
-          overview: "Somthing", 
-          release_date: "1979-01-18", 
-          total_inventory: 10,
-          available_inventory: 9,
-        }
+      { 
+        title: "video1",
+        overview: "Somthing", 
+        release_date: "1979-01-18", 
+        total_inventory: 10,
+        available_inventory: 9,
       }
     }
+
   
     it "can create new video" do
-      expect{ post videos_path, params: video_params}.must_differ "Video.count", 1
+      expect{ post videos_path, params: video_params}.must_change "Video.count", 1
       must_respond_with :created
     end
 
     it "gives bad_request status when user doesn't adding all the feeled" do
-      video_params[:video][:title] = nil
-      video_params[:video][:overview] = nil
-      video_params[:video][:release_date] = nil
-      video_params[:video][:total_inventory] = nil
-      video_params[:video][:available_inventory] = nil
+      video_params[:title] = nil
+      video_params[:overview] = nil
+      video_params[:release_date] = nil
+      video_params[:total_inventory] = nil
+      video_params[:available_inventory] = nil
       
       expect{ post videos_path, params: video_params}.wont_change "Video.count"
       must_respond_with :bad_request
@@ -99,6 +99,7 @@ describe VideosController do
       expect(body['errors'].keys).must_include "total_inventory"
       expect(body['errors'].keys).must_include "available_inventory"
     end
+
   end
 
 end
