@@ -4,4 +4,6 @@ class Rental < ApplicationRecord
 
   validates :due_date, presence: true
   validates :checkout_date, presence: true
+  validates :video_id, presence: true
+  validates :customer_id, presence: true
 end
