@@ -94,7 +94,8 @@ describe RentalsController do
       body = JSON.parse(response.body)
       expect(body).must_be_instance_of Hash 
     end
-
+     
+    #This test i couldent make it work for som reasone....
     it "videos_checked_out_count should get decrease by one and available_inventory should get increase if we have a check_in " do
       post check_in_path, params: rental_params
 
@@ -103,10 +104,10 @@ describe RentalsController do
       expect(body).must_be_instance_of Hash
 
       customer = Customer.find_by(id: @customer.id)
-      expect(customer.videos_checked_out_count).must_equal 1 # 1 is in customer fixture
+      expect(customer.videos_checked_out_count).must_equal 1 
 
       video = Video.find_by(id: @video.id)
-      expect(video.available_inventory).must_equal 9 #9 is in videos fixture
+      expect(video.available_inventory).must_equal 9 
     end
 
     it "responde with 404 if video dosnt exist" do
@@ -128,7 +129,5 @@ describe RentalsController do
       expect(body).must_be_instance_of Hash
       expect(body["errors"]).must_equal ["Not Found"]
     end
-
-
   end
 end
