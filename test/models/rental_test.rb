@@ -7,7 +7,7 @@ describe Rental do
     it "must be valid" do
       expect(rental.valid?).must_equal true
     end
-    it "wont be valid without a title" do
+    it "wont be valid without all the neccessary fields" do
       required_fields = [:customer_id, :video_id, :due_date, :checked_out_date]
 
       rental = Rental.new
