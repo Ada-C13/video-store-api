@@ -1,10 +1,10 @@
 require "test_helper"
 
 describe VideosController do
- #:title, :overview, :release_date, :total_inventory, :available_inventory
+  #:title, :overview, :release_date, :total_inventory, :available_inventory
   INDEX_FIELDS = %w[id title release_date available_inventory].sort
-  SHOW_FIELDS =  %w[title release_date available_inventory overview total_inventory].sort
-  let(:video) {videos(:video_1)}
+  SHOW_FIELDS = %w[title release_date available_inventory overview total_inventory].sort
+  let(:video) { videos(:video_1) }
 
   describe "index" do
     it "list all the videos" do
