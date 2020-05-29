@@ -37,12 +37,10 @@ ActiveRecord::Schema.define(version: 2020_05_28_052524) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  # create_table "rentals", force: :cascade do |t|
-  #   t.date "check_out_date"
-  #   t.date "check_in_date"
-  #   t.date "due_date"
-  #   t.datetime "created_at", null: false
-  #   t.datetime "updated_at", null: false
-  # end
-
+  create_table "rentals", force: :cascade do |t|
+    t.date "check_out_date"
+    t.date "check_in_date"
+    t.date "due_date"
+    t.datetime "created_at", null: 
+    t.datetime "updated_at", null: false
 end
