@@ -14,6 +14,11 @@ class RentalsController < ApplicationController
       return
     end
     
+    if video[:available_inventory] == 0
+      render json: { errors: 'Video not available' }, status: :bad_request
+      return
+    end
+    
     rental = Rental.new(customer_id: customer.id, video_id: video.id, due_date: Date.today + 7)
     
     if rental.save
@@ -34,15 +39,15 @@ class RentalsController < ApplicationController
       else
         render json: { errors: rental.errors.full_messages }, status: :bad_request
         return 
-    end 
-  end
-
-      
-      private
-      
-      def rental_params
-        return params.permit(:customer_id, :video_id)
-      end
-      
-end
+      end 
+    end
     
+    
+    private
+    
+    def rental_params
+      return params.permit(:customer_id, :video_id)
+    end
+    
+  end
+  

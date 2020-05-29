@@ -81,11 +81,31 @@ describe RentalsController do
     
     it 'responds with bad_request if there are no videos available' do
       
+      video = Video.create(
+        title: "A Cool Movie",
+        release_date: "2020-01-02",
+        available_inventory: 0,
+        total_inventory: 0,
+        overview: "The best movie you've ever seen"
+      )
+      
+      rental_info = {
+        customer_id: customer.id,
+        video_id: video.id,
+      }
+      
+      expect {
+        post check_out_path, params: rental_info
+      }.wont_change "Rental.count"
+      
+      
+      body = JSON.parse(response.body)
+      
+      must_respond_with :bad_request
+      expect(body).must_be_instance_of Hash 
+      expect(body['errors']).must_equal 'Video not available'
+      
     end
-    
-    
-    
-    
     
     
   end 
