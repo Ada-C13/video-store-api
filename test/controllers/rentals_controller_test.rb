@@ -119,17 +119,20 @@ describe RentalsController do
         customer_id: customer.id,
         video_id: video.id
       }
+
       puts "Before test #{Rental.count}*********"
       post check_out_path(params: rental_info)
-      
       puts "After Checkout test #{Rental.count}*********"
+      
       cust_count = customer.videos_checked_out_count
       vid_count = video.available_inventory
       
-      # expect {      
+      expect {      
         post check_in_path(params: rental_info)
-      # }.must_differ "Rental.count", -1
+      }.must_differ "Rental.count", -1
+
       puts "After Checkin test #{Rental.count}*********"
+
       body = JSON.parse(response.body)
       
       puts "body ********** #{body}"
@@ -139,8 +142,9 @@ describe RentalsController do
       expect(body["customer_id"]).must_equal customer.id
       expect(body["video_id"]).must_equal video.id
       expect(body["videos_checked_out_count"]).must_equal cust_count - 1
+        #expected -1 actual 0 
       expect(body["available_inventory"]).must_equal vid_count + 1
-      
+        # expected 3 actual 2 
     end 
     
     it "deletes current rental and updates cust checked out and video inventory" do 

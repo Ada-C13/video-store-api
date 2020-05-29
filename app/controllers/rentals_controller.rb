@@ -43,7 +43,6 @@ class RentalsController < ApplicationController
     end
     
     def check_in
-      #if rental does exist
       
       rental = Rental.find_by(customer_id: params[:customer_id], video_id: params[:video_id])
       customer = Customer.find_by(id: params[:customer_id])
@@ -72,10 +71,13 @@ class RentalsController < ApplicationController
           video_id: video.id, 
           videos_checked_out_count: customer.videos_checked_out_count, 
           available_inventory: video.available_inventory }, status: :ok
-          
-          puts "rental ************* #{rental}"
-          return
-        end 
+
+        rental.save
+    
+        # rental = Rental.find_by(customer_id: params[:customer_id], video_id: params[:video_id])
+        puts "rental ************* #{rental}"
+        return
+      end 
         
       end 
       
