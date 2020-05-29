@@ -67,7 +67,6 @@ describe VideosController do
     
     let(:video_data) {
       {
-        video: {
           title: "Video",
           overview: "a video is a video is a video",
           release_date: "11/11/1111",
@@ -75,7 +74,6 @@ describe VideosController do
           available_inventory: 12
         }
       }
-    }
     
     it "can create a new video" do
       expect { post videos_path, params: video_data }.must_differ "Video.count", 1
@@ -83,7 +81,7 @@ describe VideosController do
     end
     
     it "gives a bad_request status when user gives bad data" do
-      video_data[:video][:title] = nil
+      video_data[:title] = nil
       
       expect{ post videos_path, params: video_data }.wont_change "Video.count"
       must_respond_with :bad_request
