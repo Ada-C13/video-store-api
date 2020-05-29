@@ -9,8 +9,8 @@ describe RentalsController do
 
     must_respond_with :success
     expect(response.header['Content-Type']).must_include 'json'
-  end
-end
+    end
+  end # describe index end
 
   describe "check_out" do
     let(:rental_data) {
@@ -24,7 +24,28 @@ end
       expect { post check_out_path, params: rental_data }.must_differ "Rental.count", 1
       must_respond_with :created
     end
-  end
+
+    it "will not create a check_out if customer does not exist" do 
+      rental_data[:customer_id] = nil
+      
+      expect {
+        post check_out_path, params: rental_data
+      }.must_differ "Rental.count", 0
+
+     must_respond_with :not_found
+    end
+
+    it "will not create a check_out if video does not exist" do 
+      rental_data[:videos_id] = nil
+      
+      expect {
+        post check_out_path, params: rental_data
+      }.must_differ "Rental.count", 0
+
+     must_respond_with :not_found
+    end
+  end # describe check-out end
+  
 
   describe "check_in" do 
     let(:rental_data) {
@@ -55,6 +76,27 @@ end
     expect(customer.videos_checked_out_count).must_equal customer_video_count
     expect(video.available_inventory).must_equal video_inventory
     end
+    
+    it "will not allow check-in for non-existet video" do
+      rental_data[:videos_id] = nil
+      
+      expect {
+        post check_out_path, params: rental_data
+      }.must_differ "Rental.count", 0
+
+     must_respond_with :not_found
+    end
+
+    it "will not allow check-in for non-existet customer" do
+      rental_data[:customer_id] = nil
+      
+      expect {
+        post check_out_path, params: rental_data
+      }.must_differ "Rental.count", 0
+
+     must_respond_with :not_found
+    end
+
   end # describe check-in end
     
 end # describe RentalsController end
