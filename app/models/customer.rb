@@ -14,11 +14,13 @@ class Customer < ApplicationRecord
   def checked_out_video
     self.videos_checked_out_count += 1
     self.save
+    return self
   end
 
   def checked_in_video
     self.videos_checked_out_count -= 1
     self.save
+    return self
   end
 
 end

@@ -1,7 +1,7 @@
 require "test_helper"
 
 describe CustomersController do
-  CUSTOMER_KEYS = ["id", "name", "registered_at", "address", "city", "state", "postal_code", "phone", "videos_checked_out_count"].sort
+  CUSTOMER_KEYS = ["id", "name", "registered_at", "postal_code", "phone", "videos_checked_out_count"].sort
   
   describe CustomersController do
     it "responds with JSON and success" do
