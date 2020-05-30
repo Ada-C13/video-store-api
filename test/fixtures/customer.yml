@@ -7,6 +7,7 @@ customer_1:
   postal_code: "24309"
   phone: "(322) 510-8695"
   videos_checked_out_count: 1
+  
 customer_2:
   name: Kenji Hamada
   registered_at: Sat, 08 Jun 2019 08:31:10 -0700,

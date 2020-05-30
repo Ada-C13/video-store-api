@@ -1,43 +1,55 @@
 require "test_helper"
 
 describe RentalsController do
-  let(:rental_data){rental(:rental_1)}
-  let(:customer_fixture) {customer(:customer_1)}
-  let(:video_fixture) {video(:video_1)}
-
-
-  # let(:rental_data) {
-  #   {
-  #     customer_id: customer(:customer_1).id,
-  #     video_id: video(:video_1).id,
-  #   }
-  # }
-
-  # let(:movie) {
-  #   movies(:the_departed)
-  # }
+  let(:phony_customer) {Customer.create(
+    name: "Shelley Rocha",
+    registered_at: "Wed, 29 Apr 2015 07:54:14 -0700",
+    address: "Ap #292-5216 Ipsum Rd.",
+    city: "Hillsboro",
+    state: "OR",
+    postal_code: "24309",
+    phone: "(322) 510-8695",
+    videos_checked_out_count: 1
+  )}
+  let(:phony_video) {Video.create(
+    title: "a",
+    overview: "this is a transformative movie",
+    release_date: "2020-01-01",
+    total_inventory: 20,
+    available_inventory: 19
+  )}
+  let(:rental_fixture){rental(:rental_1)}
+  
 
   describe "checkout" do
-    it "responds with success" do
-      expect(rental_data.customer.videos_checked_out_count).must_equal 1
-      expect(rental_data.video.available_inventory).must_equal 19
-
-      expect {
-        post check_out_path, params: rental_data
-      }.must_differ 'Rental.count', 1 
-
-      body = JSON.parse(response.body)
-
-
-      expect(body["id"]).must_be_instance_of Integer
-      expect(response.header['Content-Type']).must_include 'json'
-      must_respond_with :ok
-
-      # rental_data.customer.reload
-      # movie.reload
-      expect(customer.videos_checked_out_count).must_equal 1
-      expect(movie.available_inventory).must_equal 24
-    end
+    let(:good_rental_data){
+         {
+         customer_id: phony_customer.id,
+         video_id: phony_video.id
+         }
+     }
+     let(:bad_rental_data){
+      {
+        customer_id: "horse",
+        video_id: "yaz"
+       }
+     }
+      
+      it "good data: responds with success, created new rental" do
+        expect {
+          post check_out_path, params: good_rental_data
+        }.must_differ 'Rental.count', 1 
+        must_respond_with :created
+      end
+      it "good data: correct http response" do
+        post check_out_path, params: good_rental_data
+        body = JSON.parse(response.body)
+        expect(response.header['Content-Type']).must_include 'json'
+      end
+      it "bad_data: responds with bad request" do
+        post check_out_path, params: bad_rental_data
+        must_respond_with :bad_request
+      end
   end
 
 
@@ -61,21 +73,21 @@ describe RentalsController do
   # end
 
 
-  describe "checkin" do
-    it "responds with success when passed in valid params" do
+  # describe "checkin" do
+  #   it "responds with success when passed in valid params" do
 
-      expect {
-        post check_in_path, params: rental_data
-      }.must_differ 'Rental.count', -1
-      body = JSON.parse(response.body)
+  #     expect {
+  #       post check_in_path, params: rental_data
+  #     }.must_differ 'Rental.count', -1
+  #     body = JSON.parse(response.body)
 
-      expect(response.header['Content-Type']).must_include 'json'
-      must_respond_with :ok
+  #     expect(response.header['Content-Type']).must_include 'json'
+  #     must_respond_with :ok
 
-      # customer.reload
-      # movie.reload
-      expect(rental_data.customer.videos_checked_out_count).must_equal 0
-      expect(rental_data.available_inventory).must_equal 20
-    end
-  end
+  #     # customer.reload
+  #     # movie.reload
+  #     expect(rental_data.customer.videos_checked_out_count).must_equal 0
+  #     expect(rental_data.available_inventory).must_equal 20
+  #   end
+  # end
 end

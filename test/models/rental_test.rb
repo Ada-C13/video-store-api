@@ -18,9 +18,7 @@ describe Rental do
     it "must be connected to video" do
       expect(rental_fixture.video.id).must_equal video_fixture.id
     end
-    # it "must be valid" do 
-    #   value(rental_fixture).must_be :valid?
-    # end
+
     it "must be valid" do
       result = rental_fixture.valid?
       expect(result).must_equal true
