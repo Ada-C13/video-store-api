@@ -7,8 +7,7 @@ class RentalsController < ApplicationController
       return
     end
     if rental.save
-      rental.set_check_in_date
-      rental.video.available_inventory += 1
+      rental.check_in
       render json: rental.as_json(only: [:customer_id, :video_id]), status: :ok 
       return
     else 
@@ -22,7 +21,6 @@ class RentalsController < ApplicationController
     rental = Rental.new(rental_params)
     if rental.valid?
       if rental.video.available_inventory > 0
-        rental.video.available_inventory -= 1
         rental.check_out
         rental.save
         render json: rental.as_json(only: 
