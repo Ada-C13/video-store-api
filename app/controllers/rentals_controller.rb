@@ -15,7 +15,6 @@ class RentalsController < ApplicationController
         [:customer_id, :video_id, :videos_checked_out_count, :available_inventory]
       ), status: :ok 
   end
-  
 
   def check_out
     rental = Rental.new(rental_params)
@@ -36,7 +35,6 @@ class RentalsController < ApplicationController
       [:customer_id, :video_id, :due_date, :videos_checked_out_count, :available_inventory
       ]), status: :ok
   end
-
 
   private
   def rental_params

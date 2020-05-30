@@ -4,4 +4,3 @@ class CustomersController < ApplicationController
     render json: customers, status: :ok
   end
 end
-

@@ -50,8 +50,6 @@ describe VideosController do
           }
       }
       
-      # let(:empty_video_data) {{}}
-      
       it "responds with success when sent good data, successfully created new video" do
         expect {
           post videos_path, params: good_video_data

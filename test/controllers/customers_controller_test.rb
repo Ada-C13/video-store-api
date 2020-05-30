@@ -13,7 +13,6 @@ describe CustomersController do
       must_respond_with :ok
     end
 
-
     it "will respond with an empty array when there are no customers" do
       # Arrange
       Customer.destroy_all

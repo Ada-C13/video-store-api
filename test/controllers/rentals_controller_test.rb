@@ -24,7 +24,6 @@ describe RentalsController do
     }
   }
   
-  
   describe "checkout" do 
     it "good data: responds with success, created new rental" do
       expect {
