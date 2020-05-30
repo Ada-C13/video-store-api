@@ -27,13 +27,13 @@ class Rental < ApplicationRecord
   end
   def restore_available_inventory
     self.video.checked_in
-    self.available_inventory = self.video.available_inventor
+    self.available_inventory = self.video.available_inventory
   end
   def restore_videos_checked_out_count
     self.customer.checked_in_video
     self.videos_checked_out_count = self.customer.videos_checked_out_count
   end
-  def checked_in
+  def check_in
     set_check_in_date
     restore_available_inventory
     restore_videos_checked_out_count
