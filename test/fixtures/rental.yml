@@ -1,3 +1,6 @@
 rental_1:
   customer: customer_1
   video: video_1
+rental_2:
+  customer: customer_1
+  video: video_2

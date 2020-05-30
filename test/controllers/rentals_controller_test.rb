@@ -1,93 +1,78 @@
 require "test_helper"
 
 describe RentalsController do
-  let(:phony_customer) {Customer.create(
-    name: "Shelley Rocha",
-    registered_at: "Wed, 29 Apr 2015 07:54:14 -0700",
-    address: "Ap #292-5216 Ipsum Rd.",
-    city: "Hillsboro",
-    state: "OR",
-    postal_code: "24309",
-    phone: "(322) 510-8695",
-    videos_checked_out_count: 1
-  )}
-  let(:phony_video) {Video.create(
-    title: "a",
-    overview: "this is a transformative movie",
-    release_date: "2020-01-01",
-    total_inventory: 20,
-    available_inventory: 19
-  )}
-  let(:rental_fixture){rental(:rental_1)}
+  let(:customer_fixture) {customer(:customer_1)}
+  let(:video_fixture) {video(:video_1)}
+  let(:rental_fixture1){rental(:rental_1)}
+  let(:not_avail_rental_fixture){rental(:rental_2)}
+  let(:good_rental_data){
+    {
+    customer_id: customer_fixture.id,
+    video_id: video_fixture.id
+    }
+  }
+  let(:bad_rental_data1){
+    {
+    customer_id: "horse",
+    video_id: 1
+    }
+  }
+  let(:bad_rental_data2){
+    {
+    customer_id: 1,
+    video_id: "horse"
+    }
+  }
   
-
-  describe "checkout" do
-    let(:good_rental_data){
-         {
-         customer_id: phony_customer.id,
-         video_id: phony_video.id
-         }
-     }
-     let(:bad_rental_data){
-      {
-        customer_id: "horse",
-        video_id: "yaz"
-       }
-     }
-      
-      it "good data: responds with success, created new rental" do
-        expect {
-          post check_out_path, params: good_rental_data
-        }.must_differ 'Rental.count', 1 
-        must_respond_with :created
-      end
-      it "good data: correct http response" do
+  
+  describe "checkout" do 
+    it "good data: responds with success, created new rental" do
+      expect {
         post check_out_path, params: good_rental_data
-        body = JSON.parse(response.body)
-        expect(response.header['Content-Type']).must_include 'json'
-      end
-      it "bad_data: responds with bad request" do
-        post check_out_path, params: bad_rental_data
-        must_respond_with :bad_request
-      end
+      }.must_differ 'Rental.count', 1 
+      must_respond_with :created
+    end
+    it "good data: correct http response" do
+      rental_attr = ["customer_id", "video_id", "due_date", "videos_checked_out_count", "available_inventory"]
+      post check_out_path, params: good_rental_data
+      body = JSON.parse(response.body)
+      expect(response.header['Content-Type']).must_include 'json'
+      expect(body.keys.sort).must_equal rental_attr.sort
+    end
+    it "bad_data: responds with not found when customer id bad" do
+      post check_out_path, params: bad_rental_data1
+      must_respond_with :not_found
+    end
+    it "bad_data: responds with not found when video id bad" do
+      post check_out_path, params: bad_rental_data2
+      must_respond_with :not_found
+    end
+    it "responds with bad_request when video not available" do
+      post check_in_path, params: not_avail_rental_fixture.as_json(only: [:customer_id, :video_id])
+    end
+    
   end
 
+  describe "checkin" do
+    it "responds with success when passed in valid params" do
+      post check_in_path, params: rental_fixture1.as_json(only: [:customer_id, :video_id])
+      must_respond_with :ok
+    end
+    it "good data: correct http response, expected data" do
+      rental_attr = ["customer_id", "video_id", "videos_checked_out_count", "available_inventory"]
+      post check_in_path, params: rental_fixture1.as_json(only: [:customer_id, :video_id])
+      body = JSON.parse(response.body)
+      expect(response.header['Content-Type']).must_include 'json'
+      expect(body.keys.sort).must_equal rental_attr.sort
+    end
+    it "responds with bad request for bad customer data" do 
+      post check_in_path, params: bad_rental_data1
+      must_respond_with :not_found
+    end
+    it "responds with bad request for bad video data" do 
+      post check_in_path, params: bad_rental_data2
+      must_respond_with :not_found
+    end
 
-
-  # describe "create" do
-  #   let(:rental_info) {
-  #     {
-  #       video_id: Video.first.id,
-  #       customer_id: Customer.first.id
-  #     }
-  #   }
-
-  #   it "can creates a new rental" do
-  #     expect {
-  #       post rental_data, params: rental_info
-  #     }.must_differ 'Rental.count', 1
-
-  #     must_respond_with :created
-  #   end
-
-  # end
-
-
-  # describe "checkin" do
-  #   it "responds with success when passed in valid params" do
-
-  #     expect {
-  #       post check_in_path, params: rental_data
-  #     }.must_differ 'Rental.count', -1
-  #     body = JSON.parse(response.body)
-
-  #     expect(response.header['Content-Type']).must_include 'json'
-  #     must_respond_with :ok
-
-  #     # customer.reload
-  #     # movie.reload
-  #     expect(rental_data.customer.videos_checked_out_count).must_equal 0
-  #     expect(rental_data.available_inventory).must_equal 20
-  #   end
-  # end
+  end
 end

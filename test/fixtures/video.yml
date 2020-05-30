@@ -4,3 +4,9 @@ video_1:
   release_date: "2020-01-01"
   total_inventory: 20
   available_inventory: 19
+video_2:
+  title: "b"
+  overview: "this is a transformative movie"
+  release_date: "2020-01-01"
+  total_inventory: 20
+  available_inventory: 0
