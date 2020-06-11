@@ -50,7 +50,7 @@ describe VideosController do
 
       body = JSON.parse(response.body)
       expect(body).must_be_instance_of Hash
-      expect(body["errors"]).must_equal "Not Found"
+      expect(body["errors"]).must_equal ["Not Found"]
     end
   end
   describe "create" do

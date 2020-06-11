@@ -1,5 +1,5 @@
 class Rental < ApplicationRecord
-  has_a :video
-  has_a :customer
-  validates :customer_id, :video_id, :due_date presence: :true
+  belongs_to :video
+  belongs_to :customer
+  validates :customer_id, :video_id, :due_date, presence: :true
 end

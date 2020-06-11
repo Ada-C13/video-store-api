@@ -12,7 +12,12 @@ class Customer < ApplicationRecord
   # validates :videos_checked_out_count, presence: :true
 
   def self.increase_checked_out_count
-    self.videos_checked_out_count += 1
+    self.update(videos_checked_out_count += 1)
+    self.save
+  end
+
+  def self.decrease_checked_out_count
+    self.update(videos_checked_out_count -= 1)
     self.save
   end
 end
