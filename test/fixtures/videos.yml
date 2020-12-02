@@ -1,0 +1,12 @@
+la_la_land:
+  title: "La La Land"
+  overview: "A jazz pianist falls for an aspiring actress in Los Angeles."
+  release_date: Date.new(2016)
+  total_inventory: 5
+  available_inventory: 2
+hidden_figures:
+  title: "Hidden Figures"
+  overview: "he story of a team of female African-American mathematicians who served a vital role in NASA during the early years of the U.S. space program."
+  release_date: Date.new(2016)
+  total_inventory: 10
+  available_inventory: 7
