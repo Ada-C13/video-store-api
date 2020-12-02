@@ -1,0 +1,8 @@
+rental_1:
+  customer_id: 1
+  video_id: 1
+  due_date: Fri, 29 May 2020 10:21:36 UTC +00:00
+
+rental_2:
+  customer_id: 2
+  video_id: 2

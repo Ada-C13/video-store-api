@@ -1,0 +1,13 @@
+video_1:
+  title: "Remember the Titans"
+  overview: "Football and stuff"
+  release_date: "1944-03-24"
+  total_inventory: 10
+  available_inventory: 8
+
+video_2:
+  title: "Velocipastor"
+  overview: "A pastor who questions his fate travels to the Orient where he acquires dinosaur transformative powers"
+  release_date: "2020-05-01"
+  total_inventory: 2
+  available_inventory: 2
